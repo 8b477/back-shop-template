@@ -31,5 +31,5 @@
 ## 🌐 Frontend
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
 
-*Readme du Frontend*
-[🔎](https://github.com/8b477/front-shop-template/edit/master/README.md)
+*projet du Frontend*
+[🔎](https://github.com/8b477/front-shop-template)
