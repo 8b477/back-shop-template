@@ -1,6 +1,14 @@
 # 🛒 Online Shopping API Backend
 
-Bienvenue dans le backend de notre application de shopping en ligne! Cette API est construite en ASP.NET Core Minimal API avec le pattern repository pour simplifier les tests unitaires effectués avec xUnit. La base de données utilisée est SQLite.
+👋 Bienvenue dans le backend de notre application de shopping en ligne! 
+👀 Cette application a seulement pour but de pratiquer.
+
+## 📚 Stack
+- SQLite 📦
+- ASP.NET Core ⚙️
+- Minimal API 🛠️
+- Pattern repository 📁
+- xUnit Test 🧪
 
 ## 🚀 Fonctionnalités
 
