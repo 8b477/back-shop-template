@@ -1,0 +1,62 @@
+@API_Shop_HostAddress = https://localhost:7054
+
+GET {{API_Shop_HostAddress}}/users
+Accept: application/json
+###
+
+GET {{API_Shop_HostAddress}}/user/1
+###
+
+GET {{API_Shop_HostAddress}}/users/jane
+###
+
+PUT {{API_Shop_HostAddress}}/user/1
+Content-Type  : application/json
+{
+    "pseudo":"update"
+}
+###
+DELETE {{API_Shop_HostAddress}}/user/3
+
+
+
+
+
+
+###
+# POST MOCKUP USER
+###
+POST {{API_Shop_HostAddress}}/user
+Content-Type: application/json
+{
+  "mail":"john@mail.be",
+  "mdp" :"Test1234*",
+  "pseudo":"john"
+}
+###
+POST {{API_Shop_HostAddress}}/user
+Content-Type: application/json
+{
+  "mail":"jane@mail.be",
+  "mdp" :"Test1234*",
+  "pseudo":"jane"
+}
+###
+POST {{API_Shop_HostAddress}}/user
+Content-Type: application/json
+{
+  "mail":"marcel@mail.be",
+  "mdp" :"Test1234*",
+  "pseudo":"marcel"
+}
+###
+POST {{API_Shop_HostAddress}}/user
+Content-Type: application/json
+{
+  "mail":"victoire@mail.be",
+  "mdp" :"Test1234*",
+  "pseudo":"victoire"
+}
+###
+# END POST MOCKUP USER
+###
