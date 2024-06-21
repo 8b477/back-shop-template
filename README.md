@@ -8,6 +8,7 @@
 - Minimal API 🛠️
 - SQLite 📦
 - Entity Framework Core🗄️
+- Fluent API 🔗
 - xUnit Test 🧪
 - Pattern repository 📁
 
