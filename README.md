@@ -1,7 +1,7 @@
 # 🛒 Online Shopping API Backend
 
-👋 Bienvenue dans le backend de notre application de shopping en ligne! 
-👀 Cette application a seulement pour but de pratiquer.
+👋 Bienvenue dans le backend de notre application de shopping en ligne!   
+*(Cette application a seulement pour but de pratiquer.👀)*
 
 ## 📚 Stack
 - SQLite 📦
