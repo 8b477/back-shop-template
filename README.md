@@ -4,11 +4,12 @@
 *(Cette application a seulement pour but de pratiquer.👀)*
 
 ## 📚 Stack
-- SQLite 📦
 - ASP.NET Core ⚙️
 - Minimal API 🛠️
-- Pattern repository 📁
+- SQLite 📦
+- Entity Framework Core🗄️
 - xUnit Test 🧪
+- Pattern repository 📁
 
 ## 🚀 Fonctionnalités
 
