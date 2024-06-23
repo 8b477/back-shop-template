@@ -1,4 +1,5 @@
-﻿using API_Shop.Interfaces;
+﻿using API_Shop.DTO.User;
+using API_Shop.Interfaces;
 using API_Shop.Models;
 
 
@@ -80,7 +81,7 @@ namespace API_Shop.Services
         /// <param name="id">The ID of the user to update.</param>
         /// <param name="userToAdd">The new user data.</param>
         /// <returns>An IResult containing the updated user, or BadRequest if the update fails.</returns>
-        public async Task<IResult> Update(int id, User userToAdd)
+        public async Task<IResult> Update(int id, UserUpdateDTO userToAdd)
         {
             var result = await _userRepository.Update(id, userToAdd);
 

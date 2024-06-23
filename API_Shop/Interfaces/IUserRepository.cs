@@ -1,4 +1,5 @@
-﻿using API_Shop.Models;
+﻿using API_Shop.DTO.User;
+using API_Shop.Models;
 
 namespace API_Shop.Interfaces
 {
@@ -37,7 +38,7 @@ namespace API_Shop.Interfaces
         /// <param name="id">The ID of the user to update.</param>
         /// <param name="userToAdd">The new user data.</param>
         /// <returns>The updated user, or null if the user was not found.</returns>
-        public Task<User?> Update(int id, User userToAdd);
+        public Task<User?> Update(int id, UserUpdateDTO userToAdd);
 
         /// <summary>
         /// Creates a new user in the database.
