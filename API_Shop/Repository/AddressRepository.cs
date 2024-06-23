@@ -1,4 +1,6 @@
 ﻿using API_Shop.DB.Context;
+using API_Shop.DTO.Address;
+using API_Shop.DTO.User;
 using API_Shop.Interfaces;
 using API_Shop.Models;
 
@@ -61,20 +63,27 @@ namespace API_Shop.Repository
             return result;
         }
 
-        public async Task<Address?> Update(int id, Address addressToAdd)
+        public async Task<Address?> Update(int id, AddressUpdateDTO addressToAdd)
         {
             var result = await _shopDB.Address.FindAsync(id);
 
-            if(result is null) return result;
-            else
-            {
-                result.StreetNumber = addressToAdd.StreetNumber;
-                result.City = addressToAdd.City;
-                result.Country = addressToAdd.Country;
-                result.PostalCode = addressToAdd.PostalCode;
+            var dtoProperties = typeof(AddressUpdateDTO).GetProperties();
+            var userProperties = typeof(Address).GetProperties();
 
-                await _shopDB.SaveChangesAsync();
+            foreach (var dtoProp in dtoProperties)
+            {
+                var newValue = dtoProp.GetValue(addressToAdd);
+                if (newValue != null)
+                {
+                    var userProp = userProperties.FirstOrDefault(p => p.Name == dtoProp.Name);
+                    if (userProp != null && userProp.CanWrite)
+                    {
+                        userProp.SetValue(result, newValue);
+                    }
+                }
             }
+            await _shopDB.SaveChangesAsync();
+
             return result;
         }
     }

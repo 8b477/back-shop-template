@@ -1,5 +1,8 @@
-﻿using API_Shop.Models;
+﻿using API_Shop.DTO.Address;
+using API_Shop.Models;
 using API_Shop.Services;
+
+
 
 namespace API_Shop.Controllers
 {
@@ -28,7 +31,7 @@ namespace API_Shop.Controllers
 
             // UPDATE
             app.MapPut("/address/{id:int}",
-                async (AddressServices addressService, int id, Address addressToAdd) => await addressService.Update(id, addressToAdd));
+                async (AddressServices addressService, int id, AddressUpdateDTO addressToAdd) => await addressService.Update(id, addressToAdd));
 
 
             //DELETE

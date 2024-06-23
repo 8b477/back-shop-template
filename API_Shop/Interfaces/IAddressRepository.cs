@@ -1,4 +1,5 @@
-﻿using API_Shop.Models;
+﻿using API_Shop.DTO.Address;
+using API_Shop.Models;
 
 namespace API_Shop.Interfaces
 {
@@ -44,7 +45,7 @@ namespace API_Shop.Interfaces
         /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The new address data.</param>
         /// <returns>The updated address, or null if the address was not found.</returns>
-        public Task<Address?> Update(int id, Address addressToAdd);
+        public Task<Address?> Update(int id, AddressUpdateDTO addressToAdd);
 
         /// <summary>
         /// Creates a new address in the database.

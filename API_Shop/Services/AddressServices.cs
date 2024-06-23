@@ -1,4 +1,5 @@
 ﻿using API_Shop.DB.Context;
+using API_Shop.DTO.Address;
 using API_Shop.Interfaces;
 using API_Shop.Models;
 using API_Shop.Repository;
@@ -65,7 +66,7 @@ namespace API_Shop.Services
         /// <returns>An IResult containing a list of addresses with the specified country, or NoContent if no addresses are found.</returns>
         public async Task<IResult> GetByCountry(string country)
         {
-            var result = await _addressRepository.GetByCity(country);
+            var result = await _addressRepository.GetByCountry(country);
 
             return
                 result.Any()
@@ -96,7 +97,7 @@ namespace API_Shop.Services
         /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The new address data.</param>
         /// <returns>An IResult containing the updated address, or BadRequest if the update fails.</returns>
-        public async Task<IResult> Update(int id, Address addressToAdd)
+        public async Task<IResult> Update(int id, AddressUpdateDTO addressToAdd)
         {
             var result = await _addressRepository.Update(id, addressToAdd);
 

@@ -13,8 +13,7 @@ GET {{API_Shop_HostAddress}}/users/john
 PUT {{API_Shop_HostAddress}}/user/2
 Content-Type  : application/json
 {
-    "mdp":"update",
-    "pseudo":"tesfft"
+    "pseudo":"test"
 }
 ###
 DELETE {{API_Shop_HostAddress}}/user/1
