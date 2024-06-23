@@ -16,16 +16,11 @@ Content-Type  : application/json
     "pseudo":"test"
 }
 ###
+
 DELETE {{API_Shop_HostAddress}}/user/1
-
-
-
-
-
-
 ###
-# POST MOCKUP USER
-###
+
+
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
@@ -41,22 +36,3 @@ Content-Type: application/json
   "mdp" :"Test1234*",
   "pseudo":"jane"
 }
-###
-POST {{API_Shop_HostAddress}}/user
-Content-Type: application/json
-{
-  "mail":"marcel@mail.be",
-  "mdp" :"Test1234*",
-  "pseudo":"marcel"
-}
-###
-POST {{API_Shop_HostAddress}}/user
-Content-Type: application/json
-{
-  "mail":"victoire@mail.be",
-  "mdp" :"Test1234*",
-  "pseudo":"victoire"
-}
-###
-# END POST MOCKUP USER
-###
