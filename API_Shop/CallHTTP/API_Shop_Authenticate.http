@@ -1,0 +1,13 @@
+﻿@API_Shop_HostAddress = https://localhost:7054
+
+GET {{API_Shop_HostAddress}}/secure-endpoint
+
+###
+
+GET {{API_Shop_HostAddress}}/log
+Content-Type: application/json
+{
+"Mail":"john@mail.be",
+"Mdp":"Test1234*"
+}
+###

@@ -1,7 +1,10 @@
 @API_Shop_HostAddress = https://localhost:7054
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwiZW1haWwiOiJqb2huQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6ImpvaG4iLCJyb2xlIjoiIiwibmJmIjoxNzE5NTAyMjQwLCJleHAiOjE3MTk1MTMwNDAsImlhdCI6MTcxOTUwMjI0MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1NCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJ9.ZC0qYf2JmtO_8LNM5SAGTl12uI_7bzxioS0HijeDWWs
+
 
 GET {{API_Shop_HostAddress}}/users
 Accept: application/json
+Authorization: Bearer {{authToken}}
 ###
 
 GET {{API_Shop_HostAddress}}/user/2

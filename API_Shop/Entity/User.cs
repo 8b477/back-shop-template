@@ -33,6 +33,10 @@ namespace API_Shop.Models
         [Required(ErrorMessage = "Confirmation du mot de passe requise")]
         public string MdpConfirm { get; set; } = string.Empty;
 
+
+        public string Role { get; set; } = string.Empty;
+
+
         public Address? Address { get; set; }
     }
 }

@@ -1,8 +1,12 @@
 using API_Shop.Controllers;
 using API_Shop.DB.Context;
 using API_Shop.DI;
+using API_Shop.Endpoints;
+using API_Shop.JWT.Policy;
+using API_Shop.JWT.Services;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
+
 
 
 
@@ -21,13 +25,29 @@ DependencyInjectionService.ConfigurationDependencyInjection(builder.Services,bui
 // *******************************************************************************************************************
 
 
+// ********* ADD AUTHENTICATION SCHEME ***********
+JWTConfigurationService.AddAuthentication(builder);
+// ***********************************************
+
+// *********** ADD POLICY **************
+HandlerPolicy.AddAuthorization(builder);
+// *************************************
+
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
+
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 // ************* ENDPOINTS **************
 UserEndpoints.GetEndpointsUser(app);
 AddressEndpoints.GetEndpointsAddress(app);
+AuthenticationEndpoint.GetAuthenticate(app);
 // ***************************************
 
 
