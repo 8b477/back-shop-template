@@ -2,6 +2,7 @@
 using API_Shop.Interfaces;
 using API_Shop.Models;
 
+using FluentValidation;
 
 
 namespace API_Shop.Services
@@ -13,7 +14,13 @@ namespace API_Shop.Services
     {
 
         private readonly IUserRepository _userRepository;
-        public UserServices(IUserRepository userRepository) => _userRepository = userRepository;
+        private readonly IValidator<User> _userValidator;
+
+        public UserServices(IUserRepository userRepository, IValidator<User> userValidator)
+        {
+            _userRepository = userRepository;
+            _userValidator = userValidator;
+        }
 
 
         /// <summary>
@@ -98,6 +105,12 @@ namespace API_Shop.Services
         /// <returns>An IResult containing the created user, or BadRequest if the creation fails.</returns>
         public async Task<IResult> Create(User userToAdd)
         {
+            var validationResult = await _userValidator.ValidateAsync(userToAdd);
+            if (!validationResult.IsValid)
+            {
+                return Results.ValidationProblem(validationResult.ToDictionary());
+            }
+
             var result = await _userRepository.Create(userToAdd);
 
             return

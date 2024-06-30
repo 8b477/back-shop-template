@@ -27,8 +27,9 @@ DELETE {{API_Shop_HostAddress}}/user/1
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
-  "mail":"john@mail.be",
-  "mdp" :"Test1234*",
+  "mail":"info@website.fr",
+  "mdp":"Test1234*",
+  "mdpConfirm":"Test1234*",
   "pseudo":"john"
 }
 ###

@@ -23,7 +23,7 @@ namespace API_Shop.Controllers
 
             // ADD
             app.MapPost("/user",
-                 async (UserServices userService, User userToAdd) => await userService.Create(userToAdd));
+                async (UserServices userService, User userToAdd) => await userService.Create(userToAdd));
 
 
             // UPDATE
