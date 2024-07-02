@@ -1,5 +1,5 @@
 ﻿using API_Shop.DB.Context;
-using API_Shop.DTO.User;
+using API_Shop.DTO.User.Update;
 using API_Shop.Interfaces;
 using API_Shop.Models;
 using Microsoft.EntityFrameworkCore;
@@ -50,34 +50,6 @@ namespace API_Shop.Repository
             return true;
         }
 
-
-        public async Task<User?> Update(int id, UserUpdateDTO userToAdd)
-        {
-            var result = await _db.User.FindAsync(id);
-
-            if (result is null) return null;
-
-            var dtoProperties = typeof(UserUpdateDTO).GetProperties();
-            var userProperties = typeof(User).GetProperties();
-
-            foreach (var dtoProp in dtoProperties)
-            {
-                var newValue = dtoProp.GetValue(userToAdd);
-                if (newValue != null)
-                {
-                    var userProp = userProperties.FirstOrDefault(p => p.Name == dtoProp.Name);
-                    if (userProp != null && userProp.CanWrite)
-                    {
-                        userProp.SetValue(result, newValue);
-                    }
-                }
-            }
-            await _db.SaveChangesAsync();
-
-            return result;
-        }
-
-
         public async Task<User?> Create(User userToAdd)
         {
             var result = await _db.User.AddAsync(userToAdd);
@@ -85,6 +57,66 @@ namespace API_Shop.Repository
 
             return result.Entity;
         }
+
+
+        public async Task<string> Update(int id, User user)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+            if (existingUser == null)
+                return "";
+
+            foreach (var property in _db.Entry(existingUser).Properties)
+            {
+                if (property.Metadata.Name != "Id" && property.Metadata.Name != "Role")
+                {
+                    property.CurrentValue = _db.Entry(user).Property(property.Metadata.Name).CurrentValue;
+                }
+            }
+            await _db.SaveChangesAsync();
+            return "User update !";
+        }
+
+
+        public async Task<string> UpdatePseudo(int id, string pseudo)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+            if (existingUser == null)
+                return "";
+
+            existingUser.Pseudo = pseudo;
+            await _db.SaveChangesAsync();
+
+            return "Pseudo update !";
+        }
+
+
+        public async Task<string> UpdateMail(int id, string mail)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+            if (existingUser == null)
+                return "";
+
+            existingUser.Mail = mail;
+            await _db.SaveChangesAsync();
+
+            return "Mail update !";
+        }
+
+
+        public async Task<string> UpdatePwd(int id, string pwd)
+        {
+            var existingUser = await _db.User.FindAsync(id);
+            if (existingUser == null)
+                return "";
+
+            existingUser.Mdp = pwd;
+            existingUser.MdpConfirm = pwd;
+
+            await _db.SaveChangesAsync();
+
+            return "Pwd update !";
+        }
+
 
     }
 }

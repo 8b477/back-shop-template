@@ -1,4 +1,4 @@
-﻿using API_Shop.DTO.User;
+﻿using API_Shop.DTO.User.Update;
 using API_Shop.Models;
 
 namespace API_Shop.Interfaces
@@ -33,12 +33,36 @@ namespace API_Shop.Interfaces
         public Task<bool> Delete(int id);
 
         /// <summary>
-        /// Updates an existing user in the database.
+        /// Updates full an existing user in the database.
         /// </summary>
         /// <param name="id">The ID of the user to update.</param>
-        /// <param name="userToAdd">The new user data.</param>
-        /// <returns>The updated user, or null if the user was not found.</returns>
-        public Task<User?> Update(int id, UserUpdateDTO userToAdd);
+        /// <param name="user">The new user data.</param>
+        /// <returns>Modified value, or empty string if the user was not found.</returns>
+        public Task<string> Update(int id, User user);
+
+        /// <summary>
+        /// Updates pseudo of an existing user in the database.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="pseudo">The new value.</param>
+        /// <returns>Modified value, or empty string if the user was not found.</returns>
+        public Task<string> UpdatePseudo(int id,string pseudo);
+
+        /// <summary>
+        /// Updates pseudo of an existing user in the database.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="mail">The new value.</param>
+        /// <returns>Message : Mail is update, or empty string if the user was not found.</returns>
+        public Task<string> UpdateMail(int id, string mail);
+
+        /// <summary>
+        /// Updates pseudo of an existing user in the database.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="pwd">The new value.</param>
+        /// <returns>Message : Password is update, or empty string if the user was not found.</returns>
+        public Task<string> UpdatePwd(int id, string pwd);
 
         /// <summary>
         /// Creates a new user in the database.

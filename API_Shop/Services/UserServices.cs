@@ -1,8 +1,12 @@
-﻿using API_Shop.DTO.User;
+﻿using API_Shop.DTO.User.Create;
+using API_Shop.DTO.User.Update;
 using API_Shop.Interfaces;
+using API_Shop.Mappers;
 using API_Shop.Models;
+using API_Shop.Validators;
 
 using FluentValidation;
+
 
 
 namespace API_Shop.Services
@@ -14,13 +18,22 @@ namespace API_Shop.Services
     {
 
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<User> _userValidator;
+        private readonly IValidator<UserCreateDTO> _userCreateValidator;
+        private readonly IValidator<UserUpdateDTO> _userUpdateFullValidator;
+        private readonly IValidator<UserPseudoUpdateDTO> _userPseudoUpdateValidator;
+        private readonly IValidator<UserMailUpdateDTO> _userMailUpdateValidator;
+        private readonly IValidator<UserPwdUpdateDTO> _userPwdUpdateValidator;
 
-        public UserServices(IUserRepository userRepository, IValidator<User> userValidator)
+        public UserServices(IUserRepository userRepository, IValidator<UserCreateDTO> userCreateValidator, IValidator<UserUpdateDTO> userUpdateFullValidator, IValidator<UserPseudoUpdateDTO> userPseudoUpdateValidator, IValidator<UserMailUpdateDTO> userMailUpdateValidator, IValidator<UserPwdUpdateDTO> userPwdUpdateValidator)
         {
             _userRepository = userRepository;
-            _userValidator = userValidator;
+            _userCreateValidator = userCreateValidator;
+            _userUpdateFullValidator = userUpdateFullValidator;
+            _userPseudoUpdateValidator = userPseudoUpdateValidator;
+            _userMailUpdateValidator = userMailUpdateValidator;
+            _userPwdUpdateValidator = userPwdUpdateValidator;
         }
+
 
 
         /// <summary>
@@ -90,28 +103,75 @@ namespace API_Shop.Services
         /// <returns>An IResult containing the updated user, or BadRequest if the update fails.</returns>
         public async Task<IResult> Update(int id, UserUpdateDTO userToAdd)
         {
-            var result = await _userRepository.Update(id, userToAdd);
+            var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userUpdateFullValidator);
+            if (validationResult != Results.Ok()) return validationResult;
+
+            User userMapped = MapperUser.FromUserUpdateDTOToEntity(userToAdd);
+
+            var result = await _userRepository.Update(id, userMapped);
 
             return
-                result is null
+                string.IsNullOrEmpty(result)
                 ? TypedResults.BadRequest()
-                : TypedResults.Ok(result);
+                : TypedResults.Ok(new { result });
         }
+
+
+        public async Task<IResult> UpdatePseudo(int id, UserPseudoUpdateDTO pseudo)
+        {
+            var validationResult = await ValidatorModelState.ValidModelState(pseudo, _userPseudoUpdateValidator);
+            if (validationResult != Results.Ok()) return validationResult;
+
+            var result = await _userRepository.UpdatePseudo(id, pseudo.Pseudo);
+
+            return
+                string.IsNullOrEmpty(result)
+                ? TypedResults.BadRequest()
+                : TypedResults.Ok(new { result });
+        }
+
+
+        public async Task<IResult> UpdateMail(int id, UserMailUpdateDTO mail)
+        {
+            var validationResult = await ValidatorModelState.ValidModelState(mail, _userMailUpdateValidator);
+            if (validationResult != Results.Ok()) return validationResult;
+
+            var result = await _userRepository.UpdateMail(id, mail.Mail);
+
+            return
+                string.IsNullOrEmpty(result)
+                ? TypedResults.BadRequest()
+                : TypedResults.Ok(new { result });
+        }
+
+        public async Task<IResult> UpdatePwd(int id, UserPwdUpdateDTO pwd)
+        {
+            var validationResult = await ValidatorModelState.ValidModelState(pwd, _userPwdUpdateValidator);
+            if (validationResult != Results.Ok()) return validationResult;
+
+            var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
+
+            return
+                string.IsNullOrEmpty(result)
+                ? TypedResults.BadRequest()
+                : TypedResults.Ok(new { result });
+        }
+
+
 
         /// <summary>
         /// Creates a new user in the database.
         /// </summary>
         /// <param name="userToAdd">The user information to add.</param>
         /// <returns>An IResult containing the created user, or BadRequest if the creation fails.</returns>
-        public async Task<IResult> Create(User userToAdd)
+        public async Task<IResult> Create(UserCreateDTO userToAdd)
         {
-            var validationResult = await _userValidator.ValidateAsync(userToAdd);
-            if (!validationResult.IsValid)
-            {
-                return Results.ValidationProblem(validationResult.ToDictionary());
-            }
+            var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
+            if (validationResult != Results.Ok()) return validationResult;
 
-            var result = await _userRepository.Create(userToAdd);
+            User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
+
+            var result = await _userRepository.Create(userMapped);
 
             return
                 result is null
@@ -119,6 +179,6 @@ namespace API_Shop.Services
                 : TypedResults.Ok(result);
         }
 
-
+ 
     }
 }

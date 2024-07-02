@@ -1,12 +1,11 @@
-﻿using API_Shop.Models;
-
+﻿using API_Shop.DTO.User.Update;
 using FluentValidation;
 
-namespace API_Shop.Validators
+namespace API_Shop.Validators.User_Validator
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserUpdateValidator : AbstractValidator<UserUpdateDTO>
     {
-        public UserValidator()
+        public UserUpdateValidator()
         {
             RuleFor(u => u.Pseudo)
                 .NotEmpty().WithMessage("Pseudo requis")

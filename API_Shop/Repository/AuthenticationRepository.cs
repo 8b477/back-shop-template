@@ -1,9 +1,9 @@
 ﻿using API_Shop.DB.Context;
 using API_Shop.Interfaces;
-using API_Shop.DTO.User;
 
 
 using Microsoft.EntityFrameworkCore;
+using API_Shop.DTO.User.Token;
 
 namespace API_Shop.Repository
 {
@@ -19,7 +19,7 @@ namespace API_Shop.Repository
 
             if (result == null ) return null;
 
-            return new UserTokenDTO { Id = result.Id, Pseudo = result.Pseudo, Mail = result.Mail, Role = result.Role };
+            return new UserTokenDTO (result.Id, result.Pseudo, result.Mail, result.Role);
         }
     }
 }

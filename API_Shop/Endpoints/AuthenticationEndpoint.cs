@@ -1,4 +1,4 @@
-﻿using API_Shop.DTO.User;
+﻿using API_Shop.DTO.User.Log;
 using API_Shop.Services;
 
 using Microsoft.AspNetCore.Mvc;

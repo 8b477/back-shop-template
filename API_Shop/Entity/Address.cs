@@ -13,7 +13,11 @@ namespace API_Shop.Models
         public int IdUser { get; set; }
 
 
-        [DataType(DataType.PostalCode, ErrorMessage = "Le code postal n'est pas valide !")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Le numéro renseignée n'est pas valide !")]
+        public int? PhoneNumber { get; set; }
+
+
+        [Range(1, 99999, ErrorMessage = "Le code postal n'est pas valide !")]
         [Required(ErrorMessage = "Code postal requis")]
         public int PostalCode { get; set; }
 

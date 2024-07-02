@@ -1,7 +1,7 @@
 ﻿using Moq;
-using API_Shop.DTO.Address;
 using API_Shop.Interfaces;
 using API_Shop.Models;
+using API_Shop.DTO.Address.Update;
 
 
 namespace TestXUnit_Shop.Address_Tests

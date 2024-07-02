@@ -1,6 +1,5 @@
 @API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwiZW1haWwiOiJqb2huQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6ImpvaG4iLCJyb2xlIjoiIiwibmJmIjoxNzE5NTAyMjQwLCJleHAiOjE3MTk1MTMwNDAsImlhdCI6MTcxOTUwMjI0MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1NCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJ9.ZC0qYf2JmtO_8LNM5SAGTl12uI_7bzxioS0HijeDWWs
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxMCIsImVtYWlsIjoiYWRtaW5AbWFpbC5mciIsInVuaXF1ZV9uYW1lIjoiYWRtaW4iLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTk3NjY3MjIsImV4cCI6MTcxOTc3NzUyMiwiaWF0IjoxNzE5NzY2NzIyLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDU0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.DYoV8PfHe672Hry_t8DtW_Fji2_AxRLDXA8U5d_rcKI
 
 GET {{API_Shop_HostAddress}}/users
 Accept: application/json
@@ -8,18 +7,46 @@ Authorization: Bearer {{authToken}}
 ###
 
 GET {{API_Shop_HostAddress}}/user/2
+Accept: application/json
+Authorization: Bearer {{authToken}}
 ###
 
 GET {{API_Shop_HostAddress}}/users/john
 ###
 
-PUT {{API_Shop_HostAddress}}/user/2
-Content-Type  : application/json
+PUT {{API_Shop_HostAddress}}/user/12
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
 {
-    "pseudo":"test"
+  "mail":"upp@mail.fr",
+  "mdp":"Test1234*",
+  "mdpConfirm":"Test1234*",
+  "pseudo":"upp"
 }
 ###
 
+PUT {{API_Shop_HostAddress}}/user/pseudo/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "pseudo":"tadam"
+}
+###
+PUT {{API_Shop_HostAddress}}/user/mail/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mail":"upp@mail.be"
+}
+###
+PUT {{API_Shop_HostAddress}}/user/pwd/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mdp":"Tadam123*",
+  "mdpConfirm":"Tadam123*"
+}
+###
 DELETE {{API_Shop_HostAddress}}/user/1
 ###
 
@@ -27,16 +54,18 @@ DELETE {{API_Shop_HostAddress}}/user/1
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
-  "mail":"info@website.fr",
+  "mail":"admin@mail.fr",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
-  "pseudo":"john"
+  "pseudo":"admin",
+  "role":"Admin"
 }
 ###
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
-  "mail":"jane@mail.be",
-  "mdp" :"Test1234*",
-  "pseudo":"jane"
+  "mail":"fake@mail.fr",
+  "mdp":"Test1234*",
+  "mdpConfirm":"Test1234*",
+  "pseudo":"fake"
 }

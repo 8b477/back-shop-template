@@ -1,4 +1,4 @@
-﻿using API_Shop.DTO.User;
+﻿using API_Shop.DTO.User.Token;
 
 
 namespace API_Shop.Interfaces

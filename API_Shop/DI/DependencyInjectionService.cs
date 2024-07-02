@@ -4,8 +4,11 @@ using API_Shop.Repository;
 using API_Shop.Services;
 using API_Shop.JWT.Services;
 using FluentValidation;
+using API_Shop.Validators.User_Validator.UserValidator;
+using API_Shop.DTO.User.Update;
+using API_Shop.Validators.User_Validator;
+using API_Shop.DTO.User.Create;
 using API_Shop.Models;
-using API_Shop.Validators;
 
 
 namespace API_Shop.DI
@@ -18,8 +21,12 @@ namespace API_Shop.DI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<UserServices>();
 
-            services.AddScoped<IValidator<User>, UserValidator> ();
-
+            //VALIDATOR
+            services.AddScoped<IValidator<UserCreateDTO>, UserCreateValidator>();
+            services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateValidator>();
+            services.AddScoped<IValidator<UserPseudoUpdateDTO>, UserPseudoUpdateValidator>();
+            services.AddScoped<IValidator<UserMailUpdateDTO>, UserMailUpdateValidator>();
+            services.AddScoped<IValidator<UserPwdUpdateDTO>, UserPwdUpdateValidator>();
 
             //ADDRESS
             services.AddScoped<IAddressRepository, AddressRepository>();

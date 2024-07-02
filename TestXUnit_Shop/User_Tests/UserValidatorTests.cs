@@ -1,5 +1,5 @@
 ﻿using API_Shop.Models;
-using API_Shop.Validators;
+using API_Shop.Validators.User_Validator.UserValidator;
 using FluentValidation.TestHelper;
 
 
@@ -7,11 +7,11 @@ namespace API_Shop.Tests
 {
     public class UserValidatorTests
     {
-        private readonly UserValidator _validator;
+        private readonly UserCreateValidator _validator;
 
         public UserValidatorTests()
         {
-            _validator = new UserValidator();
+            _validator = new UserCreateValidator();
         }
 
         [Fact]

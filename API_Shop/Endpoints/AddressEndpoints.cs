@@ -1,4 +1,4 @@
-﻿using API_Shop.DTO.Address;
+﻿using API_Shop.DTO.Address.Update;
 using API_Shop.Models;
 using API_Shop.Services;
 
