@@ -14,7 +14,7 @@ namespace API_Shop.JWT.Services
             var key = builder.Configuration["JWT:Key"];
 
             if (string.IsNullOrEmpty(key))
-                key = JWTGenerationSecretKeyService.GetOrCreateKey(builder.Configuration);
+                key = JWTGenerationSecretKeyService.GetOrCreateKey(builder.Configuration as IConfiguration);
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

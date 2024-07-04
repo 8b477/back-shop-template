@@ -1,9 +1,8 @@
 ﻿using API_Shop.DB.Context;
-using API_Shop.Interfaces;
-
-
-using Microsoft.EntityFrameworkCore;
 using API_Shop.DTO.User.Token;
+using API_Shop.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace API_Shop.Repository
 {

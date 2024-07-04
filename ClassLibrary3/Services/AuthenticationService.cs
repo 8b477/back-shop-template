@@ -1,6 +1,8 @@
 ﻿using API_Shop.Interfaces;
 using API_Shop.JWT.Services;
 
+using Microsoft.AspNetCore.Http;
+
 namespace API_Shop.Services
 {
     public class AuthenticationService

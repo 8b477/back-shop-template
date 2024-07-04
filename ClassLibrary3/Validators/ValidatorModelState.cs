@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 
+using Microsoft.AspNetCore.Http;
+
 namespace API_Shop.Validators
 {
     internal static class ValidatorModelState

@@ -1,4 +1,5 @@
-﻿namespace API_Shop.JWT.Policy
+﻿
+namespace API_Shop.JWT.Policy
 {
     public static class HandlerPolicy
     {

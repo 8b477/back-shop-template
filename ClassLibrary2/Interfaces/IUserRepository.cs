@@ -1,5 +1,4 @@
-﻿using API_Shop.DTO.User.Update;
-using API_Shop.Models;
+﻿using API_Shop.Models;
 
 namespace API_Shop.Interfaces
 {

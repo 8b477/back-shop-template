@@ -7,6 +7,8 @@ using API_Shop.Validators;
 
 using FluentValidation;
 
+using Microsoft.AspNetCore.Http;
+
 
 
 namespace API_Shop.Services
@@ -179,6 +181,6 @@ namespace API_Shop.Services
                 : TypedResults.Ok(result);
         }
 
- 
+
     }
 }
