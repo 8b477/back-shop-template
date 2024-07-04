@@ -21,13 +21,8 @@ namespace TestXUnit_Shop.Authentication_Tests
             string validEmail = "user@example.com";
             string validPassword = "password123";
 
-            var expectedToken = new UserTokenDTO
-            {
-                Pseudo = "valid pseudo",
-                Id = 1,
-                Mail = "user@example.com",
-                Role = "User"
-            };
+            var expectedToken = new UserTokenDTO(1, "valid pseudo", "user@example.com", "User");
+
 
             _mockRepo.Setup(repo => repo.Authentication(validEmail, validPassword))
                 .ReturnsAsync(expectedToken);

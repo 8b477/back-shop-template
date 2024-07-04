@@ -2,6 +2,7 @@
 using API_Shop.Interfaces;
 using API_Shop.Models;
 using API_Shop.DTO.Address.Update;
+using System.Diagnostics.Metrics;
 
 
 namespace TestXUnit_Shop.Address_Tests
@@ -123,7 +124,7 @@ namespace TestXUnit_Shop.Address_Tests
         [Fact]
         public async Task Update_ExistingAddress_ReturnsUpdatedAddress()
         {
-            var updateDto = new AddressUpdateDTO { StreetNumber = 42, City = "Updated City" };
+            var updateDto = new AddressUpdateDTO (1,123,4,"USA","New York");
             var result = await _mockRepo.Object.Update(1, updateDto);
             Assert.NotNull(result);
             Assert.Equal(42, result.StreetNumber);
@@ -133,7 +134,7 @@ namespace TestXUnit_Shop.Address_Tests
         [Fact]
         public async Task Update_NonExistingAddress_ReturnsNull()
         {
-            var updateDto = new AddressUpdateDTO { StreetNumber = 9999 };
+            var updateDto = new AddressUpdateDTO(060303030, 42, 4, "USA", "Los Angeles");
             var result = await _mockRepo.Object.Update(999, updateDto);
             Assert.Null(result);
         }

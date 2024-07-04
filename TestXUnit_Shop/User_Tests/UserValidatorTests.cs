@@ -1,4 +1,5 @@
-﻿using API_Shop.Models;
+﻿using API_Shop.DTO.User.Create;
+using API_Shop.Models;
 using API_Shop.Validators.User_Validator.UserValidator;
 using FluentValidation.TestHelper;
 
@@ -17,7 +18,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_Pseudo_Is_Empty()
         {
-            var model = new User { Pseudo = "" };
+            var model = new UserCreateDTO(060800,"","mail@test.be","Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Pseudo)
                 .WithErrorMessage("Pseudo requis");
@@ -28,7 +29,7 @@ namespace API_Shop.Tests
         [InlineData("a")]
         public void Should_Have_Error_When_Pseudo_Is_Too_Short(string pseudo)
         {
-            var model = new User { Pseudo = pseudo };
+            var model = new UserCreateDTO(060800, "e", "mail@test.be", "Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Pseudo)
                 .WithErrorMessage("Pseudo doit contenir au minimum 2 caractères");
@@ -37,7 +38,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Not_Have_Error_When_Pseudo_Is_Two_Characters()
         {
-            var model = new User { Pseudo = "ab" };
+            var model = new UserCreateDTO(060800, "er", "mail@test.be", "Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldNotHaveValidationErrorFor(user => user.Pseudo);
         }
@@ -45,7 +46,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_Pseudo_Is_Too_Long()
         {
-            var model = new User { Pseudo = new string('a', 51) };
+            var model = new UserCreateDTO(060800, "", "mail@test.be", "Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Pseudo)
                 .WithErrorMessage("Pseudo doit contenir au maximum 50 caractères");
@@ -54,7 +55,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_Mail_Is_Empty()
         {
-            var model = new User { Mail = "" };
+            var model = new UserCreateDTO(060800, "Arthur", "", "Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Mail)
                 .WithErrorMessage("Mail requis");
@@ -66,7 +67,7 @@ namespace API_Shop.Tests
         [InlineData("invalidemail@.com")]
         public void Should_Have_Error_When_Mail_Is_Invalid(string mail)
         {
-            var model = new User { Mail = mail };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test", "Test1234*", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Mail)
                 .WithErrorMessage("L'adresse mail renseignée n'est pas valide !");
@@ -75,7 +76,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_Mdp_Is_Empty()
         {
-            var model = new User { Mdp = "" };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test.be", "", "Test1234*");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Mdp)
                 .WithErrorMessage("Mot de passe requis");
@@ -89,7 +90,7 @@ namespace API_Shop.Tests
         [InlineData("NoSpecial1")]
         public void Should_Have_Error_When_Mdp_Is_Invalid(string mdp)
         {
-            var model = new User { Mdp = mdp };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test.be", "Test1234", "Test1234");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.Mdp)
                 .WithErrorMessage("8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial");
@@ -98,7 +99,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_MdpConfirm_Is_Empty()
         {
-            var model = new User { Mdp = "ValidPassword1!", MdpConfirm = "" };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test.be", "Test1234*", "");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.MdpConfirm)
                 .WithErrorMessage("Confirmation du mot de passe requise");
@@ -107,7 +108,7 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Have_Error_When_MdpConfirm_Does_Not_Match_Mdp()
         {
-            var model = new User { Mdp = "ValidPassword1!", MdpConfirm = "DifferentPassword1!" };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test.be", "Test1234*", "error");
             var result = _validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(user => user.MdpConfirm)
                 .WithErrorMessage("Le champ mot de passe et celui de la confirmation du mot de passe ne correspondent pas !");
@@ -116,13 +117,9 @@ namespace API_Shop.Tests
         [Fact]
         public void Should_Not_Have_Error_When_All_Fields_Are_Valid()
         {
-            var model = new User
-            {
-                Pseudo = "ValidPseudo",
-                Mail = "valid@email.com",
-                Mdp = "ValidPassword1!",
-                MdpConfirm = "ValidPassword1!"
-            };
+            var model = new UserCreateDTO(060800, "Arthur", "mail@test.be", "Test1234*", "Test1234*");
+
+
             var result = _validator.TestValidate(model);
             result.ShouldNotHaveAnyValidationErrors();
         }
