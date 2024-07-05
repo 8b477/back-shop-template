@@ -7,7 +7,8 @@
 - ASP.NET Core ⚙️
 - Minimal API 🛠️
 - SQLite 📦
-- Entity Framework Core🗄️
+- Entity Framework Core (code first)🗄️
+- Data notation 🔑
 - Fluent API 🔗
 - xUnit Test 🧪
 - Pattern repository 📁
