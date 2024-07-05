@@ -9,7 +9,7 @@
 - SQLite 📦
 - Entity Framework Core (code first)🗄️
 - Data notation 🔑
-- Fluent API 🔗
+- Fluent API 🔐
 - xUnit Test 🧪
 - Pattern repository 📁
 
