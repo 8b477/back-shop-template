@@ -22,19 +22,19 @@
 
 ## 📂 Structure du Projet
 
-- 🌐 **API**: Ce projet contient les contrôleurs et gère les endpoints de l'API.
+- 🌐 **API_Shop**: Ce projet contient les contrôleurs et gère les endpoints de l'API.
     - 🔗 **Références**: BLL <br>  
 
-- 🧠 **BLL (Business Logic Layer)**: Contient la logique métier de l'application, elle applique les règles de gestion et les traitements nécessaires.
+- 🧠 **BLL_Shop (Business Logic Layer)**: Contient la logique métier de l'application, elle applique les règles de gestion et les traitements nécessaires.
    - 🔗 **Références**: DAL <br>  
 
-- 📦 **DAL (Data Access Layer)**: Contient les interfaces et implémentations des repositories pour accéder aux données, elle gère les interactions avec la base de données.
+- 📦 **DAL_Shop (Data Access Layer)**: Contient les interfaces et implémentations des repositories pour accéder aux données, elle gère les interactions avec la base de données.
    - 🔗 **Références**: DATABASE <br>  
  
-- 💾 **DATABASE**: Contient le contexte de la base de données et les migrations, elle gère la création et la mise à jour de la base de données.
+- 💾 **Database_Shop**: Contient le contexte de la base de données et les migrations, elle gère la création et la mise à jour de la base de données.
    - 🔗 **Références**: Aucune <br>  
 
-- 🧪 **TESTUNITAIRE**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
+- 🧪 **TestXUnit_Shop**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
    - 🔗 **Références**: API, BLL, DAL
 
 
