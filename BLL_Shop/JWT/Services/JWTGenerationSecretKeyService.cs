@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Configuration;
+
+using System.Security.Cryptography;
 
 namespace API_Shop.JWT.Services
 {
@@ -10,7 +12,7 @@ namespace API_Shop.JWT.Services
         {
             if (string.IsNullOrEmpty(_key))
             {
-                _key = configuration["JWT:Key"];
+                _key = configuration["JWT:Key"] ?? "";
                 if (string.IsNullOrEmpty(_key))
                 {
                     _key = GenerateRandomKey();

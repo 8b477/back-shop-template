@@ -1,5 +1,4 @@
-﻿using API_Shop.DTO.Address.Update;
-using API_Shop.Models;
+﻿using API_Shop.Models;
 using API_Shop.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +32,7 @@ namespace API_Shop.Controllers
 
             // UPDATE
             app.MapPut("/address/{id:int}",
-               [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressUpdateDTO addressToAdd) => await addressService.Update(id, addressToAdd));
+               [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, Address addressToAdd) => await addressService.Update(id, addressToAdd));
 
 
             //DELETE

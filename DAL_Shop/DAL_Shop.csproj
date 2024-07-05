@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Database_Shop.csproj" />
+    <ProjectReference Include="..\Database_Shop\Database_Shop.csproj" />
   </ItemGroup>
 
 </Project>

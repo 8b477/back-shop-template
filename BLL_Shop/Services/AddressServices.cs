@@ -99,7 +99,7 @@ namespace API_Shop.Services
         /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The new address data.</param>
         /// <returns>An IResult containing the updated address, or BadRequest if the update fails.</returns>
-        public async Task<IResult> Update(int id, AddressUpdateDTO addressToAdd)
+        public async Task<IResult> Update(int id, Address addressToAdd)
         {
             var result = await _addressRepository.Update(id, addressToAdd);
 

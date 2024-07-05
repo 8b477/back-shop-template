@@ -51,8 +51,8 @@ namespace TestXUnit_Shop.Address_Tests
                     return false;
                 });
 
-            _mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<AddressUpdateDTO>()))
-                .ReturnsAsync((int id, AddressUpdateDTO addressUpdate) =>
+            _mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<Address>()))
+                .ReturnsAsync((int id, Address addressUpdate) =>
                 {
                     var address = _addresses.FirstOrDefault(a => a.Id == id);
                     if (address != null)
@@ -124,7 +124,7 @@ namespace TestXUnit_Shop.Address_Tests
         [Fact]
         public async Task Update_ExistingAddress_ReturnsUpdatedAddress()
         {
-            var updateDto = new AddressUpdateDTO (1,123,4,"USA","New York");
+            var updateDto = new Address { StreetNumber = 007, City = "New City", PostalCode = 54321, Country = "Canada" };
             var result = await _mockRepo.Object.Update(1, updateDto);
             Assert.NotNull(result);
             Assert.Equal(42, result.StreetNumber);
@@ -134,7 +134,7 @@ namespace TestXUnit_Shop.Address_Tests
         [Fact]
         public async Task Update_NonExistingAddress_ReturnsNull()
         {
-            var updateDto = new AddressUpdateDTO(060303030, 42, 4, "USA", "Los Angeles");
+            var updateDto = new Address { StreetNumber = 007, City = "New City", PostalCode = 54321, Country = "Canada" };
             var result = await _mockRepo.Object.Update(999, updateDto);
             Assert.Null(result);
         }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using System.Security.Claims;
@@ -14,7 +16,7 @@ namespace API_Shop.JWT.Services
             var key = builder.Configuration["JWT:Key"];
 
             if (string.IsNullOrEmpty(key))
-                key = JWTGenerationSecretKeyService.GetOrCreateKey(builder.Configuration as IConfiguration);
+                key = JWTGenerationSecretKeyService.GetOrCreateKey(builder.Configuration);
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Http;
+
+using System.Security.Claims;
 
 namespace API_Shop.JWT.Services
 {

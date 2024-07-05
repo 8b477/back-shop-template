@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <BaseOutputPath>C:\Users\jonat\OneDrive\Bureau\Shop-template\back-shop-template\API_Shop\bin\Debug\net8.0</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary3\BLL_Shop.csproj" />
+    <ProjectReference Include="..\BLL_Shop\BLL_Shop.csproj" />
   </ItemGroup>
 
 </Project>
