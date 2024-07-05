@@ -22,12 +22,17 @@
 
 ## 📂 Structure du Projet
 
-- **Controllers**: Gère les endpoints de l'API.
-- **Repositories**: Contient les interfaces et implémentations des repositories.
-- **Services**: Contient la logique métier de l'application.
-- **Models**: Contient les entités de la base de données.
-- **Data**: Contient le contexte de la base de données.
-- **Tests**: Contient les tests unitaires.
+- **API**: Ce projet contient les contrôleurs et gère les endpoints de l'API.
+    - **Références**: BLL
+- **BLL (Business Logic Layer)**: Contient la logique métier de l'application, elle applique les règles de gestion et les traitements nécessaires.
+   - **Références**: DAL
+- **DAL (Data Access Layer)**: Contient les interfaces et implémentations des repositories pour accéder aux données, elle gère les interactions avec la base de données.
+   - **Références**: DATABASE
+- **DATABASE**: Contient le contexte de la base de données et les migrations, elle gère la création et la mise à jour de la base de données.
+   - **Références**: Aucune
+- **TESTUNITAIRE**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
+   - **Références**: API, BLL, DAL
+
 
 ## 🌐 Frontend
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
