@@ -1,4 +1,5 @@
 using API_Shop.DTO.User;
+using API_Shop.DTO.User.Update;
 using API_Shop.Interfaces;
 using API_Shop.Models;
 
@@ -44,17 +45,17 @@ namespace TestXUnit_Shop.User_Tests
                 })
                 .ReturnsAsync((User user) => user);
 
-            mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<UserUpdateDTO>()))
-                .ReturnsAsync((int id, UserUpdateDTO userUpdateDto) =>
+            mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<User>()))
+                .ReturnsAsync((int id, string response, User userToAdd) =>
                 {
                     var user = _users.FirstOrDefault(u => u.Id == id);
                     if (user != null)
                     {
-                        user.Pseudo = userUpdateDto.Pseudo ?? user.Pseudo;
-                        user.Mail = userUpdateDto.Mail ?? user.Mail;
-                        return user;
+                        user.Pseudo = userToAdd.Pseudo ?? user.Pseudo;
+                        user.Mail = userToAdd.Mail ?? user.Mail;
+                        return "Update success";
                     }
-                    return null;
+                    return "";
                 });
 
             mockRepo.Setup(repo => repo.Delete(It.IsAny<int>()))
@@ -108,10 +109,10 @@ namespace TestXUnit_Shop.User_Tests
         [Fact]
         public async Task Update_ModifiesExistingUser()
         {
-            var updateDto = new UserUpdateDTO { Pseudo = "Jane Updated", Mail = "jane.updated@example.com" };
+            var updateDto = new User { Id = 1, Pseudo = "John", Mail = "john@example.com" };
             var result = await _mockRepo.Object.Update(2, updateDto);
             Assert.NotNull(result);
-            Assert.Equal("Jane Updated", result.Pseudo);
+            Assert.Equal("Jane Updated", result);
         }
 
         [Fact]
