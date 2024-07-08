@@ -15,7 +15,7 @@ namespace Database_Shop.Entity
 
 
         [Required]
-        public List<Category> Categories { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
 
         [Required]

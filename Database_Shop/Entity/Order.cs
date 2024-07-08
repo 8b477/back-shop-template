@@ -29,6 +29,6 @@ namespace Database_Shop.Entity
         public DateTime SendAt { get; set; }
 
 
-        public List<Article> Articles { get; set; }
+        public ICollection<Article> Articles { get; set; }
     }
 }
