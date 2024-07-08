@@ -10,9 +10,7 @@ namespace DAL_Shop.Interfaces
 
         Task<Category> UpdateCategory(Category category);
 
-
         Task DeleteCategory(Category category);
-
 
         Task<Category> GetCategoryById(int id);
     }
