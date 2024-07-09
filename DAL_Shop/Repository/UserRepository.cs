@@ -8,11 +8,27 @@ namespace API_Shop.Repository
 {
     public class UserRepository : IUserRepository
     {
+        #region DI
         private readonly ShopDB _db;
         public UserRepository(ShopDB db) => _db = db;
+        #endregion
 
 
 
+        #region <-------------> CREATE <------------->
+        public async Task<User?> Create(User userToAdd)
+        {
+            var result = await _db.User.AddAsync(userToAdd);
+            await _db.SaveChangesAsync();
+
+            return result.Entity;
+        }
+        #endregion
+
+
+
+
+        #region <-------------> GET <------------->
         public async Task<IEnumerable<User?>> GetAll()
         {
             var result = await _db.User.ToListAsync();
@@ -35,29 +51,12 @@ namespace API_Shop.Repository
 
             return result;
         }
+        #endregion
 
 
-        public async Task<bool> Delete(int id)
-        {
-            var result = await _db.User.FindAsync(id);
-
-            if (result is null) return false;
-
-            _db.Remove(result);
-            await _db.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<User?> Create(User userToAdd)
-        {
-            var result = await _db.User.AddAsync(userToAdd);
-            await _db.SaveChangesAsync();
-
-            return result.Entity;
-        }
 
 
+        #region <-------------> UPDATE <------------->
         public async Task<string> Update(int id, User user)
         {
             var existingUser = await _db.User.FindAsync(id);
@@ -115,7 +114,35 @@ namespace API_Shop.Repository
 
             return "Pwd update !";
         }
+        #endregion
 
 
+
+
+        #region <-------------> DELETE <------------->
+        public async Task<bool> Delete(int id)
+        {
+            var result = await _db.User.FindAsync(id);
+
+            if (result is null) return false;
+
+            _db.Remove(result);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
+        #endregion
+
+
+
+
+        #region <-------------> TOOLS <------------->
+        public async Task<bool> IsValidMail(string email)
+        {
+            var result = await _db.User.AnyAsync(u => u.Mail == email); //send true if element is match
+
+            return !result; //in my logic i want to return true if email is not already in database
+        }
+        #endregion
     }
 }

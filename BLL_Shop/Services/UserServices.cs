@@ -8,6 +8,7 @@ using API_Shop.Validators;
 using FluentValidation;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 
 
@@ -169,15 +170,21 @@ namespace API_Shop.Services
         public async Task<IResult> Create(UserCreateDTO userToAdd)
         {
             var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
-            if (validationResult != Results.Ok()) return validationResult;
+            if (validationResult != Results.Ok()) 
+                return validationResult;
+
+            bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
+            if (!isValidMail) 
+                return TypedResults.BadRequest("Les informations fournies sont incorrectes. Veuillez réessayer.");
 
             User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
+            userMapped.Role = "User";
 
             var result = await _userRepository.Create(userMapped);
 
             return
                 result is null
-                ? TypedResults.BadRequest()
+                ? TypedResults.BadRequest("Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer.")
                 : TypedResults.Ok(result);
         }
 
