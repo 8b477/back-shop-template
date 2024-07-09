@@ -1,10 +1,12 @@
-﻿namespace API_Shop.DTO.Address.Update
+﻿
+
+namespace BLL_Shop.DTO.Address.Create
 {
-    public record AddressUpdateDTO
+    public record AddressCreateDTO
     {
-        public AddressUpdateDTO(int? phoneNumber, int postalCode, int streetNumber, string country, string city)
+        public AddressCreateDTO(int postalCode, int streetNumber, string country, string city, int? phoneNumber = 0)
         {
-            PhoneNumber = phoneNumber;
+            PhoneNumber = phoneNumber == 0 ? null : phoneNumber;
             PostalCode = postalCode;
             StreetNumber = streetNumber;
             Country = country;

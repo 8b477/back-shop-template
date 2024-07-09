@@ -1,4 +1,4 @@
-﻿namespace API_Shop.DTO.User
+﻿namespace BLL_Shop.DTO.User
 {
     public record UserLogDto
     {

@@ -1,9 +1,9 @@
-﻿using API_Shop.DTO.User.Create;
-using API_Shop.DTO.User.Update;
-using API_Shop.Interfaces;
-using API_Shop.Mappers;
-using API_Shop.Models;
-using API_Shop.Validators;
+﻿using BLL_Shop.DTO.User.Create;
+using BLL_Shop.DTO.User.Update;
+using DAL_Shop.Interfaces;
+using BLL_Shop.Mappers;
+using Database_Shop.Models;
+using BLL_Shop.Validators;
 
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 
 
-namespace API_Shop.Services
+namespace BLL_Shop.Services
 {
     public class UserServices
     {

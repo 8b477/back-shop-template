@@ -1,9 +1,9 @@
-﻿using API_Shop.DTO.User.Create;
+﻿using BLL_Shop.DTO.User.Create;
 
 
 using FluentValidation;
 
-namespace API_Shop.Validators.User_Validator.UserValidator
+namespace BLL_Shop.Validators.User_Validator.UserValidator
 {
     public class UserCreateValidator : AbstractValidator<UserCreateDTO>
     {

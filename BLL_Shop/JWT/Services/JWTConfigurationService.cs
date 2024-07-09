@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
-namespace API_Shop.JWT.Services
+namespace BLL_Shop.JWT.Services
 {
     public static class JWTConfigurationService
     {

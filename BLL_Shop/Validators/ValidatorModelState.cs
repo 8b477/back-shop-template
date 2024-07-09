@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace API_Shop.Validators
+namespace BLL_Shop.Validators
 {
     internal static class ValidatorModelState
     {

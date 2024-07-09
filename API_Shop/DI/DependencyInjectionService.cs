@@ -1,14 +1,15 @@
-﻿using API_Shop.Interfaces;
-using API_Shop.JWT.Models;
-using API_Shop.Repository;
-using API_Shop.Services;
-using API_Shop.JWT.Services;
+﻿using BLL_Shop.DTO.User.Create;
+using BLL_Shop.DTO.User.Update;
+using BLL_Shop.JWT.Models;
+using BLL_Shop.JWT.Services;
+using BLL_Shop.Services;
+using BLL_Shop.Validators.User_Validator;
+using BLL_Shop.Validators.User_Validator.UserValidator;
+using DAL_Shop.Interfaces;
+using DAL_Shop.Repository;
+
 using FluentValidation;
-using API_Shop.Validators.User_Validator.UserValidator;
-using API_Shop.DTO.User.Update;
-using API_Shop.Validators.User_Validator;
-using API_Shop.DTO.User.Create;
-using API_Shop.Models;
+
 
 
 namespace API_Shop.DI

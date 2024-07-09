@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 
-namespace API_Shop.DB.Context
+namespace Database_Shop.DB.Context
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ShopDB>
     {

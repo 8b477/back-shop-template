@@ -1,9 +1,9 @@
-﻿using API_Shop.Interfaces;
-using API_Shop.JWT.Services;
+﻿using BLL_Shop.JWT.Services;
+using DAL_Shop.Interfaces;
 
 using Microsoft.AspNetCore.Http;
 
-namespace API_Shop.Services
+namespace BLL_Shop.Services
 {
     public class AuthenticationService
     {

@@ -1,12 +1,13 @@
-﻿using API_Shop.DB.Context;
-using API_Shop.Interfaces;
-using API_Shop.Models;
+﻿using Database_Shop.DB.Context;
+using DAL_Shop.Interfaces;
+using Database_Shop.Models;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Database_Shop.Models;
 
 
-namespace API_Shop.Repository
+namespace DAL_Shop.Repository
 {
     public class UserRepository : IUserRepository
     {

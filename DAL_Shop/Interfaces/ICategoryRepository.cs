@@ -1,6 +1,4 @@
-﻿
-
-using Database_Shop.Entity;
+﻿using Database_Shop.Entity;
 
 namespace DAL_Shop.Interfaces
 {

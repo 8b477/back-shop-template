@@ -1,6 +1,7 @@
-﻿using API_Shop.Models;
+﻿using Database_Shop.Models;
 
-namespace API_Shop.Interfaces
+
+namespace DAL_Shop.Interfaces
 {
     public interface IUserRepository
     {

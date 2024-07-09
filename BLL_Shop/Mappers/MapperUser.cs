@@ -1,10 +1,12 @@
-﻿using API_Shop.DTO.User.Create;
-using API_Shop.DTO.User.Update;
-using API_Shop.Models;
+﻿using BLL_Shop.DTO.User.Create;
+using BLL_Shop.DTO.User.Update;
 
-namespace API_Shop.Mappers
+using Database_Shop.Models;
+
+
+namespace BLL_Shop.Mappers
 {
-    public class MapperUser
+    internal class MapperUser
     {
         /// <summary>
         /// Converts a UserCreateDTO object to a User entity.

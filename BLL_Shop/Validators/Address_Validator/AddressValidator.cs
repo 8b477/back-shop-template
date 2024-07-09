@@ -1,8 +1,8 @@
-﻿using API_Shop.Models;
+﻿using Database_Shop.Models;
 using FluentValidation;
 
 
-namespace API_Shop.Validators.Address_Validator.AddressValidator
+namespace BLL_Shop.Validators.Address_Validator.AddressValidator
 {
     public class AddressValidator : AbstractValidator<Address>
     {

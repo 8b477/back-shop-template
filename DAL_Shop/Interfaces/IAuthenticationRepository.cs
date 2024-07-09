@@ -1,7 +1,7 @@
-﻿using API_Shop.DTO.User.Token;
+﻿using DAL_Shop.DTO.User.Token;
 
 
-namespace API_Shop.Interfaces
+namespace DAL_Shop.Interfaces
 {
     public interface IAuthenticationRepository
     {

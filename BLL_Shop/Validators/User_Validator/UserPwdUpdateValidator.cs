@@ -1,7 +1,7 @@
-﻿using API_Shop.DTO.User.Update;
+﻿using BLL_Shop.DTO.User.Update;
 using FluentValidation;
 
-namespace API_Shop.Validators.User_Validator
+namespace BLL_Shop.Validators.User_Validator
 {
     public class UserPwdUpdateValidator : AbstractValidator<UserPwdUpdateDTO>
     {

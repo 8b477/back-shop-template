@@ -1,9 +1,9 @@
 using API_Shop.Controllers;
-using API_Shop.DB.Context;
+using Database_Shop.DB.Context;
 using API_Shop.DI;
 using API_Shop.Endpoints;
-using API_Shop.JWT.Policy;
-using API_Shop.JWT.Services;
+using BLL_Shop.JWT.Policy;
+using BLL_Shop.JWT.Services;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using Serilog;

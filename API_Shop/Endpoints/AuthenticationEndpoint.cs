@@ -1,5 +1,5 @@
-﻿using API_Shop.DTO.User;
-using API_Shop.Services;
+﻿using BLL_Shop.DTO.User;
+using BLL_Shop.Services;
 
 using Microsoft.AspNetCore.Mvc;
 

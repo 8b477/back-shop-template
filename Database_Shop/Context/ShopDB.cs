@@ -1,11 +1,11 @@
-﻿using API_Shop.Models;
+﻿using Database_Shop.Models;
 
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
 
 
-namespace API_Shop.DB.Context
+namespace Database_Shop.DB.Context
 {
     public class ShopDB : DbContext
     {

@@ -1,6 +1,6 @@
-﻿using API_Shop.DTO.User.Create;
-using API_Shop.DTO.User.Update;
-using API_Shop.Services;
+﻿using BLL_Shop.DTO.User.Create;
+using BLL_Shop.DTO.User.Update;
+using BLL_Shop.Services;
 
 using Microsoft.AspNetCore.Authorization;
 
