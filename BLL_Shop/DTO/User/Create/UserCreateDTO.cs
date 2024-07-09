@@ -1,6 +1,6 @@
 ﻿
 
-namespace API_Shop.DTO.User.Create
+namespace BLL_Shop.DTO.User.Create
 {
     public record UserCreateDTO
     {

@@ -1,12 +1,12 @@
-﻿using API_Shop.DB.Context;
-using API_Shop.DTO.Address.Update;
-using API_Shop.Interfaces;
-using API_Shop.Models;
-using API_Shop.Repository;
+﻿using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.Mappers;
+
+using DAL_Shop.Interfaces;
+using Database_Shop.Models;
 
 using Microsoft.AspNetCore.Http;
 
-namespace API_Shop.Services
+namespace BLL_Shop.Services
 {
     public class AddressServices
     {
@@ -115,9 +115,12 @@ namespace API_Shop.Services
         /// </summary>
         /// <param name="addressToAdd">The address information to add.</param>
         /// <returns>An IResult containing the created address, or BadRequest if the creation fails.</returns>
-        public async Task<IResult> Create(Address addressToAdd)
+        public async Task<IResult> Create(AddressCreateDTO addressToAdd)
         {
-            var result = await _addressRepository.Create(addressToAdd);
+
+            Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
+
+            var result = await _addressRepository.Create(addressMapped);
 
             return
                 result is null

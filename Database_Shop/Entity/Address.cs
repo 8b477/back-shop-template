@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API_Shop.Models
+namespace Database_Shop.Models
 {
     public class Address
     {
@@ -29,12 +29,12 @@ namespace API_Shop.Models
 
         [MaxLength(35)]
         [Required(ErrorMessage = "Pays requis")]
-        public string Country { get; set; } = string.Empty;
+        public string Country { get; set; }
 
 
         [MaxLength(85)]
         [Required(ErrorMessage = "La ville est requis")]
-        public string City { get; set; } = string.Empty;
+        public string City { get; set; }
     }
 }
 

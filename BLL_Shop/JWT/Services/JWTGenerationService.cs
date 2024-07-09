@@ -1,4 +1,4 @@
-﻿using API_Shop.JWT.Models;
+﻿using BLL_Shop.JWT.Models;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace API_Shop.JWT.Services
+namespace BLL_Shop.JWT.Services
 {
     public class JWTGenerationService
     {

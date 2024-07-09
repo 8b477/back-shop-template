@@ -1,10 +1,10 @@
-﻿using API_Shop.DB.Context;
-using API_Shop.DTO.User.Token;
-using API_Shop.Interfaces;
+﻿using Database_Shop.DB.Context;
+using DAL_Shop.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using DAL_Shop.DTO.User.Token;
 
 
-namespace API_Shop.Repository
+namespace DAL_Shop.Repository
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {

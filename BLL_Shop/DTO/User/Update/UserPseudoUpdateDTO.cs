@@ -1,5 +1,5 @@
 ﻿
-namespace API_Shop.DTO.User.Update
+namespace BLL_Shop.DTO.User.Update
 {
     public record UserPseudoUpdateDTO
     {

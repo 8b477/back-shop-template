@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 
-namespace API_Shop.DB.Context
+namespace Database_Shop.DB.Context
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ShopDB>
     {
@@ -17,7 +17,7 @@ namespace API_Shop.DB.Context
             var optionsBuilder = new DbContextOptionsBuilder<ShopDB>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            optionsBuilder.UseSqlite(connectionString); // Ou UseSqlServer(connectionString) selon ta configuration
+            optionsBuilder.UseSqlite(connectionString);
 
             return new ShopDB(optionsBuilder.Options);
         }

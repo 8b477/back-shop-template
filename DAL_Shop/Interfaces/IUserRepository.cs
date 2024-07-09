@@ -1,6 +1,7 @@
-﻿using API_Shop.Models;
+﻿using Database_Shop.Models;
 
-namespace API_Shop.Interfaces
+
+namespace DAL_Shop.Interfaces
 {
     public interface IUserRepository
     {
@@ -69,5 +70,12 @@ namespace API_Shop.Interfaces
         /// <param name="userToAdd">The user information to add.</param>
         /// <returns>The created user.</returns>
         public Task<User?> Create(User userToAdd);
+
+        /// <summary>
+        /// Check whether the email already exists in the database.
+        /// </summary>
+        /// <param name="email">email to check</param>
+        /// <returns>Return true if the email already exists in database; otherwise return false</returns>
+        Task<bool> IsValidMail(string email);
     }
 }

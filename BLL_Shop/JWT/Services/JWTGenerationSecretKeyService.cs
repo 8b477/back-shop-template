@@ -2,7 +2,7 @@
 
 using System.Security.Cryptography;
 
-namespace API_Shop.JWT.Services
+namespace BLL_Shop.JWT.Services
 {
     public static class JWTGenerationSecretKeyService
     {

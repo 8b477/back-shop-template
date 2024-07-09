@@ -1,5 +1,6 @@
-﻿using API_Shop.Models;
-using API_Shop.Services;
+﻿using Database_Shop.Models;
+using BLL_Shop.Services;
+using BLL_Shop.DTO.Address.Create;
 
 using Microsoft.AspNetCore.Authorization;
 
@@ -26,8 +27,8 @@ namespace API_Shop.Controllers
 
 
             // ADD
-            app.MapPost("/address",
-                [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, Address addressToAdd) => await addressService.Create(addressToAdd));
+            //app.MapPost("/address",
+            //    [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, AddressCreateDTO addressToAdd) => await addressService.Create(addressToAdd));
 
 
             // UPDATE

@@ -1,4 +1,4 @@
-﻿namespace API_Shop.JWT.Models
+﻿namespace BLL_Shop.JWT.Models
 {
     public class Token
     {

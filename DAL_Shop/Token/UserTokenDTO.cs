@@ -1,4 +1,4 @@
-﻿namespace API_Shop.DTO.User.Token
+﻿namespace DAL_Shop.DTO.User.Token
 {
     public record UserTokenDTO
     {

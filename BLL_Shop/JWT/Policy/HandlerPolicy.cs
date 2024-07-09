@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace API_Shop.JWT.Policy
+namespace BLL_Shop.JWT.Policy
 {
     public static class HandlerPolicy
     {
