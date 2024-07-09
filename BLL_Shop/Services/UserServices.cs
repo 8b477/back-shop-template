@@ -15,6 +15,7 @@ namespace API_Shop.Services
 {
     public class UserServices
     {
+        #region DI
         private readonly IUserRepository _userRepository;
         private readonly IValidator<UserCreateDTO> _userCreateValidator;
         private readonly IValidator<UserUpdateDTO> _userUpdateFullValidator;
@@ -39,8 +40,55 @@ namespace API_Shop.Services
             _userMailUpdateValidator = userMailUpdateValidator;
             _userPwdUpdateValidator = userPwdUpdateValidator;
             _logger = logger;
-        }
+        } 
+        #endregion
 
+
+        #region <-------------> CREATE <------------->
+        public async Task<IResult> Create(UserCreateDTO userToAdd)
+        {
+            try
+            {
+                _logger.LogInformation("Creating new user");
+                var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for user creation");
+                    return validationResult;
+                }
+
+                bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
+                if (!isValidMail)
+                {
+                    _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
+                    return TypedResults.BadRequest("Les informations fournies sont incorrectes. Veuillez réessayer.");
+                }
+
+                User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
+                userMapped.Role = "User";
+
+                var result = await _userRepository.Create(userMapped);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("User creation failed");
+                    return TypedResults.BadRequest("Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer.");
+                }
+
+                _logger.LogInformation("User created successfully: {Id}", result.Id);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating user");
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        #endregion
+
+
+
+        #region <-------------> GET <------------->
         public async Task<IResult> GetAll()
         {
             try
@@ -85,22 +133,11 @@ namespace API_Shop.Services
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        #endregion
 
-        public async Task<IResult> Delete(int id)
-        {
-            try
-            {
-                _logger.LogInformation("Deleting user with ID: {Id}", id);
-                var result = await _userRepository.Delete(id);
-                return result ? TypedResults.NoContent() : TypedResults.BadRequest();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while deleting user with ID: {Id}", id);
-                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
 
+
+        #region <-------------> UPDATE <------------->
         public async Task<IResult> Update(int id, UserUpdateDTO userToAdd)
         {
             try
@@ -174,45 +211,27 @@ namespace API_Shop.Services
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        #endregion
 
-        public async Task<IResult> Create(UserCreateDTO userToAdd)
+
+
+        #region <-------------> DELETE <------------->
+        public async Task<IResult> Delete(int id)
         {
             try
             {
-                _logger.LogInformation("Creating new user");
-                var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
-                if (validationResult != Results.Ok())
-                {
-                    _logger.LogWarning("Validation failed for user creation");
-                    return validationResult;
-                }
-
-                bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
-                if (!isValidMail)
-                {
-                    _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
-                    return TypedResults.BadRequest("Les informations fournies sont incorrectes. Veuillez réessayer.");
-                }
-
-                User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
-                userMapped.Role = "User";
-
-                var result = await _userRepository.Create(userMapped);
-
-                if (result is null)
-                {
-                    _logger.LogWarning("User creation failed");
-                    return TypedResults.BadRequest("Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer.");
-                }
-
-                _logger.LogInformation("User created successfully: {Id}", result.Id);
-                return TypedResults.Ok(result);
+                _logger.LogInformation("Deleting user with ID: {Id}", id);
+                var result = await _userRepository.Delete(id);
+                return result ? TypedResults.NoContent() : TypedResults.BadRequest();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating user");
+                _logger.LogError(ex, "Error occurred while deleting user with ID: {Id}", id);
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        #endregion
+
+       
     }
 }
