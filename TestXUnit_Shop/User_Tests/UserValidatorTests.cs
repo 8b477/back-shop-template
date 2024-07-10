@@ -1,6 +1,6 @@
-﻿using API_Shop.DTO.User.Create;
-using API_Shop.Models;
-using API_Shop.Validators.User_Validator.UserValidator;
+﻿using BLL_Shop.DTO.User.Create;
+using BLL_Shop.Validators.User_Validator.UserValidator;
+
 using FluentValidation.TestHelper;
 
 

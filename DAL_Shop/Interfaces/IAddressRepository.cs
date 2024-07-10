@@ -5,6 +5,20 @@ namespace DAL_Shop.Interfaces
 {
     public interface IAddressRepository
     {
+
+        #region <-------------> CREATE <------------->
+
+        /// <summary>
+        /// Creates a new address in the database.
+        /// </summary>
+        /// <param name="addressToAdd">The address information to add.</param>
+        /// <returns>The created address.</returns>
+        public Task<Address?> Create(Address addressToAdd);
+        #endregion
+
+
+        #region <-------------> GET <------------->
+
         /// <summary>
         /// Retrieves all adresses from the database.
         /// </summary>
@@ -31,13 +45,10 @@ namespace DAL_Shop.Interfaces
         /// <param name="city">The city to search for.</param>
         /// <returns>A list of addresses matching the specified city.</returns>
         public Task<IEnumerable<Address?>> GetByCity(string city);
+        #endregion
 
-        /// <summary>
-        /// Deletes a address from the database by their ID.
-        /// </summary>
-        /// <param name="id">The ID of the address to delete.</param>
-        /// <returns>True if the address was deleted, false if the address was not found.</returns>
-        public Task<bool> Delete(int id);
+
+        #region <-------------> UPDATE <------------->
 
         /// <summary>
         /// Updates an existing address in the database.
@@ -48,10 +59,45 @@ namespace DAL_Shop.Interfaces
         public Task<Address?> Update(int id, Address addressToAdd);
 
         /// <summary>
-        /// Creates a new address in the database.
+        /// Updates an existing address in the database.
         /// </summary>
-        /// <param name="addressToAdd">The address information to add.</param>
-        /// <returns>The created address.</returns>
-        public Task<Address?> Create(Address addressToAdd);
+        /// <param name="id">The ID of the address to update.</param>
+        /// <param name="postalCode">The new postalCode data.</param>
+        /// <param name="streetNumber">The new streetNumber data.</param>
+        /// <param name="city">The new city data.</param>
+        /// <returns>The updated address, or null if the address was not found.</returns>
+        Task<Address?> UpdateCity(int id, int postalCode, int streetNumber, string city);
+
+        /// <summary>
+        /// Updates an existing address in the database.
+        /// </summary>
+        /// <param name="id">The ID of the address to update.</param>
+        /// <param name="phoneNumber">The new phoneNumber data.</param>
+        /// <returns>The updated address, or null if the address was not found.</returns>
+        Task<Address?> UpdatePhoneNumber(int id, int phoneNumber);
+        #endregion
+
+
+        #region <-------------> DELETE <------------->
+
+        /// <summary>
+        /// Deletes a address from the database by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the address to delete.</param>
+        /// <returns>True if the address was deleted, false if the address was not found.</returns>
+        public Task<bool> Delete(int id);
+        #endregion
+
+
+        #region <-------------> TOOLS <------------->
+
+        /// <summary>
+        /// Check whether the user has an address in the database.
+        /// </summary>
+        /// <param name="id">ID user</param>
+        /// <returns>Returns true if user has no Address otherwise returns false</returns>
+        Task<bool> CheckIfUserAlreadyHasAddress(int id);
+        #endregion
+
     }
 }

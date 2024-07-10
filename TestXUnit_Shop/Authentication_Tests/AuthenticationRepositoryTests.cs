@@ -1,6 +1,6 @@
 ﻿using Moq;
-using API_Shop.Interfaces;
-using API_Shop.DTO.User.Token;
+using DAL_Shop.Interfaces;
+using DAL_Shop.DTO.User.Token;
 
 
 namespace TestXUnit_Shop.Authentication_Tests

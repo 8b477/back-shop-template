@@ -4,7 +4,7 @@ using Database_Shop.Models;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Database_Shop.Models;
+
 
 
 namespace DAL_Shop.Repository

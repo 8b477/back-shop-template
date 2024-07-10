@@ -5,6 +5,18 @@ namespace DAL_Shop.Interfaces
 {
     public interface IUserRepository
     {
+
+        #region <-------------> CREATE <------------->
+        /// <summary>
+        /// Creates a new user in the database.
+        /// </summary>
+        /// <param name="userToAdd">The user information to add.</param>
+        /// <returns>The created user.</returns>
+        public Task<User?> Create(User userToAdd);
+        #endregion
+
+
+        #region <-------------> GET <------------->
         /// <summary>
         /// Retrieves all users from the database.
         /// </summary>
@@ -24,14 +36,10 @@ namespace DAL_Shop.Interfaces
         /// <param name="pseudo">The pseudo to search for.</param>
         /// <returns>A list of users matching the specified pseudo.</returns>
         public Task<IEnumerable<User?>> GetByPseudo(string pseudo);
+        #endregion
 
-        /// <summary>
-        /// Deletes a user from the database by their ID.
-        /// </summary>
-        /// <param name="id">The ID of the user to delete.</param>
-        /// <returns>True if the user was deleted, false if the user was not found.</returns>
-        public Task<bool> Delete(int id);
 
+        #region <-------------> UPDATE <------------->
         /// <summary>
         /// Updates full an existing user in the database.
         /// </summary>
@@ -46,7 +54,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">The ID of the user to update.</param>
         /// <param name="pseudo">The new value.</param>
         /// <returns>Modified value, or empty string if the user was not found.</returns>
-        public Task<string> UpdatePseudo(int id,string pseudo);
+        public Task<string> UpdatePseudo(int id, string pseudo);
 
         /// <summary>
         /// Updates pseudo of an existing user in the database.
@@ -63,19 +71,27 @@ namespace DAL_Shop.Interfaces
         /// <param name="pwd">The new value.</param>
         /// <returns>Message : Password is update, or empty string if the user was not found.</returns>
         public Task<string> UpdatePwd(int id, string pwd);
+        #endregion
 
+
+        #region <-------------> DELETE <------------->
         /// <summary>
-        /// Creates a new user in the database.
+        /// Deletes a user from the database by their ID.
         /// </summary>
-        /// <param name="userToAdd">The user information to add.</param>
-        /// <returns>The created user.</returns>
-        public Task<User?> Create(User userToAdd);
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>True if the user was deleted, false if the user was not found.</returns>
+        public Task<bool> Delete(int id);
+        #endregion
 
+
+        #region <-------------> TOOLS <------------->
         /// <summary>
         /// Check whether the email already exists in the database.
         /// </summary>
         /// <param name="email">email to check</param>
         /// <returns>Return true if the email already exists in database; otherwise return false</returns>
         Task<bool> IsValidMail(string email);
+        #endregion
+
     }
 }

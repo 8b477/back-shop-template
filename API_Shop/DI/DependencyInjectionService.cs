@@ -40,6 +40,10 @@ namespace API_Shop.DI
             //JWT
             services.Configure<JWTSettings>(options.GetSection("JWT"));
             services.AddSingleton<JWTGenerationService>();
+            services.AddSingleton<JWTGetClaimsService>();
+
+            //HTTP CONTEXT
+            services.AddHttpContextAccessor();
         }
     }
 }

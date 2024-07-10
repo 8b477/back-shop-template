@@ -1,131 +1,230 @@
 ﻿using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.DTO.Address.Update;
+using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
-
 using DAL_Shop.Interfaces;
 using Database_Shop.Models;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+
 
 namespace BLL_Shop.Services
 {
     public class AddressServices
     {
+        #region DI
         private readonly IAddressRepository _addressRepository;
-        public AddressServices(IAddressRepository addressRepository) => _addressRepository = addressRepository;
+        private readonly JWTGetClaimsService _jwtGetClaimService;
+        private readonly ILogger<AddressServices> _logger;
 
-
-        /// <summary>
-        /// Retrieves all addresses from the database.
-        /// </summary>
-        /// <returns>An IResult containing a list of all addresses, or NoContent if the list is empty.</returns>
-        public async Task<IResult> GetAll()
+        public AddressServices(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaims, ILogger<AddressServices> logger)
         {
-            var result = await _addressRepository.GetAll();
-
-            return
-                result is null
-                ? TypedResults.NoContent()
-                : TypedResults.Ok(result);
+            _addressRepository = addressRepository;
+            _jwtGetClaimService = jwtGetClaims;
+            _logger = logger;
         }
+        #endregion
 
 
-        /// <summary>
-        /// Retrieves addresses by their postalCode.
-        /// </summary>
-        /// <param name="postalCode">The postalCode to search for.</param>
-        /// <returns>An IResult containing a list of addresses with the specified postalCode, or NoContent if no addresses are found.</returns>
-        public async Task<IResult> GetByPostalCode(int postalCode)
-        {
-            var result = await _addressRepository.GetByPostalCode(postalCode);
 
-            return
-                result.Any()
-                ? TypedResults.Ok(result)
-                : TypedResults.NotFound();
-        }
-
-
-        /// <summary>
-        /// Retrieves addresses by their city.
-        /// </summary>
-        /// <param name="city">The city to search for.</param>
-        /// <returns>An IResult containing a list of addresses with the specified city, or NoContent if no addresses are found.</returns>
-        public async Task<IResult> GetByCity(string city)
-        {
-            var result = await _addressRepository.GetByCity(city);
-
-            return
-                result.Any()
-                ? TypedResults.Ok(result)
-                : TypedResults.NotFound();
-        }
-
-
-        /// <summary>
-        /// Retrieves addresses by their country.
-        /// </summary>
-        /// <param name="country">The country to search for.</param>
-        /// <returns>An IResult containing a list of addresses with the specified country, or NoContent if no addresses are found.</returns>
-        public async Task<IResult> GetByCountry(string country)
-        {
-            var result = await _addressRepository.GetByCountry(country);
-
-            return
-                result.Any()
-                ? TypedResults.Ok(result)
-                : TypedResults.NotFound();
-        }
-
-
-        /// <summary>
-        /// Deletes a address from the database by their ID.
-        /// </summary>
-        /// <param name="id">The ID of the address to delete.</param>
-        /// <returns>An IResult indicating success or failure of the deletion.</returns>
-        public async Task<IResult> Delete(int id)
-        {
-            var result = await _addressRepository.Delete(id);
-
-            return
-                result
-                ? TypedResults.NoContent()
-                : TypedResults.BadRequest();
-        }
-
-
-        /// <summary>
-        /// Updates an existing address in the database.
-        /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
-        /// <param name="addressToAdd">The new address data.</param>
-        /// <returns>An IResult containing the updated address, or BadRequest if the update fails.</returns>
-        public async Task<IResult> Update(int id, Address addressToAdd)
-        {
-            var result = await _addressRepository.Update(id, addressToAdd);
-
-            return
-                result is null
-                ? TypedResults.BadRequest()
-                : TypedResults.Ok(result);
-        }
-
-
-        /// <summary>
-        /// Creates a new address in the database.
-        /// </summary>
-        /// <param name="addressToAdd">The address information to add.</param>
-        /// <returns>An IResult containing the created address, or BadRequest if the creation fails.</returns>
+        #region <-------------> CREATE <------------->
         public async Task<IResult> Create(AddressCreateDTO addressToAdd)
         {
+            try
+            {
+                _logger.LogInformation("Attempting to create a new address");
 
-            Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
+                int idUser = _jwtGetClaimService.GetIdUserToken();
 
-            var result = await _addressRepository.Create(addressMapped);
+                if (idUser == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+                    return TypedResults.Unauthorized();
+                }
 
-            return
-                result is null
-                ? TypedResults.BadRequest()
-                : TypedResults.Ok(result);
+                var userCanCreateAddress = await _addressRepository.CheckIfUserAlreadyHasAddress(idUser);
+
+                if(userCanCreateAddress == false)
+                {
+                    _logger.LogWarning("The user already has an address");
+                    return TypedResults.BadRequest("The user already has an address, please update it if it has changed");
+                }
+
+                Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
+                addressMapped.IdUser = idUser;
+
+                var result = await _addressRepository.Create(addressMapped);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to create address");
+                    return TypedResults.BadRequest();
+                }
+
+                _logger.LogInformation("Address created successfully for user: {UserId}", idUser);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating address");
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
+        #endregion
+
+
+
+        #region <-------------> GET <------------->
+        public async Task<IResult> GetAll()
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving all addresses");
+                var result = await _addressRepository.GetAll();
+
+                if (result is null || !result.Any())
+                {
+                    _logger.LogInformation("No addresses found");
+                    return TypedResults.NoContent();
+                }
+
+                _logger.LogInformation("Retrieved {Count} addresses", result.Count());
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all addresses");
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> GetByPostalCode(int postalCode)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving addresses by postal code: {PostalCode}", postalCode);
+                var result = await _addressRepository.GetByPostalCode(postalCode);
+
+                if (!result.Any())
+                {
+                    _logger.LogInformation("No addresses found for postal code: {PostalCode}", postalCode);
+                    return TypedResults.NotFound();
+                }
+
+                _logger.LogInformation("Retrieved {Count} addresses for postal code: {PostalCode}", result.Count(), postalCode);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving addresses by postal code: {PostalCode}", postalCode);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> GetByCity(string city)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving addresses by city: {City}", city);
+                var result = await _addressRepository.GetByCity(city);
+
+                if (!result.Any())
+                {
+                    _logger.LogInformation("No addresses found for city: {City}", city);
+                    return TypedResults.NotFound();
+                }
+
+                _logger.LogInformation("Retrieved {Count} addresses for city: {City}", result.Count(), city);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving addresses by city: {City}", city);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> GetByCountry(string country)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving addresses by country: {Country}", country);
+                var result = await _addressRepository.GetByCountry(country);
+
+                if (!result.Any())
+                {
+                    _logger.LogInformation("No addresses found for country: {Country}", country);
+                    return TypedResults.NotFound();
+                }
+
+                _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count(), country);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving addresses by country: {Country}", country);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        #endregion
+
+
+
+        #region <-------------> UPDATE <------------->
+        public async Task<IResult> Update(int id, AddressUpdateCountryDTO addressToAdd)
+        {
+            try
+            {
+                _logger.LogInformation("Updating address with ID: {Id}", id);
+
+                Address addressMapped = MapperAddress.FromAddressCountryUpdateDTOToEntity(addressToAdd);
+
+                var result = await _addressRepository.Update(id, addressMapped);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update address with ID: {Id}", id);
+                    return TypedResults.BadRequest();
+                }
+
+                _logger.LogInformation("Address with ID {Id} updated successfully", id);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}", id);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        #endregion
+
+
+
+        #region <-------------> DELETE <------------->
+        public async Task<IResult> Delete(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting address with ID: {Id}", id);
+                var result = await _addressRepository.Delete(id);
+
+                if (!result)
+                {
+                    _logger.LogWarning("Failed to delete address with ID: {Id}", id);
+                    return TypedResults.BadRequest();
+                }
+
+                _logger.LogInformation("Address with ID {Id} deleted successfully", id);
+                return TypedResults.NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting address with ID: {Id}", id);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        #endregion
+
     }
 }

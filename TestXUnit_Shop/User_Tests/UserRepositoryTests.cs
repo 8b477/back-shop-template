@@ -1,7 +1,5 @@
-using API_Shop.DTO.User;
-using API_Shop.DTO.User.Update;
-using API_Shop.Interfaces;
-using API_Shop.Models;
+using DAL_Shop.Interfaces;
+using Database_Shop.Models;
 
 using Moq;
 
