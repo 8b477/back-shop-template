@@ -2,9 +2,13 @@
 using BLL_Shop.DTO.Address.Update;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
+using BLL_Shop.Validators;
+using BLL_Shop.Validators.Address_Validator.AddressValidator;
+using BLL_Shop.Validators.User_Validator.UserValidator;
 using DAL_Shop.Interfaces;
 using Database_Shop.Models;
 
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -17,13 +21,17 @@ namespace BLL_Shop.Services
         private readonly IAddressRepository _addressRepository;
         private readonly JWTGetClaimsService _jwtGetClaimService;
         private readonly ILogger<AddressServices> _logger;
+        private readonly IValidator<AddressCreateDTO> _addressCreateValidator;
 
-        public AddressServices(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaims, ILogger<AddressServices> logger)
+        public AddressServices(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaimService, ILogger<AddressServices> logger, IValidator<AddressCreateDTO> addressCreateValidator)
         {
             _addressRepository = addressRepository;
-            _jwtGetClaimService = jwtGetClaims;
+            _jwtGetClaimService = jwtGetClaimService;
             _logger = logger;
+            _addressCreateValidator = addressCreateValidator;
         }
+
+
         #endregion
 
 
@@ -43,12 +51,19 @@ namespace BLL_Shop.Services
                     return TypedResults.Unauthorized();
                 }
 
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressCreateValidator);
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+                    return validationResult;
+                }
+
                 var userCanCreateAddress = await _addressRepository.CheckIfUserAlreadyHasAddress(idUser);
 
                 if(userCanCreateAddress == false)
                 {
                     _logger.LogWarning("The user already has an address");
-                    return TypedResults.BadRequest("The user already has an address, please update it if it has changed");
+                    return TypedResults.BadRequest(new { Message = "The user already has an address, please update it if it has changed"});
                 }
 
                 Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
@@ -59,7 +74,7 @@ namespace BLL_Shop.Services
                 if (result is null)
                 {
                     _logger.LogWarning("Failed to create address");
-                    return TypedResults.BadRequest();
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
                 }
 
                 _logger.LogInformation("Address created successfully for user: {UserId}", idUser);
@@ -172,7 +187,7 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> Update(int id, AddressUpdateCountryDTO addressToAdd)
+        public async Task<IResult> Update(int id, AddressCountryUpdateDTO addressToAdd)
         {
             try
             {
@@ -185,7 +200,7 @@ namespace BLL_Shop.Services
                 if (result is null)
                 {
                     _logger.LogWarning("Failed to update address with ID: {Id}", id);
-                    return TypedResults.BadRequest();
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
                 }
 
                 _logger.LogInformation("Address with ID {Id} updated successfully", id);
@@ -194,6 +209,60 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with ID: {Id}", id);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateCity(int id, AddressCityUpdateDTO addressToAdd)
+        {
+            try
+            {
+                _logger.LogInformation("Updating City address with ID: {Id}", id);
+
+                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+
+                var result = await _addressRepository.UpdateCity(
+                    id,
+                    addressMapped.PostalCode,
+                    addressMapped.StreetNumber,
+                    addressMapped.City);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update City address with ID: {Id}", id);
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+                }
+
+                _logger.LogInformation("Address with ID {Id} updated successfully", id);
+                return TypedResults.Ok(result);                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}, PostalCode: {PostalCode}, StreetNumber: {StreetNumber}, City: {City}", id, addressToAdd.PostalCode, addressToAdd.StreetNumber, addressToAdd.City);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdatePhoneNumber(int id, AddressPhoneNumberUpdateDTO addressToAdd)
+        {
+            try
+            {
+                _logger.LogInformation("Updating PhoneNumber with ID: {Id}", id);
+
+                var result = await _addressRepository.UpdatePhoneNumber(id, addressToAdd.PhoneNumber);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update PhoneNumber with ID: {Id}", id);
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+                }
+
+                _logger.LogInformation("Address with ID {Id} and PhoneNumber {PhoneNumber} updated successfully", id, addressToAdd.PhoneNumber);
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with ID: {Id} and PhoneNumber {PhoneNumber}", id, addressToAdd.PhoneNumber);
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -212,7 +281,7 @@ namespace BLL_Shop.Services
                 if (!result)
                 {
                     _logger.LogWarning("Failed to delete address with ID: {Id}", id);
-                    return TypedResults.BadRequest();
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
                 }
 
                 _logger.LogInformation("Address with ID {Id} deleted successfully", id);

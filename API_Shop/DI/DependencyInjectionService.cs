@@ -1,8 +1,10 @@
-﻿using BLL_Shop.DTO.User.Create;
+﻿using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 using BLL_Shop.JWT.Models;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
+using BLL_Shop.Validators.Address_Validator.AddressValidator;
 using BLL_Shop.Validators.User_Validator;
 using BLL_Shop.Validators.User_Validator.UserValidator;
 using DAL_Shop.Interfaces;
@@ -22,7 +24,7 @@ namespace API_Shop.DI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<UserServices>();
 
-            //VALIDATOR
+            //USER VALIDATOR
             services.AddScoped<IValidator<UserCreateDTO>, UserCreateValidator>();
             services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateValidator>();
             services.AddScoped<IValidator<UserPseudoUpdateDTO>, UserPseudoUpdateValidator>();
@@ -32,6 +34,10 @@ namespace API_Shop.DI
             //ADDRESS
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<AddressServices>();
+
+            //ADDRESS VALIDATOR
+            services.AddScoped<IValidator<AddressCreateDTO>, AddressValidator>();
+
 
             //AUTHENTICATION
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();

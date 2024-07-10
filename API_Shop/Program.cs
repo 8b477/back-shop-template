@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using Serilog;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // ********************** SETUP SERILOG **********************
 Log.Logger = new LoggerConfiguration()
@@ -44,6 +46,7 @@ HandlerPolicy.AddAuthorization(builder);
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 
+
 var app = builder.Build();
 
 
@@ -73,6 +76,7 @@ UserEndpoints.GetEndpointsUser(app);
 AddressEndpoints.GetEndpointsAddress(app);
 AuthenticationEndpoint.GetAuthenticate(app);
 // ***************************************
+
 
 try
 {

@@ -21,7 +21,7 @@ namespace BLL_Shop.Services
         {
             var result = await _authenticationRepository.Authentication(mail, password);
 
-            if (result is null) return TypedResults.BadRequest();
+            if (result is null) return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
 
 
             string token = _jWTService.GenerateToken(result.Id.ToString(), result.Mail, result.Pseudo, result.Role);

@@ -2,9 +2,9 @@
 
 namespace BLL_Shop.DTO.Address.Update
 {
-    public class AddressUpdateCountryDTO
+    public class AddressCountryUpdateDTO
     {
-        public AddressUpdateCountryDTO(int postalCode, int streetNumber, string country, string city)
+        public AddressCountryUpdateDTO(int postalCode, int streetNumber, string country, string city)
         {
             PostalCode = postalCode;
             StreetNumber = streetNumber;

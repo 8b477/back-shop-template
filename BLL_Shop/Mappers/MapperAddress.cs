@@ -20,7 +20,7 @@ namespace BLL_Shop.Mappers
             };
         }
 
-        public static Address FromAddressCountryUpdateDTOToEntity(AddressUpdateCountryDTO dto)
+        public static Address FromAddressCountryUpdateDTOToEntity(AddressCountryUpdateDTO dto)
         {
             return new Address
             {
