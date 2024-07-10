@@ -3,8 +3,6 @@ using BLL_Shop.DTO.Address.Update;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
 using BLL_Shop.Validators;
-using BLL_Shop.Validators.Address_Validator.AddressValidator;
-using BLL_Shop.Validators.User_Validator.UserValidator;
 using DAL_Shop.Interfaces;
 using Database_Shop.Models;
 
