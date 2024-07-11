@@ -1,10 +1,12 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJ1c2VyQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6ImRlbW8iLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcyMDY5MjE5NSwiZXhwIjoxNzIwNzAyOTk1LCJpYXQiOjE3MjA2OTIxOTUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.pXEZk8rsyrKn1_S_oxsGfyzLaYV8_w410DVxlFXWibY
 
 GET {{API_Shop_HostAddress}}/address
 
 ###
 
 POST {{API_Shop_HostAddress}}/address
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
 "PostalCode":"5670",

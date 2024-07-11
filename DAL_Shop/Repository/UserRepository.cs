@@ -1,10 +1,12 @@
 ﻿using Database_Shop.DB.Context;
 using DAL_Shop.Interfaces;
 using Database_Shop.Models;
+using DAL_Shop.DTO.User;
+using DAL_Shop.DTO.Address;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Database_Shop.Models;
+
 
 
 namespace DAL_Shop.Repository
@@ -21,6 +23,7 @@ namespace DAL_Shop.Repository
             _logger = logger;
         }
         #endregion
+
 
         #region <-------------> CREATE <------------->
         public async Task<User?> Create(User userToAdd)
@@ -41,15 +44,36 @@ namespace DAL_Shop.Repository
         }
         #endregion
 
+
         #region <-------------> GET <------------->
-        public async Task<IEnumerable<User?>> GetAll()
+        public async Task<IReadOnlyCollection<UserViewDTO>> GetAll()
         {
             try
             {
                 _logger.LogInformation("Retrieving all users");
-                var result = await _db.User.ToListAsync();
-                _logger.LogInformation("Retrieved {Count} users", result.Count);
-                return result;
+
+                var users = await _db.User
+                    .Include(u => u.Address)
+                    .Select(u => new UserViewDTO(
+                        u.Id,
+                        u.Pseudo,
+                        u.Mail,
+                        u.Role,
+                        u.Address != null ? new AddressViewDTO(
+                            u.Address.Id,
+                            u.Address.UserId ?? 0,
+                            u.Address.PostalCode,
+                            u.Address.StreetNumber,
+                            u.Address.Country ?? "",
+                            u.Address.City ?? "",
+                            u.Address.PhoneNumber ?? ""
+                        ) : null
+                    ))
+                    .ToListAsync();
+
+                _logger.LogInformation("Retrieved {Count} users", users.Count);
+
+                return users;
             }
             catch (Exception ex)
             {
@@ -93,6 +117,7 @@ namespace DAL_Shop.Repository
             }
         }
         #endregion
+
 
         #region <-------------> UPDATE <------------->
         public async Task<string> Update(int id, User user)
@@ -200,6 +225,7 @@ namespace DAL_Shop.Repository
         }
         #endregion
 
+
         #region <-------------> DELETE <------------->
         public async Task<bool> Delete(int id)
         {
@@ -225,6 +251,7 @@ namespace DAL_Shop.Repository
             }
         }
         #endregion
+
 
         #region <-------------> TOOLS <------------->
         public async Task<bool> IsValidMail(string email)

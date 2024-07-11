@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Database_Shop.Entity;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Database_Shop.Models
 {
@@ -34,5 +36,8 @@ namespace Database_Shop.Models
 
 
         public Address? Address { get; set; }
+
+
+        public List<Order>? Orders { get; set; }
     }
 }

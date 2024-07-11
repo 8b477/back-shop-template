@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Database_Shop.Models;
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -10,8 +12,8 @@ namespace Database_Shop.Entity
         public int Id { get; set; }
 
 
-        [ForeignKey(nameof(Id_User))]
-        public int Id_User { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public int UserId { get; set; }
 
 
         [MaxLength(50, ErrorMessage = "Status doit contenir au maximum 50 !")]
@@ -21,14 +23,16 @@ namespace Database_Shop.Entity
 
 
         [DataType(DataType.DateTime)]
-        [Required]
-        public DateTime CreateAt { get; set; }
+        [Required(ErrorMessage = "La date de création est requise.")]
+        public DateTime CreatedAt { get; set; }
 
 
         [DataType(DataType.DateTime)]
-        public DateTime SendAt { get; set; }
-
+        public DateTime SentAt { get; set; }
 
         public ICollection<Article> Articles { get; set; }
+
+
+        public User User { get; set; }
     }
 }

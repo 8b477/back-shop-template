@@ -1,9 +1,9 @@
-﻿using Database_Shop.Models;
-using BLL_Shop.Services;
+﻿using BLL_Shop.Services;
 using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.DTO.Address.Update;
+
 
 using Microsoft.AspNetCore.Authorization;
-
 
 
 namespace API_Shop.Controllers
@@ -26,14 +26,23 @@ namespace API_Shop.Controllers
                 [Authorize(Policy = "AdminOnly")] async (AddressServices addressService, string country) => await addressService.GetByCountry(country));
 
 
+
             // ADD
-            //app.MapPost("/address",
-            //    [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, AddressCreateDTO addressToAdd) => await addressService.Create(addressToAdd));
+            app.MapPost("/address",
+            [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, AddressCreateDTO addressToAdd) => await addressService.Create(addressToAdd));
+
 
 
             // UPDATE
             app.MapPut("/address/{id:int}",
-               [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, Address addressToAdd) => await addressService.Update(id, addressToAdd));
+               [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressCountryUpdateDTO addressToAdd) => await addressService.Update(id, addressToAdd));
+
+            app.MapPut("/address/city/{id:int}",
+   [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressCityUpdateDTO addressToAdd) => await addressService.UpdateCity(id, addressToAdd));
+
+            app.MapPut("/address/phoneNumber/{id:int}",
+   [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressPhoneNumberUpdateDTO addressToAdd) => await addressService.UpdatePhoneNumber(id, addressToAdd));
+
 
 
             //DELETE

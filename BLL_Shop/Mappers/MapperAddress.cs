@@ -16,11 +16,11 @@ namespace BLL_Shop.Mappers
                 Country = dto.Country,
                 PostalCode = dto.PostalCode,
                 StreetNumber = dto.StreetNumber,
-                PhoneNumber = dto.PhoneNumber
+                PhoneNumber = dto.PhoneNumber.ToString(),
             };
         }
 
-        public static Address FromAddressCountryUpdateDTOToEntity(AddressUpdateCountryDTO dto)
+        public static Address FromAddressCountryUpdateDTOToEntity(AddressCountryUpdateDTO dto)
         {
             return new Address
             {
@@ -45,7 +45,7 @@ namespace BLL_Shop.Mappers
         {
             return new Address
             {
-                PhoneNumber = dto.PhoneNumber
+                PhoneNumber = dto.PhoneNumber.ToString()
             };
         }
     }

@@ -1,16 +1,14 @@
-﻿using Database_Shop.Models;
+﻿using BLL_Shop.DTO.Address.Create;
+
 using FluentValidation;
 
 
 namespace BLL_Shop.Validators.Address_Validator.AddressValidator
 {
-    public class AddressValidator : AbstractValidator<Address>
+    public class AddressValidator : AbstractValidator<AddressCreateDTO>
     {
         public AddressValidator()
         {
-            RuleFor(a => a.IdUser)
-                .NotEmpty().WithMessage("ID utilisateur requis");
-
             RuleFor(a => a.PostalCode)
                 .NotEmpty().WithMessage("Code postal requis")
                 .InclusiveBetween(1, 99999).WithMessage("Le code postal doit être compris entre 1 et 99999");

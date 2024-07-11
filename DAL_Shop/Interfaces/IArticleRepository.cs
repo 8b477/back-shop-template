@@ -15,7 +15,7 @@ namespace DAL_Shop.Interfaces
         /// Retrieve all articles already in the database.
         /// </summary>
         /// <returns>Returns a list of articles.</returns>
-        Task<List<Article>> GetAllArticles();
+        Task<List<Article?>> GetAllArticles();
 
         /// <summary>
         /// Retrieve articles by category name.

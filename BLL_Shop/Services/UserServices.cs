@@ -61,7 +61,7 @@ namespace BLL_Shop.Services
                 if (!isValidMail)
                 {
                     _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
-                    return TypedResults.BadRequest("Les informations fournies sont incorrectes. Veuillez réessayer.");
+                    return TypedResults.BadRequest(new { Message = "The information provided is incorrect. Please try again." });
                 }
 
                 User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
@@ -72,7 +72,7 @@ namespace BLL_Shop.Services
                 if (result is null)
                 {
                     _logger.LogWarning("User creation failed");
-                    return TypedResults.BadRequest("Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer.");
+                    return TypedResults.BadRequest(new { Message = "Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer." });
                 }
 
                 _logger.LogInformation("User created successfully: {Id}", result.Id);
@@ -149,7 +149,7 @@ namespace BLL_Shop.Services
                 User userMapped = MapperUser.FromUserUpdateDTOToEntity(userToAdd);
                 var result = await _userRepository.Update(id, userMapped);
 
-                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest() : TypedResults.Ok(new { result });
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
@@ -167,7 +167,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok()) return validationResult;
 
                 var result = await _userRepository.UpdatePseudo(id, pseudo.Pseudo);
-                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest() : TypedResults.Ok(new { result });
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
@@ -185,7 +185,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok()) return validationResult;
 
                 var result = await _userRepository.UpdateMail(id, mail.Mail);
-                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest() : TypedResults.Ok(new { result });
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
@@ -203,7 +203,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok()) return validationResult;
 
                 var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
-                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest() : TypedResults.Ok(new { result });
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
@@ -222,7 +222,7 @@ namespace BLL_Shop.Services
             {
                 _logger.LogInformation("Deleting user with ID: {Id}", id);
                 var result = await _userRepository.Delete(id);
-                return result ? TypedResults.NoContent() : TypedResults.BadRequest();
+                return result ? TypedResults.NoContent() : TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
             }
             catch (Exception ex)
             {

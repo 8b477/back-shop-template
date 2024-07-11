@@ -1,36 +1,57 @@
 ﻿using DAL_Shop.Interfaces;
 
+using Database_Shop.DB.Context;
 using Database_Shop.Entity;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL_Shop.Repository
 {
     public class ArticleRepository : IArticleRepository
     {
-        public Task<Article?> CreateArticle(Article article)
+
+        #region DI
+        private readonly ShopDB _ctx;
+
+        public ArticleRepository(ShopDB ctx)
         {
-            throw new NotImplementedException();
+            _ctx = ctx;
+        }
+        #endregion
+
+        #region <-------------> CREATE <------------->
+        public async Task<Article?> CreateArticle(Article article)
+        {
+            var result = await _ctx.Article.AddAsync(article);
+            await _ctx.SaveChangesAsync();
+
+            return result.Entity;    
+        }
+        #endregion
+
+
+
+        #region <-------------> GET <------------->
+        public async Task<List<Article?>> GetAllArticles()
+        {
+            return await _ctx.Article.ToListAsync<Article?>();
         }
 
-        public Task<string> DeleteArticle(int id)
+        public async Task<List<Article?>> GetArticleByCategory(string categoryName)
         {
             throw new NotImplementedException();
-        }
-
-        public Task<List<Article>> GetAllArticles()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Article?>> GetArticleByCategory(string categoryName)
-        {
-            throw new NotImplementedException();
+            //return await _ctx.Article.Where(a => a.Categories == categoryName).ToListAsync<Article?>();
         }
 
         public Task<Article?> GetArticleById(int id)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+
+
+        #region <-------------> UPDATE <------------->
         public Task<Article?> UpdateArticle(int id, Article article)
         {
             throw new NotImplementedException();
@@ -55,5 +76,17 @@ namespace DAL_Shop.Repository
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+
+
+        #region <-------------> DELETE <------------->
+        public Task<string> DeleteArticle(int id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
     }
 }

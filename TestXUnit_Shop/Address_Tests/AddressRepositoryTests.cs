@@ -1,8 +1,7 @@
 ﻿using Moq;
-using API_Shop.Interfaces;
-using API_Shop.Models;
-using API_Shop.DTO.Address.Update;
 using System.Diagnostics.Metrics;
+using DAL_Shop.Interfaces;
+using Database_Shop.Models;
 
 
 namespace TestXUnit_Shop.Address_Tests
