@@ -38,16 +38,16 @@ namespace API_Shop.Controllers
                [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressCountryUpdateDTO addressToAdd) => await addressService.Update(id, addressToAdd));
 
             app.MapPut("/address/city/{id:int}",
-   [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressCityUpdateDTO addressToAdd) => await addressService.UpdateCity(id, addressToAdd));
+                [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressCityUpdateDTO addressToAdd) => await addressService.UpdateCity(id, addressToAdd));
 
             app.MapPut("/address/phoneNumber/{id:int}",
-   [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressPhoneNumberUpdateDTO addressToAdd) => await addressService.UpdatePhoneNumber(id, addressToAdd));
+                [Authorize(Policy = "UserOrAdmin")] async (AddressServices addressService, int id, AddressPhoneNumberUpdateDTO addressToAdd) => await addressService.UpdatePhoneNumber(id, addressToAdd));
 
 
 
             //DELETE
             app.MapDelete("/address/{id:int}",
-               [Authorize(Policy = "AdminOnly")] async (AddressServices addressService, int id) => await addressService.Delete(id));
+                [Authorize(Policy = "AdminOnly")] async (AddressServices addressService, int id) => await addressService.Delete(id));
         }
     }
 }

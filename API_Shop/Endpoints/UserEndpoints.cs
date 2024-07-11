@@ -14,8 +14,9 @@ namespace API_Shop.Controllers
             // GET
             //app.MapGet("/users",
             //    [Authorize(Policy = "AdminOnly")] async (UserServices userService) => await userService.GetAll());
+
             app.MapGet("/users",
-    async (UserServices userService) => await userService.GetAll());
+                async (UserServices userService) => await userService.GetAll());
 
 
             app.MapGet("/user/{id:int}",
@@ -35,13 +36,13 @@ namespace API_Shop.Controllers
                 [Authorize(Policy = "UserOrAdmin")] async (UserServices userService, int id, UserUpdateDTO userToAdd) => await userService.Update(id, userToAdd));
 
             app.MapPut("/user/pseudo/{id:int}",
-     async(UserServices userService, int id, UserPseudoUpdateDTO pseudo) => await userService.UpdatePseudo(id, pseudo));
+                async (UserServices userService, int id, UserPseudoUpdateDTO pseudo) => await userService.UpdatePseudo(id, pseudo));
 
             app.MapPut("/user/mail/{id:int}",
-async (UserServices userService, int id, UserMailUpdateDTO mail) => await userService.UpdateMail(id, mail));
+                async (UserServices userService, int id, UserMailUpdateDTO mail) => await userService.UpdateMail(id, mail));
 
             app.MapPut("/user/pwd/{id:int}",
-async (UserServices userService, int id, UserPwdUpdateDTO pwd) => await userService.UpdatePwd(id, pwd));
+                async (UserServices userService, int id, UserPwdUpdateDTO pwd) => await userService.UpdatePwd(id, pwd));
 
 
             //DELETE
