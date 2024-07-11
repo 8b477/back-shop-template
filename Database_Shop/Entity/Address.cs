@@ -9,12 +9,8 @@ namespace Database_Shop.Models
         public int Id { get; set; }
 
 
-        [ForeignKey(nameof(IdUser))]
-        public int IdUser { get; set; }
-
-
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Le numéro renseignée n'est pas valide !")]
-        public int? PhoneNumber { get; set; }
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Le numéro de téléphone renseigné n'est pas valide.")]
+        public string? PhoneNumber { get; set; }
 
 
         [Range(1, 99999, ErrorMessage = "Le code postal n'est pas valide !")]
@@ -35,6 +31,11 @@ namespace Database_Shop.Models
         [MaxLength(85)]
         [Required(ErrorMessage = "La ville est requis")]
         public string City { get; set; }
+
+
+        [ForeignKey(nameof(UserId))]
+        public int? UserId { get; set; }
+        public User User { get; set; }
     }
 }
 

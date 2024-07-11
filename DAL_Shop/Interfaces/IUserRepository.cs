@@ -1,4 +1,6 @@
-﻿using Database_Shop.Models;
+﻿using DAL_Shop.DTO.User;
+
+using Database_Shop.Models;
 
 
 namespace DAL_Shop.Interfaces
@@ -21,7 +23,7 @@ namespace DAL_Shop.Interfaces
         /// Retrieves all users from the database.
         /// </summary>
         /// <returns>A list of all users.</returns>
-        public Task<IEnumerable<User?>> GetAll();
+        public Task<IReadOnlyCollection<UserViewDTO>> GetAll();
 
         /// <summary>
         /// Retrieves a user by their ID.

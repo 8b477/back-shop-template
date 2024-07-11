@@ -65,7 +65,7 @@ namespace BLL_Shop.Services
                 }
 
                 Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
-                addressMapped.IdUser = idUser;
+                addressMapped.UserId = idUser;
 
                 var result = await _addressRepository.Create(addressMapped);
 

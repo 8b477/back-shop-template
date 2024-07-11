@@ -3,6 +3,7 @@ using DAL_Shop.Interfaces;
 using Database_Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using DAL_Shop.DTO.Address;
 
 
 namespace DAL_Shop.Repository
@@ -23,18 +24,19 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> CREATE <------------->
-        public async Task<Address?> Create(Address addressToAdd)
+        public async Task<AddressViewDTO?> Create(Address addressToAdd)
         {
             try
             {
                 _logger.LogInformation("Creating new address");
 
-                var result = await _shopDB.Address.AddAsync(addressToAdd);
+                var user = await _shopDB.Address.AddAsync(addressToAdd);
                 await _shopDB.SaveChangesAsync();
 
-                _logger.LogInformation("Address created successfully: {Id}", result.Entity.Id);
+                var u = user.Entity;
+                _logger.LogInformation("Address created successfully: {Id}", u.Id);
 
-                return result.Entity;
+                return new AddressViewDTO(u.Id, u.UserId ?? 0,u.PostalCode,u.StreetNumber,u.Country,u.City,u.PhoneNumber);
             }
             catch (Exception ex)
             {
@@ -193,7 +195,7 @@ namespace DAL_Shop.Repository
                     return null;
                 }
 
-                result.PhoneNumber = phoneNumber;
+                result.PhoneNumber = phoneNumber.ToString();
 
                 await _shopDB.SaveChangesAsync();
 
@@ -243,7 +245,7 @@ namespace DAL_Shop.Repository
         #region <-------------> TOOLS <------------->
         public async Task<bool> CheckIfUserAlreadyHasAddress(int id) 
         {
-            var result = await _shopDB.Address.AnyAsync(x => x.IdUser == id);
+            var result = await _shopDB.Address.AnyAsync(x => x.UserId == id);
 
             return !result;
         }

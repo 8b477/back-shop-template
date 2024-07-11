@@ -1,4 +1,6 @@
-﻿using Database_Shop.Models;
+﻿using DAL_Shop.DTO.Address;
+
+using Database_Shop.Models;
 
 
 namespace DAL_Shop.Interfaces
@@ -13,7 +15,7 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="addressToAdd">The address information to add.</param>
         /// <returns>The created address.</returns>
-        public Task<Address?> Create(Address addressToAdd);
+        public Task<AddressViewDTO?> Create(Address addressToAdd);
         #endregion
 
 
