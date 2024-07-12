@@ -39,8 +39,11 @@ namespace DAL_Shop.Repository
 
         public async Task<List<Article?>> GetArticleByCategory(string categoryName)
         {
+             await _ctx.Category.Where<Category>(c => c.Name == categoryName).ToListAsync();
+
+
+
             throw new NotImplementedException();
-            //return await _ctx.Article.Where(a => a.Categories == categoryName).ToListAsync<Article?>();
         }
 
         public Task<Article?> GetArticleById(int id)

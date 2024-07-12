@@ -50,7 +50,9 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Creating new user");
+
                 var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
+
                 if (validationResult != Results.Ok())
                 {
                     _logger.LogWarning("Validation failed for user creation");
@@ -58,6 +60,7 @@ namespace BLL_Shop.Services
                 }
 
                 bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
+
                 if (!isValidMail)
                 {
                     _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);

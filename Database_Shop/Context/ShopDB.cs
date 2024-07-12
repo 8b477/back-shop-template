@@ -7,6 +7,7 @@ using Database_Shop.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace Database_Shop.DB.Context
 {
     public class ShopDB : DbContext

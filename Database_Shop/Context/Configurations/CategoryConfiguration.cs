@@ -20,6 +20,25 @@ namespace Database_Shop.EntityConfigurations
                 .HasMany(c => c.ArticleCategories)
                 .WithOne(ac => ac.Category)
                 .HasForeignKey(ac => ac.CategoryId);
+
+
+            builder.HasData(
+                new Category
+                {
+                    Id = 1,
+                    Name = "Catégorie 1"
+                },
+                new Category
+                {
+                    Id = 2,
+                    Name = "Catégorie 2"
+                },
+                new Category
+                {
+                    Id = 3,
+                    Name = "Catégorie 3"
+                }
+            );
         }
     }
 }

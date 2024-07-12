@@ -30,6 +30,34 @@ namespace Database_Shop.EntityConfigurations
             builder.HasMany(a => a.ArticleCategories)
                 .WithOne(ac => ac.Article)
                 .HasForeignKey(ac => ac.ArticleId);
+
+
+            builder.HasData(
+                 new Article
+                 {
+                     Id = 1,
+                     Name = "Article 1",
+                     Stock = 10,
+                     Promo = false,
+                     Price = 50
+                 },
+                new Article
+                {
+                    Id = 2,
+                    Name = "Article 2",
+                    Stock = 5,
+                    Promo = true,
+                    Price = 30
+                },
+                new Article
+                {
+                    Id = 3,
+                    Name = "Article 3",
+                    Stock = 20,
+                    Promo = false,
+                    Price = 75
+                }
+            );
         }
     }
 }

@@ -23,6 +23,12 @@ namespace Database_Shop.Models
         public int StreetNumber { get; set; }
 
 
+        [MinLength(2, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir au moins 2 charactères")]
+        [MaxLength(50, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir moins de 50 charactères")]
+        [Required(ErrorMessage = "Nom de la rue requis")]
+        public string StreetName { get; set; }
+
+
         [MaxLength(35)]
         [Required(ErrorMessage = "Pays requis")]
         public string Country { get; set; }

@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Database_Shop.DB.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 
-namespace Database_Shop.DB.Context
+namespace Database_Shop.Context.Factory
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ShopDB>
     {

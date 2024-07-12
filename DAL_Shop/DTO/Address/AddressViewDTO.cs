@@ -3,12 +3,13 @@ namespace DAL_Shop.DTO.Address
 {
     public record AddressViewDTO
     {
-        public AddressViewDTO(int id, int userId, int postalCode, int streetNumber, string country, string city, string? phoneNumber)
+        public AddressViewDTO(int id, int userId, int postalCode, int streetNumber, string streetName, string country, string city, string? phoneNumber)
         {
             Id = id;
             UserId = userId;
             PostalCode = postalCode;
             StreetNumber = streetNumber;
+            StreetName = streetName;
             Country = country;
             City = city;
             PhoneNumber = phoneNumber;
@@ -18,6 +19,7 @@ namespace DAL_Shop.DTO.Address
         public int UserId { get; init; }
         public int PostalCode { get; init; }
         public int StreetNumber { get; init; }
+        public string StreetName { get; init; }
         public string Country { get; init; }
         public string City { get; init; }
         public string? PhoneNumber { get; init; }

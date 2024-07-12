@@ -30,6 +30,38 @@ namespace Database_Shop.Configurations
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User)
                 .HasForeignKey<Address>(a => a.UserId);
+
+
+            builder.HasData(
+             new User
+             {
+                 Id = 1,
+                 Pseudo = "user1",
+                 Mail = "admin@mail.be",
+                 Mdp = "Test1234*",
+                 MdpConfirm = "Test1234*",
+                 Role = "Admin"
+             },
+             new User
+             {
+                 Id = 2,
+                 Pseudo = "user",
+                 Mail = "user@mail.be",
+                 Mdp = "Test1234*",
+                 MdpConfirm = "Test1234*",
+                 Role = "User"
+             },
+             new User
+             {
+                 Id = 3,
+                 Pseudo = "user2",
+                 Mail = "user2@mail.be",
+                 Mdp = "Test1234*",
+                 MdpConfirm = "Test1234*",
+                 Role = "User"
+             }
+         );
+
         }
     }
 }
