@@ -1,9 +1,9 @@
 ﻿using DAL_Shop.Interfaces;
-
 using Database_Shop.DB.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
+
 
 namespace DAL_Shop.Repository
 {
@@ -20,7 +20,7 @@ namespace DAL_Shop.Repository
         #endregion
 
         #region <-------------> CREATE <------------->
-        public async Task<Article?> CreateArticle(Article article)
+        public async Task<Article?> Create(Article article)
         {
             var result = await _ctx.Article.AddAsync(article);
             await _ctx.SaveChangesAsync();
@@ -32,61 +32,122 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> GET <------------->
-        public async Task<List<Article?>> GetAllArticles()
+        public async Task<List<Article>> GetAll()
         {
-            return await _ctx.Article.ToListAsync<Article?>();
+            return await _ctx.Article.ToListAsync();
         }
 
-        public async Task<List<Article?>> GetArticleByCategory(string categoryName)
+        public async Task<List<Article>> GetByCategory(string categoryName)
         {
-             await _ctx.Category.Where<Category>(c => c.Name == categoryName).ToListAsync();
+            var result = await _ctx.Category.Where(c => c.Name == categoryName)
+                .SelectMany(c => c.ArticleCategories)
+                .Select(ac => ac.Article)
+                .ToListAsync();
 
-
-
-            throw new NotImplementedException();
+            return result;
         }
 
-        public Task<Article?> GetArticleById(int id)
+        public async Task<Article?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _ctx.Article.FindAsync(id);
         }
         #endregion
 
 
 
         #region <-------------> UPDATE <------------->
-        public Task<Article?> UpdateArticle(int id, Article article)
+        public async Task<Article?> Update(int id, Article article)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return null;
+
+            foreach (var property in _ctx.Entry(existingArticle).Properties)
+            {
+                if (property.Metadata.Name != "Id")
+                {
+                    property.CurrentValue = _ctx.Entry(article).Property(property.Metadata.Name).CurrentValue;
+                }
+            }
+            _ctx.Article.Update(article);
+
+            await _ctx.SaveChangesAsync();
+
+            return article;
         }
 
-        public Task<Article?> UpdateArticleName(int id, string name)
+        public async Task<string> UpdateName(int id, string name)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return "";
+
+            existingArticle.Name = name;
+            _ctx.Article.Update(existingArticle);
+            await _ctx.SaveChangesAsync();
+
+            return $"Nouveau nom '{name}' mis à jour";
         }
 
-        public Task<Article?> UpdateArticlePrice(int id, int price)
+        public async Task<string> UpdatePrice(int id, int price)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return "";
+
+            existingArticle.Price = price;
+            _ctx.Article.Update(existingArticle);
+            await _ctx.SaveChangesAsync();
+
+            return $"Nouveau prix '{price}' mis à jour";
         }
 
-        public Task<Article?> UpdateArticlePromo(int id, bool promo)
+        public async Task<string> UpdatePromo(int id, bool promo)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return "";
+
+            existingArticle.Promo = promo;
+            _ctx.Article.Update(existingArticle);
+            await _ctx.SaveChangesAsync();
+
+            return "Mis à jour de la promotion de l'article, nouvelle valeur : '{promo}'";
         }
 
-        public Task<Article?> UpdateArticleStock(int id, int stock)
+        public async Task<string> UpdateStock(int id, int stock)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return "";
+
+            existingArticle.Stock = stock;
+            _ctx.Article.Update(existingArticle);
+            await _ctx.SaveChangesAsync();
+
+            return "Mis à jour du stock de l'article, nouveau stock : '{stock}'";
         }
         #endregion
 
 
 
         #region <-------------> DELETE <------------->
-        public Task<string> DeleteArticle(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var existingArticle = await _ctx.Article.FindAsync(id);
+
+            if (existingArticle is null)
+                return false;
+
+            _ctx.Article.Remove(existingArticle);
+            await _ctx.SaveChangesAsync();
+
+            return true;
         }
         #endregion
 

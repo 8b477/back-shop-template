@@ -1,8 +1,11 @@
 ﻿using Database_Shop.Entity;
 
-namespace DAL_Shop.Interfaces
+using Microsoft.AspNetCore.Http;
+
+
+namespace BLL_Shop.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
 
         #region <-------------> CREATE <------------->
@@ -12,7 +15,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="order">Order to add.</param>
         /// <param name="idUser">User ID to associate with the order.</param>
         /// <returns>If successful, returns the newly created order; otherwise, returns null.</returns>
-        Task<Order?> Create(Order order, int idUser);
+        Task<IResult> CreateOrder(Order order, int idUser);
         #endregion
 
 
@@ -24,7 +27,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">Order ID.</param>
         /// <param name="idUser">User ID.</param>
         /// <returns>Returns all orders present in database.</returns>
-        Task<List<Order>> GetAll();
+        Task<IResult> GetAllOrder();
 
         /// <summary>
         /// Retrieves an order by order ID and user ID.
@@ -32,7 +35,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">Order ID.</param>
         /// <param name="idUser">User ID.</param>
         /// <returns>If the order is found in the database, returns it; otherwise, returns null.</returns>
-        Task<Order?> GetById(int id);
+        Task<IResult> GetOrderById(int id);
         #endregion
 
 
@@ -45,7 +48,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="order">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<Order?> Update(int id, int idUser, Order order);
+        Task<IResult> UpdateOrder(int id, int idUser, Order order);
 
         /// <summary>
         /// Updates status of an existing order in the database.
@@ -54,7 +57,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="status">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<string> UpdateStatus(int id, int idUser, string status);
+        Task<IResult> UpdateStatusOrder(int id, int idUser, string status);
 
         /// <summary>
         /// Updates sendAt of an existing order in the database.
@@ -63,7 +66,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<string> UpdateSendAt(int id, int idUser, DateTime sendAt);
+        Task<IResult> UpdateSendAtOrder(int id, int idUser, DateTime sendAt);
         #endregion
 
 
@@ -75,7 +78,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the order.</param>
         /// <param name="idUser">ID of the user associated with the order.</param>
         /// <returns>Returns a string with an explicit response.</returns>
-        Task<bool> Delete(int id, int idUser);
+        Task<IResult> DeleteOrder(int id, int idUser);
         #endregion
     }
 }

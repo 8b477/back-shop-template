@@ -4,12 +4,28 @@ namespace DAL_Shop.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<Category> CreateCategory(Category category);
 
-        Task<Category> UpdateCategory(Category category);
+        #region <-------------> CREATE <------------->
+        Task<Category?> Create(Category category);
+        #endregion
 
-        Task DeleteCategory(Category category);
 
-        Task<Category> GetCategoryById(int id);
+
+        #region <-------------> GET <------------->
+        Task<List<Category>> GetAll();
+        Task<Category?> GetById(int id);
+        #endregion
+
+
+
+        #region <-------------> UPDATE <------------->
+        Task<Category?> Update(int id, string name);
+        #endregion
+
+
+
+        #region <-------------> DELETE <------------->
+        Task<bool> Delete(int id);
+        #endregion
     }
 }

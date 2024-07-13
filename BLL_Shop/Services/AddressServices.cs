@@ -1,5 +1,6 @@
 ﻿using BLL_Shop.DTO.Address.Create;
 using BLL_Shop.DTO.Address.Update;
+using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
 using BLL_Shop.Validators;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BLL_Shop.Services
 {
-    public class AddressServices
+    public class AddressServices : IAddressService
     {
         #region DI
         private readonly IAddressRepository _addressRepository;

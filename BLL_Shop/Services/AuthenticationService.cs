@@ -1,12 +1,14 @@
-﻿using BLL_Shop.JWT.Services;
+﻿using BLL_Shop.Interfaces;
+using BLL_Shop.JWT.Services;
 using DAL_Shop.Interfaces;
 
 using Microsoft.AspNetCore.Http;
 
 namespace BLL_Shop.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthentificationService
     {
+        #region DI
         private readonly IAuthenticationRepository _authenticationRepository;
         private readonly JWTGenerationService _jWTService;
 
@@ -14,7 +16,8 @@ namespace BLL_Shop.Services
         {
             _authenticationRepository = authenticationRepository;
             _jWTService = jWTService;
-        }
+        } 
+        #endregion
 
 
         public async Task<IResult> Authentification(string mail, string password)
