@@ -34,9 +34,30 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
 *projet du Frontend*
 [🔎](https://github.com/8b477/front-shop-template)
 
+<br> 
+
+------------------- 
+
+------------------- 
 
 ## Note à moi même !
 
 Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf :
 - Email => pour la contrainte unique.
 - A venir les propriétés qui me servirons de filtre pour une recherche fluide dans la db (categorie, promo, ..).
+
+
+## TODO
+
+- Create DTO :
+  - Article input BLL output DAL 
+  - Category input BLL output DAL 
+  - Order input BLL output DAL 
+  
+
+- Create validator :
+  - Article. 
+  - Category.
+  - Order.
+
+- Rework Unit test (mockup is not current)
