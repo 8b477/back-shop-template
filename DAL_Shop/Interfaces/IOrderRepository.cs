@@ -45,7 +45,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="order">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<Order?> Update(int id, int idUser, Order order);
+        Task<Order?> Update(int idUser, Order order);
 
         /// <summary>
         /// Updates status of an existing order in the database.
@@ -54,7 +54,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="status">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<string> UpdateStatus(int id, int idUser, string status);
+        Task<string> UpdateStatus(int idUser, string status);
 
         /// <summary>
         /// Updates sendAt of an existing order in the database.
@@ -63,7 +63,7 @@ namespace DAL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<string> UpdateSendAt(int id, int idUser, DateTime sendAt);
+        Task<string> UpdateSendAt(int idUser, DateTime sendAt);
         #endregion
 
 
@@ -75,7 +75,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the order.</param>
         /// <param name="idUser">ID of the user associated with the order.</param>
         /// <returns>Returns a string with an explicit response.</returns>
-        Task<bool> Delete(int id, int idUser);
+        Task<bool> Delete(int id);
         #endregion
     }
 }

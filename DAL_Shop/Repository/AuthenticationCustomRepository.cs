@@ -6,11 +6,11 @@ using DAL_Shop.DTO.User.Token;
 
 namespace DAL_Shop.Repository
 {
-    public class AuthenticationRepository : IAuthenticationRepository
+    public class AuthenticationCustomRepository : IAuthentificationCustomRepository
     {
         private readonly ShopDB _db;
 
-        public AuthenticationRepository(ShopDB db) => _db = db;
+        public AuthenticationCustomRepository(ShopDB db) => _db = db;
 
         public async Task<UserTokenDTO?> Authentication(string mail , string mdp)
         {

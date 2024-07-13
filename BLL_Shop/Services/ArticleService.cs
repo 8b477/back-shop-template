@@ -12,9 +12,9 @@ namespace BLL_Shop.Services
 
         #region DI
         private readonly IArticleRepository _repoArticle;
-        public ArticleService(IArticleRepository articleReposirtory)
+        public ArticleService(IArticleRepository repoArticle)
         {
-            _repoArticle = articleReposirtory;
+            _repoArticle = repoArticle;
         }
         #endregion
 

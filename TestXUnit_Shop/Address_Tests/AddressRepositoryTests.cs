@@ -65,13 +65,13 @@ namespace TestXUnit_Shop.Address_Tests
                     return null;
                 });
 
-            _mockRepo.Setup(repo => repo.Create(It.IsAny<Address>()))
-                .ReturnsAsync((Address address) =>
-                {
-                    address.Id = _addresses.Max(a => a.Id) + 1;
-                    _addresses.Add(address);
-                    return address;
-                });
+            //_mockRepo.Setup(repo => repo.Create(It.IsAny<Address>()))
+            //    .ReturnsAsync((Address address) =>
+            //    {
+            //        address.Id = _addresses.Max(a => a.Id) + 1;
+            //        _addresses.Add(address);
+            //        return address;
+            //    });
         }
 
         [Fact]

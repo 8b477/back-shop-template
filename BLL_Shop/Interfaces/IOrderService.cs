@@ -48,7 +48,7 @@ namespace BLL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="order">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateOrder(int id, int idUser, Order order);
+        Task<IResult> UpdateOrder(int idUser, Order order);
 
         /// <summary>
         /// Updates status of an existing order in the database.
@@ -57,7 +57,7 @@ namespace BLL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="status">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateStatusOrder(int id, int idUser, string status);
+        Task<IResult> UpdateStatusOrder(int idUser, string status);
 
         /// <summary>
         /// Updates sendAt of an existing order in the database.
@@ -66,7 +66,7 @@ namespace BLL_Shop.Interfaces
         /// <param="idUser">ID of the user associated with the order to update.</param>
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateSendAtOrder(int id, int idUser, DateTime sendAt);
+        Task<IResult> UpdateSendAtOrder(int idUser, DateTime sendAt);
         #endregion
 
 
@@ -78,7 +78,7 @@ namespace BLL_Shop.Interfaces
         /// <param name="id">ID of the order.</param>
         /// <param name="idUser">ID of the user associated with the order.</param>
         /// <returns>Returns a string with an explicit response.</returns>
-        Task<IResult> DeleteOrder(int id, int idUser);
+        Task<IResult> DeleteOrder(int id);
         #endregion
     }
 }

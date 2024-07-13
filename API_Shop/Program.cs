@@ -1,12 +1,14 @@
 using API_Shop.Controllers;
-using Database_Shop.DB.Context;
 using API_Shop.DI;
 using API_Shop.Endpoints;
 using BLL_Shop.JWT.Policy;
 using BLL_Shop.JWT.Services;
+using Database_Shop.DB.Context;
+
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using Serilog;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,9 +74,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // ************* ENDPOINTS **************
-UserEndpoints.GetEndpointsUser(app);
 AddressEndpoints.GetEndpointsAddress(app);
+ArticleEndpoints.GetEndpointsArticle(app);
 AuthenticationEndpoint.GetAuthenticate(app);
+CategoryEndpoints.GetEndpointsCategory(app);
+OrderEndpoints.GetEndpointsOrder(app);
+UserEndpoints.GetEndpointsUser(app);
 // ***************************************
 
 

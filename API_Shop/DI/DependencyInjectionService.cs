@@ -34,7 +34,7 @@ namespace API_Shop.DI
 
             //ADDRESS
             services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<IAddressService, AddressServices>();
+            services.AddScoped<IAddressService, AddressService>();
 
             //ADDRESS VALIDATOR
             services.AddScoped<IValidator<AddressCreateDTO>, AddressValidator>();
@@ -62,8 +62,8 @@ namespace API_Shop.DI
 
 
             //AUTHENTICATION
-            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-            services.AddScoped<IAuthentificationService, AuthenticationService>();
+            services.AddScoped<IAuthentificationCustomRepository, AuthenticationCustomRepository>();
+            services.AddScoped<IAuthentificationCustomService, AuthenticationCustomService>();
 
 
             //JWT

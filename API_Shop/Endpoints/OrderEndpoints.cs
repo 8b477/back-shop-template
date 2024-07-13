@@ -1,6 +1,7 @@
-﻿using BLL_Shop.Services;
-
+﻿using BLL_Shop.Interfaces;
 using Database_Shop.Entity;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace API_Shop.Endpoints
 {
@@ -8,33 +9,29 @@ namespace API_Shop.Endpoints
     {
         public static void GetEndpointsOrder(WebApplication app)
         {
-
             // ADD
             app.MapPost("/order/{idUser:int}",
-                async (OrderService orderService, Order order, int idUser) => await orderService.CreateOrder(order,idUser));
-
+                async ([FromServices] IOrderService orderService, int idUser, [FromBody] Order order) => await orderService.CreateOrder(order, idUser));
 
             // GET
             app.MapGet("/order",
-                async (OrderService orderService) => await orderService.GetAllOrder());
-
+                async ([FromServices] IOrderService orderService) => await orderService.GetAllOrder());
 
             // UPDATE
-            app.MapPut("/order/{id:int}/{idUser:int}",
-                async (OrderService orderService,int id, int idUser, Order order) => await orderService.UpdateOrder(id,idUser,order));
+            app.MapPut("/order/{idUser:int}",
+                async ([FromServices] IOrderService orderService, int idUser, [FromBody] Order order) => await orderService.UpdateOrder(idUser, order));
 
-            app.MapPut("/order/status/{id:int}/{idUser:int}/{status}",
-                async (OrderService orderService, int id, int idUser, string status) => await orderService.UpdateStatusOrder(id, idUser, status));
+            app.MapPut("/order/status/{idUser:int}",
+                async ([FromServices] IOrderService orderService, int idUser, [FromBody] string status) => await orderService.UpdateStatusOrder(idUser, status));
 
-            app.MapPut("/order/sentAt/{id:int}/{idUser:int}/{sentAt}",
-                async (OrderService orderService, int id, int idUser, DateTime sentAt) => await orderService.UpdateSendAtOrder(id, idUser, sentAt));
+            app.MapPut("/order/sentAt/{idUser:int}",
+                async ([FromServices] IOrderService orderService, int idUser, [FromBody] DateTime sentAt) => await orderService.UpdateSendAtOrder(idUser, sentAt));
 
-
-            //DELETE
-            app.MapDelete("/order/{id:int}/{idUser:int}",
-                async (OrderService orderService, int id, int idUser) => await orderService.DeleteOrder(id, idUser));
-
+            // DELETE
+            app.MapDelete("/order/{id:int}",
+                async ([FromServices] IOrderService orderService, int id) => await orderService.DeleteOrder(id));
         }
     }
 }
+
 // NEED TO ADD GET ON STATUS + GET BY DATE (ORDERED)

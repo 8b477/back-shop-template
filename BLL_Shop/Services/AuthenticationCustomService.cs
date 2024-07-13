@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace BLL_Shop.Services
 {
-    public class AuthenticationService : IAuthentificationService
+    public class AuthenticationCustomService : IAuthentificationCustomService
     {
         #region DI
-        private readonly IAuthenticationRepository _authenticationRepository;
+        private readonly IAuthentificationCustomRepository _authenticationRepository;
         private readonly JWTGenerationService _jWTService;
 
-        public AuthenticationService(IAuthenticationRepository authenticationRepository, JWTGenerationService jWTService)
+        public AuthenticationCustomService(IAuthentificationCustomRepository authenticationRepository, JWTGenerationService jWTService)
         {
             _authenticationRepository = authenticationRepository;
             _jWTService = jWTService;

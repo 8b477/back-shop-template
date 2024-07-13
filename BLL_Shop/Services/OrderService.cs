@@ -1,19 +1,19 @@
 ﻿using BLL_Shop.Interfaces;
-using DAL_Shop.Repository;
+using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
-using Database_Shop.Models;
+
 
 using Microsoft.AspNetCore.Http;
 
 
 namespace BLL_Shop.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService : Interfaces.IOrderService
     {
 
         #region DI
-        private readonly OrderRepository _repoOrder;
-        public OrderService(OrderRepository repoOrder) => _repoOrder = repoOrder;
+        private readonly IOrderRepository _repoOrder;
+        public OrderService(IOrderRepository repoOrder) => _repoOrder = repoOrder;
         #endregion
 
 
@@ -54,9 +54,9 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> UpdateOrder(int id, int idUser, Order order)
+        public async Task<IResult> UpdateOrder(int idUser, Order order)
         {
-            var result = await _repoOrder.Update(id, idUser, order);
+            var result = await _repoOrder.Update(idUser, order);
 
             return
                 result is null
@@ -64,9 +64,9 @@ namespace BLL_Shop.Services
                 : TypedResults.Ok(result);
         }
 
-        public async Task<IResult> UpdateSendAtOrder(int id, int idUser, DateTime sendAt)
+        public async Task<IResult> UpdateSendAtOrder(int idUser, DateTime sendAt)
         {
-            var result = await _repoOrder.UpdateSendAt(id,idUser,sendAt);
+            var result = await _repoOrder.UpdateSendAt(idUser,sendAt);
 
             return
                 string.IsNullOrEmpty(result)
@@ -74,9 +74,9 @@ namespace BLL_Shop.Services
                 : TypedResults.Ok(result);
         }
 
-        public async Task<IResult> UpdateStatusOrder(int id, int idUser, string status)
+        public async Task<IResult> UpdateStatusOrder(int idUser, string status)
         {
-            var result = await _repoOrder.UpdateStatus(id,idUser,status);
+            var result = await _repoOrder.UpdateStatus(idUser,status);
 
             return
                 string.IsNullOrEmpty(result)
@@ -88,9 +88,9 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> DELETE <------------->
-        public async Task<IResult> DeleteOrder(int id, int idUser)
+        public async Task<IResult> DeleteOrder(int id)
         {
-            var result = await _repoOrder.Delete(id, idUser);
+            var result = await _repoOrder.Delete(id);
 
             return
                 !result

@@ -1,0 +1,25 @@
+﻿@API_Shop_HostAddress = https://localhost:7054
+
+POST {{API_Shop_HostAddress}}/order/{idUser:int}
+
+###
+
+GET {{API_Shop_HostAddress}}/order
+
+###
+
+PUT {{API_Shop_HostAddress}}/order/{id:int}/{idUser:int}
+
+###
+
+PUT {{API_Shop_HostAddress}}/order/sentAt/{id:int}
+
+###
+
+PUT {{API_Shop_HostAddress}}/order/status/{id:int}
+
+###
+
+DELETE {{API_Shop_HostAddress}}/order/{id:int}
+
+###

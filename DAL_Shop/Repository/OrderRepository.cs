@@ -20,8 +20,9 @@ namespace DAL_Shop.Repository
         #region <-------------> CREATE <------------->
         public async Task<Order?> Create(Order order, int idUser)
         {
+            order.UserId = idUser;
             var result = await _db.Order.AddAsync(order);
-
+            
             return result.Entity;
         }
         #endregion
@@ -45,11 +46,11 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<Order?> Update(int id, int idUser, Order order)
+        public async Task<Order?> Update(int idUser, Order order)
         {
-            var existingOrder = await _db.Order.FindAsync(id);
+            var existingOrder = await _db.Order.FindAsync(idUser);
 
-            if (existingOrder is null || existingOrder.UserId != idUser)
+            if (existingOrder is null)
                 return null;
 
             foreach (var props in _db.Entry(existingOrder).Properties)
@@ -64,11 +65,11 @@ namespace DAL_Shop.Repository
             return order;
         }
 
-        public async Task<string> UpdateSendAt(int id, int idUser, DateTime sendAt)
+        public async Task<string> UpdateSendAt(int idUser, DateTime sendAt)
         {
-            var existingOrder = await _db.Order.FindAsync(id);
+            var existingOrder = await _db.Order.FindAsync(idUser);
 
-            if (existingOrder is null || existingOrder.UserId != idUser)
+            if (existingOrder is null)
                 return "";
 
             existingOrder.SentAt = sendAt;
@@ -78,11 +79,11 @@ namespace DAL_Shop.Repository
             return "Mise à jour réussi !";
         }
 
-        public async Task<string> UpdateStatus(int id, int idUser, string status)
+        public async Task<string> UpdateStatus(int idUser, string status)
         {
-            var existingOrder = await _db.Order.FindAsync(id);
+            var existingOrder = await _db.Order.FindAsync(idUser);
 
-            if (existingOrder is null || existingOrder.UserId != idUser)
+            if (existingOrder is null)
                 return "";
 
             existingOrder.Status = status;
@@ -96,7 +97,7 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> DELETE <------------->
-        public async Task<bool> Delete(int id, int idUser)
+        public async Task<bool> Delete(int id)
         {
             var result = await _db.Order.FindAsync(id);
 

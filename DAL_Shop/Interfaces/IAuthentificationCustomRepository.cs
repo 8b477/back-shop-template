@@ -3,7 +3,7 @@
 
 namespace DAL_Shop.Interfaces
 {
-    public interface IAuthenticationRepository
+    public interface IAuthentificationCustomRepository
     {
         /// <summary>
         /// Trying authenticate User data mail and password

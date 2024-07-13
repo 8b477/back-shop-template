@@ -3,7 +3,7 @@
 
 namespace BLL_Shop.Interfaces
 {
-    public interface IAuthentificationService
+    public interface IAuthentificationCustomService
     {
         Task<IResult> Authentification(string mail, string password);
     }

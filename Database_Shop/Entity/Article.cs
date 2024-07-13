@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+
 namespace Database_Shop.Entity
 {
     public class Article
@@ -29,6 +30,6 @@ namespace Database_Shop.Entity
 
         [Required]
         [Range(0,200)]
-        public int Price { get; set; }
+        public double Price { get; set; }
     }
 }
