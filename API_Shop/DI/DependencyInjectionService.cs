@@ -1,6 +1,7 @@
 ﻿using BLL_Shop.DTO.Address.Create;
 using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
+using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Models;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
@@ -13,7 +14,6 @@ using DAL_Shop.Repository;
 using FluentValidation;
 
 
-
 namespace API_Shop.DI
 {
     public static class DependencyInjectionService
@@ -22,7 +22,7 @@ namespace API_Shop.DI
         {
             //USER
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<UserServices>();
+            services.AddScoped<IUserService, UserServices>();
 
             //USER VALIDATOR
             services.AddScoped<IValidator<UserCreateDTO>, UserCreateValidator>();
@@ -31,22 +31,46 @@ namespace API_Shop.DI
             services.AddScoped<IValidator<UserMailUpdateDTO>, UserMailUpdateValidator>();
             services.AddScoped<IValidator<UserPwdUpdateDTO>, UserPwdUpdateValidator>();
 
+
             //ADDRESS
             services.AddScoped<IAddressRepository, AddressRepository>();
-            services.AddScoped<AddressServices>();
+            services.AddScoped<IAddressService, AddressService>();
 
             //ADDRESS VALIDATOR
             services.AddScoped<IValidator<AddressCreateDTO>, AddressValidator>();
 
 
+            //ARTICLE
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticleService, ArticleService>();
+
+            //ARTICLE VALIDATOR
+
+
+            //CATEGORY
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
+            //CATEGORY VALIDATOR
+
+
+            //ORDER
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+
+            //ORDER VALIDATOR
+
+
             //AUTHENTICATION
-            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-            services.AddScoped<AuthenticationService>();
+            services.AddScoped<IAuthentificationCustomRepository, AuthenticationCustomRepository>();
+            services.AddScoped<IAuthentificationCustomService, AuthenticationCustomService>();
+
 
             //JWT
             services.Configure<JWTSettings>(options.GetSection("JWT"));
-            services.AddSingleton<JWTGenerationService>();
-            services.AddSingleton<JWTGetClaimsService>();
+            services.AddTransient<JWTGenerationService>();
+            services.AddTransient<JWTGetClaimsService>();
+
 
             //HTTP CONTEXT
             services.AddHttpContextAccessor();

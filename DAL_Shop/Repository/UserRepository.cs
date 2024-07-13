@@ -64,6 +64,7 @@ namespace DAL_Shop.Repository
                             u.Address.UserId ?? 0,
                             u.Address.PostalCode,
                             u.Address.StreetNumber,
+                            u.Address.StreetName,
                             u.Address.Country ?? "",
                             u.Address.City ?? "",
                             u.Address.PhoneNumber ?? ""
@@ -82,7 +83,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<User?> GetByID(int id)
+        public async Task<User> GetByID(int id)
         {
             try
             {
@@ -101,7 +102,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<IEnumerable<User?>> GetByPseudo(string pseudo)
+        public async Task<IEnumerable<User>> GetByPseudo(string pseudo)
         {
             try
             {

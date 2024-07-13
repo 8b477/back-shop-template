@@ -1,5 +1,6 @@
 ﻿using BLL_Shop.DTO.Address.Create;
 using BLL_Shop.DTO.Address.Update;
+using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
 using BLL_Shop.Validators;
@@ -13,15 +14,15 @@ using Microsoft.Extensions.Logging;
 
 namespace BLL_Shop.Services
 {
-    public class AddressServices
+    public class AddressService : IAddressService
     {
         #region DI
         private readonly IAddressRepository _addressRepository;
         private readonly JWTGetClaimsService _jwtGetClaimService;
-        private readonly ILogger<AddressServices> _logger;
+        private readonly ILogger<IAddressService> _logger;
         private readonly IValidator<AddressCreateDTO> _addressCreateValidator;
 
-        public AddressServices(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaimService, ILogger<AddressServices> logger, IValidator<AddressCreateDTO> addressCreateValidator)
+        public AddressService(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaimService, ILogger<IAddressService> logger, IValidator<AddressCreateDTO> addressCreateValidator)
         {
             _addressRepository = addressRepository;
             _jwtGetClaimService = jwtGetClaimService;

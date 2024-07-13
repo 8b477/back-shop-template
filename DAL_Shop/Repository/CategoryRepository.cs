@@ -1,29 +1,86 @@
 ﻿using DAL_Shop.Interfaces;
+using Database_Shop.DB.Context;
 using Database_Shop.Entity;
+
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DAL_Shop.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public Task<Category> CreateCategory(Category category)
+
+        #region DI
+        private readonly ShopDB _db;
+        public CategoryRepository(ShopDB db) => _db = db;
+        #endregion
+
+
+
+        #region <-------------> CREATE <------------->
+        public async Task<Category?> Create(Category category)
         {
-            throw new NotImplementedException();
+            var result = await _db.Category.AddAsync(category);
+
+            await _db.SaveChangesAsync();
+
+            return result.Entity;
         }
 
-        public Task DeleteCategory(Category category)
+        #endregion
+
+
+
+        #region <-------------> GET <------------->
+        public async Task<List<Category>> GetAll()
         {
-            throw new NotImplementedException();
+            var result = await _db.Category.ToListAsync();
+
+            return result;
         }
 
-        public Task<Category> GetCategoryById(int id)
+        public async Task<Category?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var result = await _db.Category.FindAsync(id);
+
+            return result;
+        }
+        #endregion
+
+
+
+        #region <-------------> UPDATE <------------->
+        public async Task<Category?> Update(int id, string name)
+        {
+            var existingCategory = await _db.Category.FindAsync(id);
+
+            if (existingCategory is null)
+                return null;
+
+            existingCategory.Name = name;
+
+            await _db.SaveChangesAsync();
+
+            return existingCategory;
         }
 
-        public Task<Category> UpdateCategory(Category category)
+        #endregion
+
+
+
+        #region <-------------> DELETE <------------->
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var existingCategory = await _db.Category.FindAsync(id);
+
+            if (existingCategory is null)
+                return false;
+
+            _db.Category.Remove(existingCategory);
+
+            return true;
         }
+        #endregion
+
     }
 }

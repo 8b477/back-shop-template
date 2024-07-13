@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Database_Shop.Migrations
 {
     /// <inheritdoc />
@@ -50,6 +52,7 @@ namespace Database_Shop.Migrations
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false, comment: "Numéro de téléphone"),
                     PostalCode = table.Column<int>(type: "TEXT", nullable: false, defaultValue: 0, comment: "Code postal"),
                     StreetNumber = table.Column<int>(type: "TEXT", nullable: false, defaultValue: 0, comment: "Numéro de rue"),
+                    StreetName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, comment: "Nom de rue"),
                     Country = table.Column<string>(type: "TEXT", maxLength: 35, nullable: false, comment: "Pays"),
                     City = table.Column<string>(type: "TEXT", maxLength: 85, nullable: false, comment: "Ville"),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true)
@@ -135,10 +138,72 @@ namespace Database_Shop.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Article",
+                columns: new[] { "Id", "Name", "OrderId", "Price", "Promo", "Stock" },
+                values: new object[,]
+                {
+                    { 1, "Article 1", null, 50, false, 10 },
+                    { 2, "Article 2", null, 30, true, 5 },
+                    { 3, "Article 3", null, 75, false, 20 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Catégorie 1" },
+                    { 2, "Catégorie 2" },
+                    { 3, "Catégorie 3" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Mail", "Mdp", "MdpConfirm", "Pseudo", "Role" },
+                values: new object[,]
+                {
+                    { 1, "admin@mail.be", "Test1234*", "Test1234*", "user1", "Admin" },
+                    { 2, "user@mail.be", "Test1234*", "Test1234*", "user", "User" },
+                    { 3, "user2@mail.be", "Test1234*", "Test1234*", "user2", "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "City", "Country", "PhoneNumber", "PostalCode", "StreetName", "StreetNumber", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Charleroi", "Belgique", "", 6000, "rue de la Force", 10, 1 },
+                    { 2, "Lille", "France", "0687654321", 69001, "rue des fous", 5, 2 },
+                    { 3, "Nismes", "Belgique", "", 5670, "rue longue", 5, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ArticleCategories",
+                columns: new[] { "Id", "ArticleId", "CategoryId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 1, 2 },
+                    { 3, 2, 2 },
+                    { 4, 3, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "CreatedAt", "SentAt", "Status", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "En cours", 2 },
+                    { 2, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 3 },
+                    { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "En cours", 3 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_UserId",
                 table: "Addresses",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Article_OrderId",

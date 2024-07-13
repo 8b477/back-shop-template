@@ -26,8 +26,8 @@ namespace TestXUnit_Shop.User_Tests
         {
             var mockRepo = new Mock<IUserRepository>();
 
-            mockRepo.Setup(repo => repo.GetAll())
-                .ReturnsAsync(() => _users.Cast<User?>());
+            //mockRepo.Setup(async repo => repo.GetAll())
+            //    .ReturnsAsync(() => _users.Cast<User?>());
 
             mockRepo.Setup(repo => repo.GetByID(It.IsAny<int>()))
                 .ReturnsAsync((int id) => _users.FirstOrDefault(u => u.Id == id));

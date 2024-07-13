@@ -11,7 +11,7 @@ namespace API_Shop.Endpoints
         public static void GetAuthenticate(WebApplication app)
         {
             app.MapGet("/log",
-                async ([FromServices] AuthenticationService authenticationService,[FromBody] UserLogDto log)
+                async ([FromServices] AuthenticationCustomService authenticationService,[FromBody] UserLogDto log)
                 => await authenticationService.Authentification(log.Mail, log.Mdp));
 
         }

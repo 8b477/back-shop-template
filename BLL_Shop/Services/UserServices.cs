@@ -4,6 +4,7 @@ using DAL_Shop.Interfaces;
 using BLL_Shop.Mappers;
 using Database_Shop.Models;
 using BLL_Shop.Validators;
+using BLL_Shop.Interfaces;
 
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BLL_Shop.Services
 {
-    public class UserServices
+    public class UserServices : IUserService
     {
         #region DI
         private readonly IUserRepository _userRepository;
@@ -45,12 +46,14 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> CREATE <------------->
-        public async Task<IResult> Create(UserCreateDTO userToAdd)
+        public async Task<IResult> CreateUser(UserCreateDTO userToAdd)
         {
             try
             {
                 _logger.LogInformation("Creating new user");
+
                 var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
+
                 if (validationResult != Results.Ok())
                 {
                     _logger.LogWarning("Validation failed for user creation");
@@ -58,6 +61,7 @@ namespace BLL_Shop.Services
                 }
 
                 bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
+
                 if (!isValidMail)
                 {
                     _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
@@ -89,7 +93,7 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> GET <------------->
-        public async Task<IResult> GetAll()
+        public async Task<IResult> GetAllUser()
         {
             try
             {
@@ -104,7 +108,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> GetByID(int id)
+        public async Task<IResult> GetUserByID(int id)
         {
             try
             {
@@ -119,7 +123,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> GetByPseudo(string pseudo)
+        public async Task<IResult> GetUserByPseudo(string pseudo)
         {
             try
             {
@@ -138,7 +142,7 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> Update(int id, UserUpdateDTO userToAdd)
+        public async Task<IResult> UpdateUser(int id, UserUpdateDTO userToAdd)
         {
             try
             {
@@ -158,7 +162,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdatePseudo(int id, UserPseudoUpdateDTO pseudo)
+        public async Task<IResult> UpdateUserPseudo(int id, UserPseudoUpdateDTO pseudo)
         {
             try
             {
@@ -176,7 +180,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateMail(int id, UserMailUpdateDTO mail)
+        public async Task<IResult> UpdateUserMail(int id, UserMailUpdateDTO mail)
         {
             try
             {
@@ -194,7 +198,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdatePwd(int id, UserPwdUpdateDTO pwd)
+        public async Task<IResult> UpdateUserPwd(int id, UserPwdUpdateDTO pwd)
         {
             try
             {
@@ -216,7 +220,7 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> DELETE <------------->
-        public async Task<IResult> Delete(int id)
+        public async Task<IResult> DeleteUser(int id)
         {
             try
             {

@@ -1,0 +1,63 @@
+﻿@API_Shop_HostAddress = https://localhost:7054
+
+POST {{API_Shop_HostAddress}}/article
+Content-Type: application/json
+{
+  "name":"coca",
+  "stock":10,
+  "promo":"false",
+  "price":2.00
+}
+###
+
+GET {{API_Shop_HostAddress}}/article
+
+###
+
+GET {{API_Shop_HostAddress}}/article/{categoryName}
+
+###
+
+GET {{API_Shop_HostAddress}}/article/{id:int}
+
+###
+
+PUT {{API_Shop_HostAddress}}/article/{id:int}
+Content-Type: application/json
+{
+  "name":"fanta",
+  "stock":15,
+  "promo":"false",
+  "price":2.50
+}
+###
+
+PUT {{API_Shop_HostAddress}}/article/name/{id:int}
+Content-Type: application/json
+{
+  "name":"sprite"
+}
+###
+
+PUT {{API_Shop_HostAddress}}/article/price/{id:int}
+Content-Type: application/json
+{
+  "price":1.00
+}
+###
+
+PUT {{API_Shop_HostAddress}}/article/promo/{id:int}/{promo}
+Content-Type: application/json
+{
+  "promo":"true"
+}
+###
+
+PUT {{API_Shop_HostAddress}}/article/stock/{id:int}/{stock:int}
+Content-Type: application/json
+{
+  "stock":10
+}
+###
+
+DELETE {{API_Shop_HostAddress}}/article/{id:int}

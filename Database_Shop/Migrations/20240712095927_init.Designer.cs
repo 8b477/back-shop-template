@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database_Shop.Migrations
 {
     [DbContext(typeof(ShopDB))]
-    [Migration("20240710222213_init")]
+    [Migration("20240712095927_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -52,6 +52,32 @@ namespace Database_Shop.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Article");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Article 1",
+                            Price = 50,
+                            Promo = false,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Article 2",
+                            Price = 30,
+                            Promo = true,
+                            Stock = 5
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Article 3",
+                            Price = 75,
+                            Promo = false,
+                            Stock = 20
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.ArticleCategory", b =>
@@ -73,6 +99,32 @@ namespace Database_Shop.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ArticleCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArticleId = 1,
+                            CategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ArticleId = 1,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ArticleId = 2,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ArticleId = 3,
+                            CategoryId = 3
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.Category", b =>
@@ -89,6 +141,23 @@ namespace Database_Shop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Catégorie 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Catégorie 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Catégorie 3"
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.Order", b =>
@@ -116,6 +185,32 @@ namespace Database_Shop.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SentAt = new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "En cours",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SentAt = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Livré",
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SentAt = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "En cours",
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Models.Address", b =>
@@ -151,6 +246,13 @@ namespace Database_Shop.Migrations
                         .HasColumnName("PostalCode")
                         .HasComment("Code postal");
 
+                    b.Property<string>("StreetName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("StreetName")
+                        .HasComment("Nom de rue");
+
                     b.Property<int>("StreetNumber")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
@@ -163,9 +265,45 @@ namespace Database_Shop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Addresses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Charleroi",
+                            Country = "Belgique",
+                            PhoneNumber = "",
+                            PostalCode = 6000,
+                            StreetName = "rue de la Force",
+                            StreetNumber = 10,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            City = "Lille",
+                            Country = "France",
+                            PhoneNumber = "0687654321",
+                            PostalCode = 69001,
+                            StreetName = "rue des fous",
+                            StreetNumber = 5,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Nismes",
+                            Country = "Belgique",
+                            PhoneNumber = "",
+                            PostalCode = 5670,
+                            StreetName = "rue longue",
+                            StreetNumber = 5,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Models.User", b =>
@@ -198,6 +336,35 @@ namespace Database_Shop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Mail = "admin@mail.be",
+                            Mdp = "Test1234*",
+                            MdpConfirm = "Test1234*",
+                            Pseudo = "user1",
+                            Role = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Mail = "user@mail.be",
+                            Mdp = "Test1234*",
+                            MdpConfirm = "Test1234*",
+                            Pseudo = "user",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Mail = "user2@mail.be",
+                            Mdp = "Test1234*",
+                            MdpConfirm = "Test1234*",
+                            Pseudo = "user2",
+                            Role = "User"
+                        });
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.Article", b =>
@@ -240,8 +407,8 @@ namespace Database_Shop.Migrations
             modelBuilder.Entity("Database_Shop.Models.Address", b =>
                 {
                     b.HasOne("Database_Shop.Models.User", "User")
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId")
+                        .WithOne("Address")
+                        .HasForeignKey("Database_Shop.Models.Address", "UserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
@@ -264,7 +431,7 @@ namespace Database_Shop.Migrations
 
             modelBuilder.Entity("Database_Shop.Models.User", b =>
                 {
-                    b.Navigation("Addresses");
+                    b.Navigation("Address");
 
                     b.Navigation("Orders");
                 });

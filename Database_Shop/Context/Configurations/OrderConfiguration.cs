@@ -28,6 +28,34 @@ namespace Database_Shop.EntityConfigurations
                    .WithMany(u => u.Orders)
                    .HasForeignKey(o => o.UserId)
                    .IsRequired();
+
+
+            builder.HasData(
+                new Order
+                {
+                    Id = 1,
+                    UserId = 2,
+                    Status = "En cours",
+                    CreatedAt = new DateTime(2023, 6, 1),
+                    SentAt = new DateTime(2023, 6, 5)
+                },
+                new Order
+                {
+                    Id = 2,
+                    UserId = 3,
+                    Status = "Livré",
+                    CreatedAt = new DateTime(2023, 7, 10),
+                    SentAt = new DateTime(2023, 7, 15)
+                },
+                new Order
+                {
+                    Id = 3,
+                    UserId = 3,
+                    Status = "En cours",
+                    CreatedAt = new DateTime(2023, 7, 10),
+                    SentAt = new DateTime(2023, 7, 15)
+                }
+            );
         }
     }
 }

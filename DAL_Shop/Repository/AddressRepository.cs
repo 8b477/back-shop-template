@@ -36,7 +36,7 @@ namespace DAL_Shop.Repository
                 var u = user.Entity;
                 _logger.LogInformation("Address created successfully: {Id}", u.Id);
 
-                return new AddressViewDTO(u.Id, u.UserId ?? 0,u.PostalCode,u.StreetNumber,u.Country,u.City,u.PhoneNumber);
+                return new AddressViewDTO(u.Id, u.UserId ?? 0,u.PostalCode,u.StreetNumber,u.StreetName,u.Country,u.City,u.PhoneNumber);
             }
             catch (Exception ex)
             {

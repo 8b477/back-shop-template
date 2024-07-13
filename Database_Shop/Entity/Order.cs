@@ -30,6 +30,7 @@ namespace Database_Shop.Entity
         [DataType(DataType.DateTime)]
         public DateTime SentAt { get; set; }
 
+
         public ICollection<Article> Articles { get; set; }
 
 

@@ -16,6 +16,7 @@ namespace BLL_Shop.Mappers
                 Country = dto.Country,
                 PostalCode = dto.PostalCode,
                 StreetNumber = dto.StreetNumber,
+                StreetName = dto.StreetName,
                 PhoneNumber = dto.PhoneNumber.ToString(),
             };
         }
@@ -27,7 +28,8 @@ namespace BLL_Shop.Mappers
                 City = dto.City,
                 Country = dto.Country,
                 PostalCode = dto.PostalCode,
-                StreetNumber = dto.StreetNumber
+                StreetNumber = dto.StreetNumber,
+                StreetName = dto.StreetName
             };
         }
 
@@ -37,7 +39,8 @@ namespace BLL_Shop.Mappers
             {
                 City = dto.City,
                 PostalCode = dto.PostalCode,
-                StreetNumber = dto.StreetNumber
+                StreetNumber = dto.StreetNumber,
+                StreetName = dto.StreetName
             };
         }
 
