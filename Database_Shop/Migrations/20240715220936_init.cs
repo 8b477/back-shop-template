@@ -14,6 +14,22 @@ namespace Database_Shop.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Article",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Stock = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
+                    Promo = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false, defaultValue: 0.0)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Article", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
                 {
@@ -41,6 +57,32 @@ namespace Database_Shop.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArticleCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ArticleId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ArticleCategories_Article_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Article",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArticleCategories_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +119,7 @@ namespace Database_Shop.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     Status = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    SentAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    SentAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,61 +133,38 @@ namespace Database_Shop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Article",
+                name: "OrderArticle",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Stock = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    Promo = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Price = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    OrderId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Article", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Article_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ArticleCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
                     ArticleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ArticleCategories", x => x.Id);
+                    table.PrimaryKey("PK_OrderArticle", x => new { x.OrderId, x.ArticleId });
                     table.ForeignKey(
-                        name: "FK_ArticleCategories_Article_ArticleId",
+                        name: "FK_OrderArticle_Article_ArticleId",
                         column: x => x.ArticleId,
                         principalTable: "Article",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ArticleCategories_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
+                        name: "FK_OrderArticle_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Article",
-                columns: new[] { "Id", "Name", "OrderId", "Price", "Promo", "Stock" },
+                columns: new[] { "Id", "Name", "Price", "Promo", "Stock" },
                 values: new object[,]
                 {
-                    { 1, "Article 1", null, 50, false, 10 },
-                    { 2, "Article 2", null, 30, true, 5 },
-                    { 3, "Article 3", null, 75, false, 20 }
+                    { 1, "Article 1", 50.0, false, 10 },
+                    { 2, "Article 2", 30.0, true, 5 },
+                    { 3, "Article 3", 75.0, false, 20 }
                 });
 
             migrationBuilder.InsertData(
@@ -199,16 +218,22 @@ namespace Database_Shop.Migrations
                     { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "En cours", 3 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "OrderArticle",
+                columns: new[] { "ArticleId", "OrderId", "Id" },
+                values: new object[,]
+                {
+                    { 1, 1, 0 },
+                    { 2, 1, 0 },
+                    { 2, 2, 0 },
+                    { 3, 2, 0 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_UserId",
                 table: "Addresses",
                 column: "UserId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Article_OrderId",
-                table: "Article",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleCategories_ArticleId",
@@ -219,6 +244,11 @@ namespace Database_Shop.Migrations
                 name: "IX_ArticleCategories_CategoryId",
                 table: "ArticleCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderArticle_ArticleId",
+                table: "OrderArticle",
+                column: "ArticleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -236,10 +266,13 @@ namespace Database_Shop.Migrations
                 name: "ArticleCategories");
 
             migrationBuilder.DropTable(
-                name: "Article");
+                name: "OrderArticle");
 
             migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Article");
 
             migrationBuilder.DropTable(
                 name: "Orders");

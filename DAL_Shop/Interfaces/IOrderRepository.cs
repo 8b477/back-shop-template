@@ -1,4 +1,6 @@
-﻿using Database_Shop.Entity;
+﻿using DAL_Shop.DTO.Order;
+
+using Database_Shop.Entity;
 
 namespace DAL_Shop.Interfaces
 {
@@ -12,7 +14,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="order">Order to add.</param>
         /// <param name="idUser">User ID to associate with the order.</param>
         /// <returns>If successful, returns the newly created order; otherwise, returns null.</returns>
-        Task<Order?> Create(Order order, int idUser);
+        Task<OrderViewDTO?> Create(Order order);
         #endregion
 
 
@@ -32,7 +34,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">Order ID.</param>
         /// <param name="idUser">User ID.</param>
         /// <returns>If the order is found in the database, returns it; otherwise, returns null.</returns>
-        Task<Order?> GetById(int id);
+        Task<OrderViewDTO?> GetById(int id);
         #endregion
 
 

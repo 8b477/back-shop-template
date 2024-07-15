@@ -3,7 +3,7 @@ using API_Shop.DI;
 using API_Shop.Endpoints;
 using BLL_Shop.JWT.Policy;
 using BLL_Shop.JWT.Services;
-using Database_Shop.DB.Context;
+using Database_Shop.Context;
 
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;

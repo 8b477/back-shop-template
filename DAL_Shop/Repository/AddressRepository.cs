@@ -1,9 +1,9 @@
-﻿using Database_Shop.DB.Context;
-using DAL_Shop.Interfaces;
-using Database_Shop.Models;
+﻿using DAL_Shop.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using DAL_Shop.DTO.Address;
+using Database_Shop.Entity;
+using Database_Shop.Context;
 
 
 namespace DAL_Shop.Repository

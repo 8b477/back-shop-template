@@ -1,5 +1,5 @@
 ﻿using DAL_Shop.Interfaces;
-using Database_Shop.DB.Context;
+using Database_Shop.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;

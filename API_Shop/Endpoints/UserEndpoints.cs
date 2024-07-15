@@ -25,9 +25,13 @@ namespace API_Shop.Controllers
             app.MapGet("/users/{pseudo}",
                 [Authorize(Policy = "AdminOnly")] async ([FromServices] IUserService userService, string pseudo) => await userService.GetUserByPseudo(pseudo));
 
+
+
             // ADD
             app.MapPost("/user",
                 async ([FromServices] IUserService userService, [FromBody] UserCreateDTO userToAdd) => await userService.CreateUser(userToAdd));
+
+
 
             // UPDATE
             app.MapPut("/user/{id:int}",
@@ -41,6 +45,8 @@ namespace API_Shop.Controllers
 
             app.MapPut("/user/pwd/{id:int}",
                 async ([FromServices] IUserService userService, int id, [FromBody] UserPwdUpdateDTO pwd) => await userService.UpdateUserPwd(id, pwd));
+
+
 
             // DELETE
             app.MapDelete("/user/{id:int}",

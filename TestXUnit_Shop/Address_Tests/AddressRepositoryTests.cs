@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System.Diagnostics.Metrics;
 using DAL_Shop.Interfaces;
-using Database_Shop.Models;
+using Database_Shop.Entity;
 
 
 namespace TestXUnit_Shop.Address_Tests

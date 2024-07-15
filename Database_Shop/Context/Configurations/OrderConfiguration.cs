@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database_Shop.EntityConfigurations
+namespace Database_Shop.Context.Configurations
 {
     internal class OrderConfiguration : IEntityTypeConfiguration<Order>
     {

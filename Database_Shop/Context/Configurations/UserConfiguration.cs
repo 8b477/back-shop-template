@@ -1,10 +1,10 @@
-﻿using Database_Shop.Models;
+﻿using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Configurations
+namespace Database_Shop.Context.Configurations
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,5 +1,6 @@
 using DAL_Shop.Interfaces;
-using Database_Shop.Models;
+
+using Database_Shop.Entity;
 
 using Moq;
 
