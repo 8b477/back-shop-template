@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Database_Shop.Models
+namespace Database_Shop.Entity
 {
     public class Address
     {
@@ -45,4 +45,3 @@ namespace Database_Shop.Models
     }
 }
 
- 

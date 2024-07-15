@@ -31,5 +31,8 @@ namespace Database_Shop.Entity
         [Required]
         [Range(0,200)]
         public double Price { get; set; }
+
+
+        public ICollection<OrderArticle> OrderArticles { get; set; }
     }
 }

@@ -36,6 +36,12 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the article.</param>
         /// <returns>Returns the article found by ID, or null if not matched.</returns>
         Task<Article?> GetById(int id);
+
+        /// <summary>
+        /// Retrieve all articles already in the database where id match.
+        /// </summary>
+        /// <returns>Returns a list of articles with id match.</returns>
+        Task<List<Article>> GetByIdList(List<int> ids);
         #endregion
 
 

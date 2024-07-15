@@ -1,6 +1,4 @@
-﻿using Database_Shop.Models;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -28,10 +26,10 @@ namespace Database_Shop.Entity
 
 
         [DataType(DataType.DateTime)]
-        public DateTime SentAt { get; set; }
+        public DateTime? SentAt { get; set; }
 
 
-        public ICollection<Article> Articles { get; set; }
+        public ICollection<OrderArticle> OrderArticles { get; set; }
 
 
         public User User { get; set; }

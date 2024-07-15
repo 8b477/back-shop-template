@@ -1,8 +1,6 @@
-﻿using Database_Shop.Entity;
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
-
-namespace Database_Shop.Models
+namespace Database_Shop.Entity
 {
     public class User
     {

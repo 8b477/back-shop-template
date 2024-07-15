@@ -1,4 +1,5 @@
-﻿using Database_Shop.Entity;
+﻿using BLL_Shop.DTO.Order.Create;
+using Database_Shop.Entity;
 
 using Microsoft.AspNetCore.Http;
 
@@ -15,7 +16,7 @@ namespace BLL_Shop.Interfaces
         /// <param name="order">Order to add.</param>
         /// <param name="idUser">User ID to associate with the order.</param>
         /// <returns>If successful, returns the newly created order; otherwise, returns null.</returns>
-        Task<IResult> CreateOrder(Order order, int idUser);
+        Task<IResult> CreateOrder(OrderCreateDTO order);
         #endregion
 
 

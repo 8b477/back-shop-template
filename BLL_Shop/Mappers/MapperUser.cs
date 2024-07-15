@@ -1,7 +1,7 @@
 ﻿using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 
-using Database_Shop.Models;
+using Database_Shop.Entity;
 
 
 namespace BLL_Shop.Mappers

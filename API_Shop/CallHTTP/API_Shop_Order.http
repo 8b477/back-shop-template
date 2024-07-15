@@ -1,10 +1,20 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMTA4MzAzMCwiZXhwIjoxNzIxMDkzODMwLCJpYXQiOjE3MjEwODMwMzAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.2gfMu45kW65SNsHGXZbmcnD2DxlH2RSC-dGSVT37Xpg
 
-POST {{API_Shop_HostAddress}}/order/{idUser:int}
 
+POST {{API_Shop_HostAddress}}/order
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "ArticleIds":[3,2]
+}
 ###
 
 GET {{API_Shop_HostAddress}}/order
+
+###
+
+GET {{API_Shop_HostAddress}}/order/3
 
 ###
 

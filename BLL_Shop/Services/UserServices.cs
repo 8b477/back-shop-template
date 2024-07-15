@@ -2,13 +2,13 @@
 using BLL_Shop.DTO.User.Update;
 using DAL_Shop.Interfaces;
 using BLL_Shop.Mappers;
-using Database_Shop.Models;
 using BLL_Shop.Validators;
 using BLL_Shop.Interfaces;
 
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Database_Shop.Entity;
 
 
 

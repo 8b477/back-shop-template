@@ -1,6 +1,6 @@
 ﻿using DAL_Shop.DTO.Address;
-using Database_Shop.Models;
 
+using Database_Shop.Entity;
 
 namespace DAL_Shop.Interfaces
 {

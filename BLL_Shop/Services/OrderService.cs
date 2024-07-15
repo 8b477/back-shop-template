@@ -1,4 +1,6 @@
-﻿using BLL_Shop.Interfaces;
+﻿using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.Interfaces;
+using BLL_Shop.JWT.Services;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
@@ -8,20 +10,41 @@ using Microsoft.AspNetCore.Http;
 
 namespace BLL_Shop.Services
 {
-    public class OrderService : Interfaces.IOrderService
+    public class OrderService : IOrderService
     {
 
         #region DI
         private readonly IOrderRepository _repoOrder;
-        public OrderService(IOrderRepository repoOrder) => _repoOrder = repoOrder;
+        private readonly IArticleRepository _repoArticle;
+        private readonly JWTGetClaimsService _getClaimService;
+        public OrderService(IOrderRepository repoOrder, JWTGetClaimsService getClaimService, IArticleRepository repoArticle)
+        {
+            _getClaimService = getClaimService;
+            _repoOrder = repoOrder;
+            _repoArticle = repoArticle;
+        }
         #endregion
 
 
 
         #region <-------------> CREATE <------------->
-        public async Task<IResult> CreateOrder(Order order, int idUser)
+        public async Task<IResult> CreateOrder(OrderCreateDTO order)
         {
-            var result = await _repoOrder.Create(order, idUser);
+            int idUser = _getClaimService.GetIdUserToken();
+            if (idUser == 0)
+                return TypedResults.Unauthorized();
+
+            List<Article> listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
+
+            Order orderMapped = new () { UserId = idUser, CreatedAt = order.CreatedAt, SentAt = order.SentAt, Status = order.Status };
+
+            orderMapped.OrderArticles = listArticle.Select(a => new OrderArticle
+            {
+                ArticleId = a.Id,
+                Order = orderMapped
+            }).ToList();
+
+            var result = await _repoOrder.Create(orderMapped);
 
             return 
                 result is null

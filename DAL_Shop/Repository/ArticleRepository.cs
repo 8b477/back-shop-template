@@ -1,5 +1,5 @@
 ﻿using DAL_Shop.Interfaces;
-using Database_Shop.DB.Context;
+using Database_Shop.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +45,11 @@ namespace DAL_Shop.Repository
                 .ToListAsync();
 
             return result;
+        }
+
+        public async Task<List<Article>> GetByIdList(List<int> ids)
+        {
+            return await _ctx.Article.Where(a => ids.Contains(a.Id)).ToListAsync();
         }
 
         public async Task<Article?> GetById(int id)

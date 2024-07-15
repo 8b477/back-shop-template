@@ -1,5 +1,7 @@
-﻿using DAL_Shop.Interfaces;
-using Database_Shop.DB.Context;
+﻿using DAL_Shop.DTO.Article;
+using DAL_Shop.DTO.Order;
+using DAL_Shop.Interfaces;
+using Database_Shop.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +20,41 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> CREATE <------------->
-        public async Task<Order?> Create(Order order, int idUser)
+        public async Task<OrderViewDTO?> Create(Order order)
         {
-            order.UserId = idUser;
-            var result = await _db.Order.AddAsync(order);
-            
-            return result.Entity;
+            var orderView = new Order
+            {
+                UserId = order.UserId,
+                Status = order.Status,
+                CreatedAt = DateTime.UtcNow,
+                SentAt = order.SentAt,
+                OrderArticles = order.OrderArticles.Select(articleId => new OrderArticle
+                {
+                    ArticleId = articleId.ArticleId
+                }).ToList()
+            };
+
+            _db.Order.Add(order);
+            await _db.SaveChangesAsync();
+
+            var orderDto = new OrderViewDTO
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                Status = order.Status,
+                CreatedAt = order.CreatedAt,
+                SentAt = order.SentAt,
+                Articles = order.OrderArticles.Select(oa => new ArticleViewDTO
+                {
+                    Id = oa.Article.Id,
+                    Name = oa.Article.Name,
+                    Stock = oa.Article.Stock,
+                    Promo = oa.Article.Promo,
+                    Price = oa.Article.Price
+                }).ToList()
+            };
+
+            return orderDto;
         }
         #endregion
 
@@ -35,11 +66,36 @@ namespace DAL_Shop.Repository
             return await _db.Order.ToListAsync();
         }
 
-        public async Task<Order?> GetById(int id)
+        public async Task<OrderViewDTO?> GetById(int id)
         {
-            var result = await _db.Order.FindAsync(id);
+            var order = await _db.Order
+                      .Include(o => o.OrderArticles)
+                      .ThenInclude(oa => oa.Article)
+                      .FirstOrDefaultAsync(o => o.Id == id);
 
-            return result;
+            if (order == null)
+            {
+                return null;
+            }
+
+            var orderDto = new OrderViewDTO
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                Status = order.Status,
+                CreatedAt = order.CreatedAt,
+                SentAt = order.SentAt,
+                Articles = order.OrderArticles.Select(oa => new ArticleViewDTO
+                {
+                    Id = oa.Article.Id,
+                    Name = oa.Article.Name,
+                    Stock = oa.Article.Stock,
+                    Promo = oa.Article.Promo,
+                    Price = oa.Article.Price
+                }).ToList()
+            };
+
+            return orderDto;
         }
         #endregion
 
