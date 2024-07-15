@@ -58,16 +58,11 @@ Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récur
 
 
 ## TODO
-
-- Create DTO :
-  - Article input BLL output DAL 
-  - Category input BLL output DAL 
-  - Order input BLL output DAL 
-  
-
+ 
 - Create validator :
   - Article. 
   - Category.
   - Order.
 
 - Rework Unit test (mockup is not current)
+- Add patern Unit of Work
