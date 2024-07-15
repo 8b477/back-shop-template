@@ -46,6 +46,17 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
 
 <br> 
 
+## 🗺️ Schema Database
+
+![Ceci est un exemple d’image](https://github.com/8b477/back-shop-template/blob/master/Schema/schema_DB.png)
+
+<br>  
+
+## 🗺️ Schema Database (E-A)  
+
+![Ceci est un exemple d’image](https://github.com/8b477/back-shop-template/blob/master/Schema/schema_DB_EA.png)
+
+
 ------------------- 
 
 ------------------- 
