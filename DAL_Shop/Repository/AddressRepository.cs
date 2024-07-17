@@ -10,6 +10,9 @@ namespace DAL_Shop.Repository
 {
     public class AddressRepository : IAddressRepository
     {
+
+
+
         #region DI
         private readonly ShopDB _shopDB;
         private readonly ILogger<AddressRepository> _logger;
@@ -242,6 +245,7 @@ namespace DAL_Shop.Repository
         #endregion
 
 
+
         #region <-------------> TOOLS <------------->
         public async Task<bool> CheckIfUserAlreadyHasAddress(int id) 
         {
@@ -250,5 +254,8 @@ namespace DAL_Shop.Repository
             return !result;
         }
         #endregion
+
+
+
     }
 }

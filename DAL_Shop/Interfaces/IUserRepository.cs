@@ -1,5 +1,4 @@
 ﻿using DAL_Shop.DTO.User;
-
 using Database_Shop.Entity;
 
 
@@ -7,6 +6,7 @@ namespace DAL_Shop.Interfaces
 {
     public interface IUserRepository
     {
+
 
         #region <-------------> CREATE <------------->
         /// <summary>
@@ -16,6 +16,7 @@ namespace DAL_Shop.Interfaces
         /// <returns>The created user.</returns>
         public Task<User?> Create(User userToAdd);
         #endregion
+
 
 
         #region <-------------> GET <------------->
@@ -39,6 +40,7 @@ namespace DAL_Shop.Interfaces
         /// <returns>A list of users matching the specified pseudo.</returns>
         public Task<IEnumerable<User>> GetByPseudo(string pseudo);
         #endregion
+
 
 
         #region <-------------> UPDATE <------------->
@@ -76,6 +78,7 @@ namespace DAL_Shop.Interfaces
         #endregion
 
 
+
         #region <-------------> DELETE <------------->
         /// <summary>
         /// Deletes a user from the database by their ID.
@@ -86,6 +89,7 @@ namespace DAL_Shop.Interfaces
         #endregion
 
 
+
         #region <-------------> TOOLS <------------->
         /// <summary>
         /// Check whether the email already exists in the database.
@@ -94,6 +98,8 @@ namespace DAL_Shop.Interfaces
         /// <returns>Return true if the email already exists in database; otherwise return false</returns>
         Task<bool> IsValidMail(string email);
         #endregion
+
+
 
     }
 }

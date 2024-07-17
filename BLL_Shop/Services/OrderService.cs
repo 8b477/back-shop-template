@@ -1,4 +1,5 @@
 ﻿using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.DTO.Order.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Services;
 using DAL_Shop.Interfaces;
@@ -34,7 +35,7 @@ namespace BLL_Shop.Services
             if (idUser == 0)
                 return TypedResults.Unauthorized();
 
-            List<Article> listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
+            var listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
 
             Order orderMapped = new () { UserId = idUser, CreatedAt = order.CreatedAt, SentAt = order.SentAt, Status = order.Status };
 
@@ -69,27 +70,39 @@ namespace BLL_Shop.Services
 
             return
                 result is null
-                ? TypedResults.BadRequest()
+                ? TypedResults.NotFound(new { Message = "Aucune correspondance" })
+                : TypedResults.Ok(result);
+        }
+
+        public async Task<IResult> GetOrderByIdUser(int idUser)
+        {
+            var result = await _repoOrder.GetByIdUser(idUser);
+
+            return result is null 
+                ? TypedResults.NotFound(new { Message = "Aucune correspondance" })
+                : TypedResults.Ok(result);
+        }
+
+        public async Task<IResult> GetOwnerOrder()
+        {
+            int idUser = _getClaimService.GetIdUserToken();
+            if (idUser == 0)
+                return TypedResults.Unauthorized();
+
+            var result = await _repoOrder.GetByIdUser(idUser);
+
+            return result is null
+                ? TypedResults.NotFound(new { Message = "Aucune correspondance" })
                 : TypedResults.Ok(result);
         }
         #endregion
-
+        
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> UpdateOrder(int idUser, Order order)
+        public async Task<IResult> UpdateSendAtOrder(int idOrder, OrderSentAtUpdateDTO sendAt)
         {
-            var result = await _repoOrder.Update(idUser, order);
-
-            return
-                result is null
-                ? TypedResults.BadRequest()
-                : TypedResults.Ok(result);
-        }
-
-        public async Task<IResult> UpdateSendAtOrder(int idUser, DateTime sendAt)
-        {
-            var result = await _repoOrder.UpdateSendAt(idUser,sendAt);
+            var result = await _repoOrder.UpdateSendAt(idOrder, sendAt.SentAt);
 
             return
                 string.IsNullOrEmpty(result)
@@ -97,9 +110,9 @@ namespace BLL_Shop.Services
                 : TypedResults.Ok(result);
         }
 
-        public async Task<IResult> UpdateStatusOrder(int idUser, string status)
+        public async Task<IResult> UpdateStatusOrder(int idOrder, OrderStatusUpdateDTO status)
         {
-            var result = await _repoOrder.UpdateStatus(idUser,status);
+            var result = await _repoOrder.UpdateStatus(idOrder, status.Status);
 
             return
                 string.IsNullOrEmpty(result)

@@ -1,4 +1,6 @@
 ﻿using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.DTO.Order.Update;
+
 using Database_Shop.Entity;
 
 using Microsoft.AspNetCore.Http;
@@ -8,6 +10,8 @@ namespace BLL_Shop.Interfaces
 {
     public interface IOrderService
     {
+
+
 
         #region <-------------> CREATE <------------->
         /// <summary>
@@ -37,37 +41,39 @@ namespace BLL_Shop.Interfaces
         /// <param name="idUser">User ID.</param>
         /// <returns>If the order is found in the database, returns it; otherwise, returns null.</returns>
         Task<IResult> GetOrderById(int id);
+
+        /// <summary>
+        /// Retrieves order(s) by user ID.
+        /// </summary>
+        /// <param name="idUser">User identifier.</param>
+        /// <returns>If the order(s) is found in the database, returns it; otherwise, returns null.</returns>
+        Task<IResult> GetOrderByIdUser(int idUser);
+
+        /// <summary>
+        /// Retrieves orders from an authenticated userD.
+        /// </summary>
+        /// <returns>If the order(s) is found in the database, returns it; otherwise, returns null.</returns>
+        Task<IResult> GetOwnerOrder();
         #endregion
 
 
 
         #region <-------------> UPDATE <------------->
         /// <summary>
-        /// Updates an existing order in the database.
-        /// </summary>
-        /// <param name="id">ID of the order to update.</param>
-        /// <param="idUser">ID of the user associated with the order to update.</param>
-        /// <param name="order">The new values for the target order.</param>
-        /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateOrder(int idUser, Order order);
-
-        /// <summary>
         /// Updates status of an existing order in the database.
         /// </summary>
-        /// <param name="id">ID of the order to update.</param>
-        /// <param="idUser">ID of the user associated with the order to update.</param>
+        /// <param name="idOrder">Identifier order to update.</param>
         /// <param name="status">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateStatusOrder(int idUser, string status);
+        Task<IResult> UpdateStatusOrder(int idOrder, OrderStatusUpdateDTO status);
 
         /// <summary>
         /// Updates sendAt of an existing order in the database.
         /// </summary>
-        /// <param name="id">ID of the order to update.</param>
-        /// <param="idUser">ID of the user associated with the order to update.</param>
+        /// <param name="idOrder">Identifier order to update.</param>
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
-        Task<IResult> UpdateSendAtOrder(int idUser, DateTime sendAt);
+        Task<IResult> UpdateSendAtOrder(int idOrder, OrderSentAtUpdateDTO sendAt);
         #endregion
 
 
@@ -81,5 +87,8 @@ namespace BLL_Shop.Interfaces
         /// <returns>Returns a string with an explicit response.</returns>
         Task<IResult> DeleteOrder(int id);
         #endregion
+
+
+
     }
 }

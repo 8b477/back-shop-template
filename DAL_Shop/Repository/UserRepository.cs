@@ -13,6 +13,8 @@ namespace DAL_Shop.Repository
 {
     public class UserRepository : IUserRepository
     {
+
+
         #region DI
         private readonly ShopDB _db;
         private readonly ILogger<UserRepository> _logger;
@@ -23,6 +25,7 @@ namespace DAL_Shop.Repository
             _logger = logger;
         }
         #endregion
+
 
 
         #region <-------------> CREATE <------------->

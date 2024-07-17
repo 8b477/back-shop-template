@@ -38,9 +38,9 @@ namespace DAL_Shop.Interfaces
         Task<Article?> GetById(int id);
 
         /// <summary>
-        /// Retrieve all articles already in the database where id match.
+        /// Retrieve all articles already in the database with matching Identifiers.
         /// </summary>
-        /// <returns>Returns a list of articles with id match.</returns>
+        /// <returns>Returns a list of articles for which the identifier was found.</returns>
         Task<List<Article>> GetByIdList(List<int> ids);
         #endregion
 
@@ -98,12 +98,6 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the article.</param>
         /// <returns>Returns an explicit string indicating the result of the deletion.</returns>
         Task<bool> Delete(int id);
-        #endregion
-
-
-
-        #region <-------------> TOOLS <------------->
-
         #endregion
     }
 }

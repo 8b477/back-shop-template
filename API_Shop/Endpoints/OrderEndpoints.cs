@@ -1,6 +1,6 @@
 ﻿using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.DTO.Order.Update;
 using BLL_Shop.Interfaces;
-using Database_Shop.Entity;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,35 +11,55 @@ namespace API_Shop.Endpoints
     {
         public static void GetEndpointsOrder(WebApplication app)
         {
-            // ADD
-            app.MapPost("/order",
-                [Authorize(Policy = "UserOrAdmin")] async ([FromServices] IOrderService orderService, [FromBody] OrderCreateDTO order) => await orderService.CreateOrder(order));
 
 
-            // GET
-            app.MapGet("/order",
-                async ([FromServices] IOrderService orderService) => await orderService.GetAllOrder());
 
-            app.MapGet("/order/{id:int}", 
-                async ([FromServices] IOrderService orderService, int id) => await orderService.GetOrderById(id));
-
-
-            // UPDATE
-            app.MapPut("/order/{idUser:int}",
-                async ([FromServices] IOrderService orderService, int idUser, [FromBody] Order order) => await orderService.UpdateOrder(idUser, order));
-
-            app.MapPut("/order/status/{idUser:int}",
-                async ([FromServices] IOrderService orderService, int idUser, [FromBody] string status) => await orderService.UpdateStatusOrder(idUser, status));
-
-            app.MapPut("/order/sentAt/{idUser:int}",
-                async ([FromServices] IOrderService orderService, int idUser, [FromBody] DateTime sentAt) => await orderService.UpdateSendAtOrder(idUser, sentAt));
+            // ADD (ADMIN & USER)
+            app.MapPost("/order",[Authorize(Policy = "UserOrAdmin")]
+                async ([FromServices] IOrderService orderService, [FromBody] OrderCreateDTO order)
+                    => await orderService.CreateOrder(order));
 
 
-            // DELETE
-            app.MapDelete("/order/{id:int}",
-                async ([FromServices] IOrderService orderService, int id) => await orderService.DeleteOrder(id));
+
+            //GET (ADMIN & USER)
+/*OWNER*/   app.MapGet("order/owner", [Authorize(Policy = "UserOrAdmin")]
+                async ([FromServices] IOrderService orderService)
+                    => await orderService.GetOwnerOrder());
+
+            // GET (ADMIN)
+/*ALL*/     app.MapGet("/order", [Authorize(Policy = "AdminOnly")]
+                async ([FromServices] IOrderService orderService)
+                    => await orderService.GetAllOrder()); //Get all orders
+
+/*ONE*/     app.MapGet("/order/{id:int}", [Authorize(Policy = "AdminOnly")]  
+                async ([FromServices] IOrderService orderService, int id)
+                    => await orderService.GetOrderById(id)); //Get order by id Order
+                                                             
+
+/*ID-USER*/ app.MapGet("/order/user/{idUser:int}", [Authorize(Policy = "AdminOnly")]
+                async ([FromServices] IOrderService orderService, int idUser)
+                    => await orderService.GetOrderByIdUser(idUser)); // Get order by id User
+
+
+
+            // UPDATE (ADMIN)
+/*STATUS*/  app.MapPut("/order/status/{idOrder:int}", [Authorize(Policy = "AdminOnly")]
+                async ([FromServices] IOrderService orderService, int idOrder, [FromBody] OrderStatusUpdateDTO status)
+                    => await orderService.UpdateStatusOrder(idOrder, status));
+
+/*SENT-AT*/ app.MapPut("/order/sentAt/{idOrder:int}", [Authorize(Policy = "AdminOnly")]
+                async ([FromServices] IOrderService orderService, int idOrder, [FromBody] OrderSentAtUpdateDTO sentAt)
+                    => await orderService.UpdateSendAtOrder(idOrder, sentAt));
+
+
+
+            // DELETE (ADMIN)
+            app.MapDelete("/order/{idOrder:int}", [Authorize(Policy ="AdminOnly")]
+                async ([FromServices] IOrderService orderService, int idOrder)
+                    => await orderService.DeleteOrder(idOrder));
+
+
+
         }
     }
 }
-
-// NEED TO ADD GET ON STATUS + GET BY DATE (ORDERED)
