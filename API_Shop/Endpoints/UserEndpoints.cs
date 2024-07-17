@@ -5,52 +5,63 @@ using BLL_Shop.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_Shop.Controllers
+namespace API_Shop.Endpoints
 {
     public static class UserEndpoints
     {
         public static void GetEndpointsUser(WebApplication app)
         {
 
-            // GET
-            //app.MapGet("/users",
-            //    [Authorize(Policy = "AdminOnly")] async (UserServices userService) => await userService.GetAll());
 
-            app.MapGet("/users",
-                async ([FromServices] IUserService userService) => await userService.GetAllUser());
-
-            app.MapGet("/user/{id:int}",
-                [Authorize(Policy = "AdminOnly")] async ([FromServices] IUserService userService, int id) => await userService.GetUserByID(id));
-
-            app.MapGet("/users/{pseudo}",
-                [Authorize(Policy = "AdminOnly")] async ([FromServices] IUserService userService, string pseudo) => await userService.GetUserByPseudo(pseudo));
-
-
-
-            // ADD
+            // ADD (ADMIN & USER)
             app.MapPost("/user",
                 async ([FromServices] IUserService userService, [FromBody] UserCreateDTO userToAdd) => await userService.CreateUser(userToAdd));
 
 
 
+            // GET (ADMIN)
+/*ALL*/     app.MapGet("/users", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService) => await userService.GetAllUser());
+
+/*ONE*/    app.MapGet("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
+            async ([FromServices] IUserService userService, int id)
+                    => await userService.GetUserByID(id));
+
+/*PSEUDO*/ app.MapGet("/users/{pseudo}", [Authorize(Policy = "AdminOnly")]
+            async ([FromServices] IUserService userService, string pseudo)
+                        => await userService.GetUserByPseudo(pseudo));
+
+            // GET (USER & ADMIN)
+/*OWN*/    app.MapGet("/user/profil", [Authorize(Policy = "UserOrAdmin")]
+            async ([FromServices] IUserService userService) => await userService.GetUserProfil());
+
+
             // UPDATE
-            app.MapPut("/user/{id:int}",
-                [Authorize(Policy = "UserOrAdmin")] async ([FromServices] IUserService userService, int id, [FromBody] UserUpdateDTO userToAdd) => await userService.UpdateUser(id, userToAdd));
+/*FULL*/   app.MapPut("/user/{id:int}", [Authorize(Policy = "UserOrAdmin")]
+            async ([FromServices] IUserService userService, int id, [FromBody] UserUpdateDTO userToAdd)
+                    => await userService.UpdateUser(id, userToAdd));
 
-            app.MapPut("/user/pseudo/{id:int}",
-                async ([FromServices] IUserService userService, int id, [FromBody] UserPseudoUpdateDTO pseudo) => await userService.UpdateUserPseudo(id, pseudo));
+/*PSEUDO*/  app.MapPut("/user/pseudo/{id:int}", [Authorize(Policy = "UserOrAdmin")]
+             async ([FromServices] IUserService userService, int id, [FromBody] UserPseudoUpdateDTO pseudo)
+                    => await userService.UpdateUserPseudo(id, pseudo));
 
-            app.MapPut("/user/mail/{id:int}",
-                async ([FromServices] IUserService userService, int id, [FromBody] UserMailUpdateDTO mail) => await userService.UpdateUserMail(id, mail));
+/*MAIL*/    app.MapPut("/user/mail/{id:int}", [Authorize(Policy = "UserOrAdmin")]
+             async ([FromServices] IUserService userService, int id, [FromBody] UserMailUpdateDTO mail)
+                    => await userService.UpdateUserMail(id, mail));
 
-            app.MapPut("/user/pwd/{id:int}",
-                async ([FromServices] IUserService userService, int id, [FromBody] UserPwdUpdateDTO pwd) => await userService.UpdateUserPwd(id, pwd));
+/*PWD*/    app.MapPut("/user/pwd/{id:int}", [Authorize(Policy = "UserOrAdmin")]
+             async ([FromServices] IUserService userService, int id, [FromBody] UserPwdUpdateDTO pwd)
+                    => await userService.UpdateUserPwd(id, pwd));
 
 
 
-            // DELETE
-            app.MapDelete("/user/{id:int}",
-                [Authorize(Policy = "AdminOnly")] async ([FromServices] IUserService userService, int id) => await userService.DeleteUser(id));
+            // DELETE (ADMIN)
+            app.MapDelete("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService, int id)
+                    => await userService.DeleteUser(id));
+
+
+
         }
     }
 }

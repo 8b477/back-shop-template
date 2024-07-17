@@ -1,4 +1,3 @@
-using API_Shop.Controllers;
 using API_Shop.DI;
 using API_Shop.Endpoints;
 using BLL_Shop.JWT.Policy;
@@ -8,7 +7,6 @@ using Database_Shop.Context;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 using Serilog;
-
 
 
 var builder = WebApplication.CreateBuilder(args);

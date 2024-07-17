@@ -14,7 +14,7 @@ namespace BLL_Shop.DTO.Order.Create
         public string Status { get; init; }
         public DateTime CreatedAt { get; init; }
         public DateTime? SentAt { get; init; }
-        public List<int> ArticleIds { get; set; }
+        public List<int> ArticleIds { get; init; }
 
     }
 }

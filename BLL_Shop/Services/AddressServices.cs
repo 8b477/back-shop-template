@@ -123,7 +123,7 @@ namespace BLL_Shop.Services
                 if (!result.Any())
                 {
                     _logger.LogInformation("No addresses found for postal code: {PostalCode}", postalCode);
-                    return TypedResults.NotFound();
+                    return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
                 _logger.LogInformation("Retrieved {Count} addresses for postal code: {PostalCode}", result.Count(), postalCode);
@@ -146,7 +146,7 @@ namespace BLL_Shop.Services
                 if (!result.Any())
                 {
                     _logger.LogInformation("No addresses found for city: {City}", city);
-                    return TypedResults.NotFound();
+                    return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
                 _logger.LogInformation("Retrieved {Count} addresses for city: {City}", result.Count(), city);
@@ -169,7 +169,7 @@ namespace BLL_Shop.Services
                 if (!result.Any())
                 {
                     _logger.LogInformation("No addresses found for country: {Country}", country);
-                    return TypedResults.NotFound();
+                    return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
                 _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count(), country);

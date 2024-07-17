@@ -9,6 +9,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Database_Shop.Entity;
+using BLL_Shop.JWT.Services;
 
 
 
@@ -18,6 +19,7 @@ namespace BLL_Shop.Services
     {
         #region DI
         private readonly IUserRepository _userRepository;
+        private readonly JWTGetClaimsService _getClaimService;
         private readonly IValidator<UserCreateDTO> _userCreateValidator;
         private readonly IValidator<UserUpdateDTO> _userUpdateFullValidator;
         private readonly IValidator<UserPseudoUpdateDTO> _userPseudoUpdateValidator;
@@ -27,14 +29,17 @@ namespace BLL_Shop.Services
 
         public UserServices(
             IUserRepository userRepository,
+            JWTGetClaimsService getClaimService,
             IValidator<UserCreateDTO> userCreateValidator,
             IValidator<UserUpdateDTO> userUpdateFullValidator,
             IValidator<UserPseudoUpdateDTO> userPseudoUpdateValidator,
             IValidator<UserMailUpdateDTO> userMailUpdateValidator,
             IValidator<UserPwdUpdateDTO> userPwdUpdateValidator,
-            ILogger<UserServices> logger)
+            ILogger<UserServices> logger
+            )
         {
             _userRepository = userRepository;
+            _getClaimService = getClaimService;
             _userCreateValidator = userCreateValidator;
             _userUpdateFullValidator = userUpdateFullValidator;
             _userPseudoUpdateValidator = userPseudoUpdateValidator;
@@ -114,7 +119,11 @@ namespace BLL_Shop.Services
             {
                 _logger.LogInformation("Retrieving user with ID: {Id}", id);
                 var result = await _userRepository.GetByID(id);
-                return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
+
+                return 
+                    result is null 
+                    ? TypedResults.NotFound(new { Message = "Aucune correspondance" }) 
+                    : TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
@@ -129,7 +138,11 @@ namespace BLL_Shop.Services
             {
                 _logger.LogInformation("Retrieving users with pseudo: {Pseudo}", pseudo);
                 var result = await _userRepository.GetByPseudo(pseudo);
-                return result.Any() ? TypedResults.Ok(result) : TypedResults.NotFound();
+
+                return
+                    result.Any()
+                    ? TypedResults.Ok(result)
+                    : TypedResults.NotFound(new { Message = "Aucune correspondance" });
             }
             catch (Exception ex)
             {
@@ -137,9 +150,32 @@ namespace BLL_Shop.Services
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        public async Task<IResult> GetUserProfil()
+        {
+            int idUser = _getClaimService.GetIdUserToken();
+            if (idUser == 0)
+                return TypedResults.Unauthorized();
+
+            try
+            {
+                _logger.LogInformation("Retrieving user with ID: {Id}", idUser);
+                var result = await _userRepository.GetByID(idUser);
+
+                return
+                    result is null
+                    ? TypedResults.NotFound(new { Message = "Aucune correspondance" })
+                    : TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving user with ID: {Id}", idUser);
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         #endregion
 
-
+        
 
         #region <-------------> UPDATE <------------->
         public async Task<IResult> UpdateUser(int id, UserUpdateDTO userToAdd)

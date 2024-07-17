@@ -1,10 +1,11 @@
-﻿using DAL_Shop.DTO.Article;
-using DAL_Shop.DTO.Order;
+﻿using DAL_Shop.DTO.Order;
 using DAL_Shop.Interfaces;
+using DAL_Shop.Mapper;
 using Database_Shop.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
+
 
 
 namespace DAL_Shop.Repository
@@ -22,108 +23,66 @@ namespace DAL_Shop.Repository
         #region <-------------> CREATE <------------->
         public async Task<OrderViewDTO?> Create(Order order)
         {
-            var orderView = new Order
-            {
-                UserId = order.UserId,
-                Status = order.Status,
-                CreatedAt = DateTime.UtcNow,
-                SentAt = order.SentAt,
-                OrderArticles = order.OrderArticles.Select(articleId => new OrderArticle
-                {
-                    ArticleId = articleId.ArticleId
-                }).ToList()
-            };
-
             _db.Order.Add(order);
             await _db.SaveChangesAsync();
 
-            var orderDto = new OrderViewDTO
-            {
-                Id = order.Id,
-                UserId = order.UserId,
-                Status = order.Status,
-                CreatedAt = order.CreatedAt,
-                SentAt = order.SentAt,
-                Articles = order.OrderArticles.Select(oa => new ArticleViewDTO
-                {
-                    Id = oa.Article.Id,
-                    Name = oa.Article.Name,
-                    Stock = oa.Article.Stock,
-                    Promo = oa.Article.Promo,
-                    Price = oa.Article.Price
-                }).ToList()
-            };
+            var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order); 
 
-            return orderDto;
+            return orderViewDTO;
         }
         #endregion
 
 
 
         #region <-------------> GET <------------->
-        public async Task<List<Order>> GetAll()
+        public async Task<List<OrderViewDTO>> GetAll()
         {
-            return await _db.Order.ToListAsync();
+            var orders = await _db.Order
+                        .Include(o => o.OrderArticles)
+                        .ThenInclude(oa => oa.Article)
+                        .ToListAsync();
+
+            List<OrderViewDTO> ordersViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(orders);
+
+            return ordersViewDTO;
         }
 
         public async Task<OrderViewDTO?> GetById(int id)
         {
             var order = await _db.Order
-                      .Include(o => o.OrderArticles)
-                      .ThenInclude(oa => oa.Article)
-                      .FirstOrDefaultAsync(o => o.Id == id);
+                              .Include(o => o.OrderArticles)
+                              .ThenInclude(oa => oa.Article)
+                              .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
             {
                 return null;
             }
 
-            var orderDto = new OrderViewDTO
-            {
-                Id = order.Id,
-                UserId = order.UserId,
-                Status = order.Status,
-                CreatedAt = order.CreatedAt,
-                SentAt = order.SentAt,
-                Articles = order.OrderArticles.Select(oa => new ArticleViewDTO
-                {
-                    Id = oa.Article.Id,
-                    Name = oa.Article.Name,
-                    Stock = oa.Article.Stock,
-                    Promo = oa.Article.Promo,
-                    Price = oa.Article.Price
-                }).ToList()
-            };
+            var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order);
 
-            return orderDto;
+            return orderViewDTO;
+        }
+
+        public async Task<List<OrderViewDTO>> GetByIdUser(int idUser)
+        {
+            var result = await _db.Order.Where(o => o.UserId == idUser)
+                .Include(o => o.OrderArticles)
+                .ThenInclude(oa => oa.Article)
+                .ToListAsync();
+
+            List<OrderViewDTO> orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(result);
+
+            return orderViewDTO;
         }
         #endregion
 
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<Order?> Update(int idUser, Order order)
+        public async Task<string> UpdateSendAt(int idOrder, DateTime sendAt)
         {
-            var existingOrder = await _db.Order.FindAsync(idUser);
-
-            if (existingOrder is null)
-                return null;
-
-            foreach (var props in _db.Entry(existingOrder).Properties)
-            {
-                if (props.Metadata.Name != "Id" && props.Metadata.Name != "UserId")
-                {
-                    props.CurrentValue = _db.Entry(order).Property(props.Metadata.Name);
-                }
-            }
-            await _db.SaveChangesAsync();
-
-            return order;
-        }
-
-        public async Task<string> UpdateSendAt(int idUser, DateTime sendAt)
-        {
-            var existingOrder = await _db.Order.FindAsync(idUser);
+            var existingOrder = await _db.Order.FindAsync(idOrder);
 
             if (existingOrder is null)
                 return "";
@@ -135,9 +94,9 @@ namespace DAL_Shop.Repository
             return "Mise à jour réussi !";
         }
 
-        public async Task<string> UpdateStatus(int idUser, string status)
+        public async Task<string> UpdateStatus(int idOrder, string status)
         {
-            var existingOrder = await _db.Order.FindAsync(idUser);
+            var existingOrder = await _db.Order.FindAsync(idOrder);
 
             if (existingOrder is null)
                 return "";
