@@ -1,15 +1,16 @@
 ﻿using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
-using DAL_Shop.Interfaces;
+using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
 using BLL_Shop.Validators;
 using BLL_Shop.Interfaces;
+using DAL_Shop.Interfaces;
+using DAL_Shop.Cryptage;
+using Database_Shop.Entity;
 
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Database_Shop.Entity;
-using BLL_Shop.JWT.Services;
 
 
 
@@ -46,7 +47,7 @@ namespace BLL_Shop.Services
             _userMailUpdateValidator = userMailUpdateValidator;
             _userPwdUpdateValidator = userPwdUpdateValidator;
             _logger = logger;
-        } 
+        }
         #endregion
 
 
@@ -56,9 +57,7 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Creating new user");
-
                 var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
-
                 if (validationResult != Results.Ok())
                 {
                     _logger.LogWarning("Validation failed for user creation");
@@ -66,7 +65,6 @@ namespace BLL_Shop.Services
                 }
 
                 bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
-
                 if (!isValidMail)
                 {
                     _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
@@ -76,8 +74,17 @@ namespace BLL_Shop.Services
                 User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
                 userMapped.Role = "User";
 
-                var result = await _userRepository.Create(userMapped);
+                try
+                {
+                    userMapped.Mdp = PasswordHasher.HashPassword(userMapped.Mdp);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while hashing password");
+                    return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+                }
 
+                var result = await _userRepository.Create(userMapped);
                 if (result is null)
                 {
                     _logger.LogWarning("User creation failed");

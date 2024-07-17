@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL_Shop.DTO.User.Token;
 using Database_Shop.Context;
 using Microsoft.Extensions.Logging;
+using DAL_Shop.Cryptage;
 
 
 namespace DAL_Shop.Repository
@@ -19,26 +20,31 @@ namespace DAL_Shop.Repository
         {
             _db = db;
             _logger = logger;
-        } 
+        }
         #endregion
 
 
 
-
-        public async Task<UserTokenDTO?> Authentication(string mail, string mdp)
+        public async Task<UserTokenDTO?> Authentication(string mail, string password)
         {
             try
             {
-                var result = await _db.User.Where(u => u.Mail == mail && u.Mdp == mdp).FirstOrDefaultAsync();
-
-                if (result == null)
+                var user = await _db.User.FirstOrDefaultAsync(u => u.Mail == mail);
+                if (user == null)
                 {
-                    _logger.LogInformation("Authentication failed for email: {Email}", mail);
+                    _logger.LogInformation("User not found for email: {Email}", mail);
                     return null;
                 }
 
-                _logger.LogInformation("Authentication successful for user: {UserId}", result.Id);
-                return new UserTokenDTO(result.Id, result.Pseudo, result.Mail, result.Role);
+
+                if (!PasswordHasher.VerifyPassword(password, user.Mdp))
+                {
+                    _logger.LogInformation("Invalid password for email: {Email}", mail);
+                    return null;
+                }
+
+                _logger.LogInformation("Authentication successful for user: {UserId}", user.Id);
+                return new UserTokenDTO(user.Id, user.Pseudo, user.Mail, user.Role);
             }
             catch (Exception ex)
             {
@@ -46,7 +52,6 @@ namespace DAL_Shop.Repository
                 return null;
             }
         }
-
 
 
     }
