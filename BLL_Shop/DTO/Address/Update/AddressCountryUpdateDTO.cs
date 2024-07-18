@@ -2,7 +2,7 @@
 
 namespace BLL_Shop.DTO.Address.Update
 {
-    public class AddressCountryUpdateDTO
+    public record AddressCountryUpdateDTO
     {
         public AddressCountryUpdateDTO(int postalCode, int streetNumber, string streetName, string country, string city)
         {

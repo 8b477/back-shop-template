@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database_Shop.Entity
 {
+#nullable disable
     public class Order
     {
         [Key]
@@ -34,4 +35,5 @@ namespace Database_Shop.Entity
 
         public User User { get; set; }
     }
+#nullable enable
 }

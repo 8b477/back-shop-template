@@ -4,7 +4,7 @@
 GET {{API_Shop_HostAddress}}/log
 Content-Type: application/json
 {
-"Mail":"admin@mail.be",
+"Mail":"tadam@mail.fr",
 "Mdp":"Test1234*"
 }
 ###

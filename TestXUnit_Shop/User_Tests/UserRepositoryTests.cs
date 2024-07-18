@@ -1,5 +1,5 @@
+using DAL_Shop.DTO.User;
 using DAL_Shop.Interfaces;
-
 using Database_Shop.Entity;
 
 using Moq;
@@ -8,8 +8,8 @@ namespace TestXUnit_Shop.User_Tests
 {
     public class UserRepositoryTests
     {
-        private Mock<IUserRepository> _mockRepo;
-        private List<User> _users;
+        private readonly Mock<IUserRepository> _mockRepo;
+        private readonly List<User> _users;
 
         public UserRepositoryTests()
         {
@@ -27,8 +27,10 @@ namespace TestXUnit_Shop.User_Tests
         {
             var mockRepo = new Mock<IUserRepository>();
 
-            //mockRepo.Setup(async repo => repo.GetAll())
-            //    .ReturnsAsync(() => _users.Cast<User?>());
+            //mockRepo.Setup(repo => repo.GetAll())
+            //    .ReturnsAsync(() => _users.Cast<User>());
+
+            mockRepo.Setup(repo => repo.GetAll()).Returns(() => _users.Cast<List<UserViewDTO>>());
 
             mockRepo.Setup(repo => repo.GetByID(It.IsAny<int>()))
                 .ReturnsAsync((int id) => _users.FirstOrDefault(u => u.Id == id));

@@ -2,6 +2,7 @@
 
 namespace Database_Shop.Entity
 {
+#nullable disable
     public class User
     {
         [Key]
@@ -38,4 +39,5 @@ namespace Database_Shop.Entity
 
         public List<Order>? Orders { get; set; }
     }
+#nullable enable
 }

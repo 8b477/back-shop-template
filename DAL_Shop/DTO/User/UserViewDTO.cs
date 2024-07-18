@@ -5,7 +5,7 @@ namespace DAL_Shop.DTO.User
 {
     public record UserViewDTO
     {
-        public UserViewDTO(int id, string pseudo, string mail, string role, AddressViewDTO address)
+        public UserViewDTO(int id, string pseudo, string mail, string role, AddressViewDTO? address)
         {
             Id = id;
             Pseudo = pseudo;

@@ -1,5 +1,5 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMTIyMjQ2MSwiZXhwIjoxNzIxMjMzMjYxLCJpYXQiOjE3MjEyMjI0NjEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.ngNh32cN8GreI4HdpMsEvVrq92dugiJYeXq9XiuNzaM
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0IiwiZW1haWwiOiJ0YWRhbUBtYWlsLmZyIiwidW5pcXVlX25hbWUiOiJ0YWRhbSIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzIxMzA2OTcwLCJleHAiOjE3MjEzMTc3NzAsImlhdCI6MTcyMTMwNjk3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1NCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJ9.xEHaJpke6xiB97ax99v60zqu9b-6bZCwc2E5QfMWEy0
 
 
 
@@ -7,7 +7,7 @@ POST {{API_Shop_HostAddress}}/order
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "ArticleIds":[3,2]
+  "ArticleIds":[1,2]
 }
 ###
 GET {{API_Shop_HostAddress}}/order

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database_Shop.Entity
 {
+#nullable disable
     public class ArticleCategory
     {
         [Key]
@@ -19,5 +20,5 @@ namespace Database_Shop.Entity
         public int CategoryId { get; set; }
         public Category Category { get; set; }
     }
-
+#nullable enable
 }

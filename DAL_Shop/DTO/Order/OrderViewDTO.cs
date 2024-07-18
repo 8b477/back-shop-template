@@ -3,13 +3,25 @@
 
 namespace DAL_Shop.DTO.Order
 {
-    public class OrderViewDTO
+#nullable disable
+    public record OrderViewDTO
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public string Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? SentAt { get; set; }
-        public List<ArticleViewDTO> Articles { get; set; }
+        public OrderViewDTO(int id, int userId, string status, DateTime createdAt, DateTime? sentAt, List<ArticleViewDTO> articles)
+        {
+            Id = id;
+            UserId = userId;
+            Status = status;
+            CreatedAt = createdAt;
+            SentAt = sentAt;
+            Articles = articles;
+        }
+
+        public int Id { get; init; }
+        public int UserId { get; init; }
+        public string Status { get; init; }
+        public DateTime CreatedAt { get; init; }
+        public DateTime? SentAt { get; init; }
+        public List<ArticleViewDTO> Articles { get; init; }
     }
+#nullable disable
 }

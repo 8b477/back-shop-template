@@ -39,6 +39,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating article");
+
                 return TypedResults.BadRequest(new { Message = "Error creating article" });
             }
         }
@@ -52,11 +53,13 @@ namespace BLL_Shop.Services
             try
             {
                 var result = await _repoArticle.GetAll();
+
                 return TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all articles");
+
                 return TypedResults.BadRequest(new { Message = "Error retrieving articles" });
             }
         }
@@ -74,6 +77,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving articles by category {CategoryName}", categoryName);
+
                 return TypedResults.BadRequest(new { Message = "Error retrieving articles by category" });
             }
         }
@@ -91,6 +95,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving article by ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error retrieving article by ID" });
             }
         }
@@ -113,6 +118,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error updating article" });
             }
         }
@@ -130,6 +136,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article name with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error updating article name" });
             }
         }
@@ -147,6 +154,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article price with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error updating article price" });
             }
         }
@@ -164,6 +172,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article promo with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error updating article promo" });
             }
         }
@@ -181,6 +190,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article stock with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error updating article stock" });
             }
         }
@@ -203,6 +213,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting article with ID {ArticleId}", id);
+
                 return TypedResults.BadRequest(new { Message = "Error deleting article" });
             }
         }

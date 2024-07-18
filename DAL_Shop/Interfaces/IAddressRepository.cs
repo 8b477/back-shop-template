@@ -24,28 +24,28 @@ namespace DAL_Shop.Interfaces
         /// Retrieves all adresses from the database.
         /// </summary>
         /// <returns>A list of all address.</returns>
-        public Task<IEnumerable<Address?>> GetAll();
+        public Task<IReadOnlyCollection<Address?>> GetAll();
 
         /// <summary>
         /// Retrieves address by their postal code.
         /// </summary>
         /// <param name="postalCode">The postal code to search for.</param>
         /// <returns>A list of addresses matching the specified postal code.</returns>
-        public Task<IEnumerable<Address?>> GetByPostalCode(int postalCode);
+        public Task<IReadOnlyCollection<Address?>> GetByPostalCode(int postalCode);
 
         /// <summary>
         /// Retrieves address by their country.
         /// </summary>
         /// <param name="country">The country to search for.</param>
         /// <returns>A list of addresses matching the specified country.</returns>
-        public Task<IEnumerable<Address?>> GetByCountry(string country);
+        public Task<IReadOnlyCollection<Address?>> GetByCountry(string country);
 
         /// <summary>
         /// Retrieves address by their city.
         /// </summary>
         /// <param name="city">The city to search for.</param>
         /// <returns>A list of addresses matching the specified city.</returns>
-        public Task<IEnumerable<Address?>> GetByCity(string city);
+        public Task<IReadOnlyCollection<Address?>> GetByCity(string city);
         #endregion
 
 
