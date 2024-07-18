@@ -9,6 +9,6 @@ namespace BLL_Shop.DTO.User.Update
             Mail = mail;
         }
 
-        public required string Mail { get; init; }
+        public string Mail { get; init; }
     }
 }

@@ -10,7 +10,7 @@ namespace BLL_Shop.DTO.User.Update
             MdpConfirm = mdpConfirm;
         }
 
-        public required string Mdp { get; init; }
-        public required string MdpConfirm { get; init; }
+        public string Mdp { get; init; }
+        public string MdpConfirm { get; init; }
     }
 }

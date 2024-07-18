@@ -10,7 +10,7 @@ namespace BLL_Shop.DTO.Order.Update
             SentAt = sentAt;
         }
 
-        public required string Status { get; init; }
-        public required DateTime SentAt { get; init; }
+        public string Status { get; init; }
+        public DateTime SentAt { get; init; }
     }
 }

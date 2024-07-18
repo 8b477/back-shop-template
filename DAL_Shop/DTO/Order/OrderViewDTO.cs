@@ -16,12 +16,12 @@ namespace DAL_Shop.DTO.Order
             Articles = articles;
         }
 
-        public required int Id { get; init; }
-        public required int UserId { get; init; }
-        public required string Status { get; init; }
-        public required DateTime CreatedAt { get; init; }
-        public required DateTime? SentAt { get; init; }
-        public required List<ArticleViewDTO> Articles { get; init; }
+        public int Id { get; init; }
+        public int UserId { get; init; }
+        public string Status { get; init; }
+        public DateTime CreatedAt { get; init; }
+        public DateTime? SentAt { get; init; }
+        public List<ArticleViewDTO> Articles { get; init; }
     }
 #nullable disable
 }

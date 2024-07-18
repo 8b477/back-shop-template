@@ -11,10 +11,10 @@ namespace BLL_Shop.DTO.Order.Create
             SentAt = null;
         }
 
-        public required string Status { get; init; }
-        public required DateTime CreatedAt { get; init; }
-        public required DateTime? SentAt { get; init; }
-        public required List<int> ArticleIds { get; init; }
+        public string Status { get; init; }
+        public DateTime CreatedAt { get; init; }
+        public DateTime? SentAt { get; init; }
+        public List<int> ArticleIds { get; init; }
 
     }
 }

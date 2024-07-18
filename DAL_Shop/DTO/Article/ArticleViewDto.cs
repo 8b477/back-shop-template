@@ -12,10 +12,10 @@ namespace DAL_Shop.DTO.Article
             Price = price;
         }
 
-        public required int Id { get; init; }
-        public required string Name { get; init; }
-        public required int Stock { get; init; }
-        public required bool Promo { get; init; }
-        public required double Price { get; init; }
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public int Stock { get; init; }
+        public bool Promo { get; init; }
+        public double Price { get; init; }
     }
 }

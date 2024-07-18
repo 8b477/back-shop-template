@@ -5,6 +5,6 @@ namespace BLL_Shop.DTO.Order.Update
     {
         public OrderStatusUpdateDTO(string status) => Status = status;
 
-        public required string Status { get; init; }
+        public string Status { get; init; }
     }
 }

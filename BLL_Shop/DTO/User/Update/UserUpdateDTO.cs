@@ -12,12 +12,12 @@
             Role = "User";
         }
 
-        public required int? PhoneNumber { get; init; }
-        public required string Pseudo { get; init; }
-        public required string Mail { get; init; }
-        public required string Mdp { get; init; }
-        public required string MdpConfirm { get; init; }
-        public required string Role { get; init; }
+        public int? PhoneNumber { get; init; }
+        public string Pseudo { get; init; }
+        public string Mail { get; init; }
+        public string Mdp { get; init; }
+        public string MdpConfirm { get; init; }
+        public string Role { get; init; }
     }
 }
 

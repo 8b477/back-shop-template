@@ -6,6 +6,6 @@ namespace BLL_Shop.DTO.Category.Update
     {
         public CategoryUpdateDTO(string name) => Name = name;
 
-        public required string Name { get; init; }
+        public string Name { get; init; }
     }
 }
