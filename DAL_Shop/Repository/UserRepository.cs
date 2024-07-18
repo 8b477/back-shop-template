@@ -34,14 +34,19 @@ namespace DAL_Shop.Repository
             try
             {
                 _logger.LogInformation("Attempting to create a new user: {Pseudo}", userToAdd.Pseudo);
+
                 var result = await _db.User.AddAsync(userToAdd);
+
                 await _db.SaveChangesAsync();
+
                 _logger.LogInformation("User created successfully: {Id}", result.Entity.Id);
+
                 return result.Entity;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating user: {Pseudo}", userToAdd.Pseudo);
+
                 throw;
             }
         }
