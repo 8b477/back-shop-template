@@ -80,8 +80,6 @@ namespace BLL_Shop.Services
 
                 User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
 
-                userMapped.Role = "User";
-
                 try
                 {
                     userMapped.Mdp = PasswordHasher.HashPassword(userMapped.Mdp);
