@@ -12,9 +12,9 @@ namespace BLL_Shop.DTO.Article.Create
             Price = price;
         }
 
-        public string Name { get; init; }
-        public int Stock { get; init; }
-        public bool Promo { get; init; }
-        public double Price { get; init; }
+        public required string Name { get; init; }
+        public required int Stock { get; init; }
+        public required bool Promo { get; init; }
+        public required double Price { get; init; }
     }
 }

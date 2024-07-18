@@ -21,14 +21,14 @@ namespace DAL_Shop.Interfaces
         /// Retrieve all articles already in the database.
         /// </summary>
         /// <returns>Returns a list of articles.</returns>
-        Task<List<Article>> GetAll();
+        Task<IReadOnlyCollection<Article>> GetAll();
 
         /// <summary>
         /// Retrieve articles by category name.
         /// </summary>
         /// <param name="categoryName">Name of the category.</param>
         /// <returns>Returns all articles found matching the category name, or null if none are matched.</returns>
-        Task<List<Article>> GetByCategory(string categoryName);
+        Task<IReadOnlyCollection<Article>> GetByCategory(string categoryName);
 
         /// <summary>
         /// Retrieve an article by its ID.
@@ -41,7 +41,7 @@ namespace DAL_Shop.Interfaces
         /// Retrieve all articles already in the database with matching Identifiers.
         /// </summary>
         /// <returns>Returns a list of articles for which the identifier was found.</returns>
-        Task<List<Article>> GetByIdList(List<int> ids);
+        Task<IReadOnlyCollection<Article>> GetByIdList(IReadOnlyCollection<int> ids);
         #endregion
 
 

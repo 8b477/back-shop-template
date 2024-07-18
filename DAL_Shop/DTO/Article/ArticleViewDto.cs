@@ -1,12 +1,21 @@
 ﻿
 namespace DAL_Shop.DTO.Article
 {
-    public class ArticleViewDTO
+    public record ArticleViewDTO
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Stock { get; set; }
-        public bool Promo { get; set; }
-        public double Price { get; set; }
+        public ArticleViewDTO(int id, string name, int stock, bool promo, double price)
+        {
+            Id = id;
+            Name = name;
+            Stock = stock;
+            Promo = promo;
+            Price = price;
+        }
+
+        public required int Id { get; init; }
+        public required string Name { get; init; }
+        public required int Stock { get; init; }
+        public required bool Promo { get; init; }
+        public required double Price { get; init; }
     }
 }

@@ -24,7 +24,7 @@ namespace DAL_Shop.Interfaces
         /// Retrieves all categories.
         /// </summary>
         /// <returns>A list of all categories.</returns>
-        Task<List<Category>> GetAll();
+        Task<IReadOnlyCollection<Category>> GetAll();
 
         /// <summary>
         /// Retrieves a category by its ID.

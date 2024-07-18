@@ -5,6 +5,6 @@ namespace BLL_Shop.DTO.Article.Update
     {
         public ArticlePriceUpdateDTO(double price) => Price = price;
 
-        public double Price { get; init; }
+        public required double Price { get; init; }
     }
 }

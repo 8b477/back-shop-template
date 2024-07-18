@@ -6,6 +6,6 @@ namespace BLL_Shop.DTO.Order.Update
     {
         public OrderSentAtUpdateDTO(DateTime sentAt) => SentAt = sentAt;
 
-        public DateTime SentAt { get; init; }
+        public required DateTime SentAt { get; init; }
     }
 }

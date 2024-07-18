@@ -8,6 +8,6 @@ namespace BLL_Shop.DTO.Address.Update
             PhoneNumber = phoneNumber;
         }
 
-        public int PhoneNumber { get; init; }
+        public required int PhoneNumber { get; init; }
     }
 }

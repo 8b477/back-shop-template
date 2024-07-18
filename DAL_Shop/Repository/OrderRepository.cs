@@ -5,7 +5,7 @@ using Database_Shop.Context;
 using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Logging;
 
 
 namespace DAL_Shop.Repository
@@ -13,9 +13,17 @@ namespace DAL_Shop.Repository
     public class OrderRepository : IOrderRepository
     {
 
-        #region
+
+
+        #region DI
         private readonly ShopDB _db;
-        public OrderRepository(ShopDB db) => _db = db;
+        private readonly ILogger<OrderRepository> _logger;
+
+        public OrderRepository(ShopDB db, ILogger<OrderRepository> logger)
+        {
+            _db = db;
+            _logger = logger;
+        }
         #endregion
 
 
@@ -23,57 +31,104 @@ namespace DAL_Shop.Repository
         #region <-------------> CREATE <------------->
         public async Task<OrderViewDTO?> Create(Order order)
         {
-            _db.Order.Add(order);
-            await _db.SaveChangesAsync();
+            try
+            {
+                _db.Order.Add(order);
 
-            var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order); 
+                await _db.SaveChangesAsync();
 
-            return orderViewDTO;
+                _logger.LogInformation("Order created successfully with ID: {OrderId}", order.Id);
+
+                var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order);
+
+                return orderViewDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating order");
+
+                throw;
+            }
         }
         #endregion
 
 
 
         #region <-------------> GET <------------->
-        public async Task<List<OrderViewDTO>> GetAll()
+        public async Task<IReadOnlyCollection<OrderViewDTO>> GetAll()
         {
-            var orders = await _db.Order
-                        .Include(o => o.OrderArticles)
-                        .ThenInclude(oa => oa.Article)
-                        .ToListAsync();
+            try
+            {
+                var orders = await _db.Order
+                    .Include(o => o.OrderArticles)
+                    .ThenInclude(oa => oa.Article)
+                    .ToListAsync();
 
-            List<OrderViewDTO> ordersViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(orders);
+                _logger.LogInformation("Retrieved {Count} orders", orders.Count);
 
-            return ordersViewDTO;
+                List<OrderViewDTO> ordersViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(orders);
+
+                return ordersViewDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all orders");
+
+                throw;
+            }
         }
 
         public async Task<OrderViewDTO?> GetById(int id)
         {
-            var order = await _db.Order
-                              .Include(o => o.OrderArticles)
-                              .ThenInclude(oa => oa.Article)
-                              .FirstOrDefaultAsync(o => o.Id == id);
-
-            if (order == null)
+            try
             {
-                return null;
+                var order = await _db.Order
+                    .Include(o => o.OrderArticles)
+                    .ThenInclude(oa => oa.Article)
+                    .FirstOrDefaultAsync(o => o.Id == id);
+
+                if (order == null)
+                {
+                    _logger.LogWarning("Order with ID {OrderId} not found", id);
+
+                    return null;
+                }
+
+                var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order);
+
+                _logger.LogInformation("Retrieved order with ID: {OrderId}", id);
+
+                return orderViewDTO;
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving order with ID: {OrderId}", id);
 
-            var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order);
-
-            return orderViewDTO;
+                throw;
+            }
         }
 
-        public async Task<List<OrderViewDTO>> GetByIdUser(int idUser)
+        public async Task<IReadOnlyCollection<OrderViewDTO>> GetByIdUser(int idUser)
         {
-            var result = await _db.Order.Where(o => o.UserId == idUser)
-                .Include(o => o.OrderArticles)
-                .ThenInclude(oa => oa.Article)
-                .ToListAsync();
+            try
+            {
+                var result = await _db.Order.Where(o => o.UserId == idUser)
+                    .Include(o => o.OrderArticles)
+                    .ThenInclude(oa => oa.Article)
+                    .ToListAsync();
 
-            List<OrderViewDTO> orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(result);
+                _logger.LogInformation("Retrieved {Count} orders for user with ID: {UserId}", result.Count, idUser);
 
-            return orderViewDTO;
+                List<OrderViewDTO> orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(result);
+
+                return orderViewDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving orders for user with ID: {UserId}", idUser);
+
+                throw;
+            }
         }
         #endregion
 
@@ -82,49 +137,97 @@ namespace DAL_Shop.Repository
         #region <-------------> UPDATE <------------->
         public async Task<string> UpdateSendAt(int idOrder, DateTime sendAt)
         {
-            var existingOrder = await _db.Order.FindAsync(idOrder);
+            try
+            {
+                var existingOrder = await _db.Order.FindAsync(idOrder);
 
-            if (existingOrder is null)
-                return "";
+                if (existingOrder is null)
+                {
+                    _logger.LogWarning("Order with ID {OrderId} not found for updating SendAt", idOrder);
 
-            existingOrder.SentAt = sendAt;
+                    return "";
+                }
 
-            await _db.SaveChangesAsync();
+                existingOrder.SentAt = sendAt;
 
-            return "Mise à jour réussi !";
+                await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Updated SendAt for order with ID: {OrderId}", idOrder);
+
+                return "Mise à jour réussie !";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating SendAt for order with ID: {OrderId}", idOrder);
+
+                throw;
+            }
         }
 
         public async Task<string> UpdateStatus(int idOrder, string status)
         {
-            var existingOrder = await _db.Order.FindAsync(idOrder);
+            try
+            {
+                var existingOrder = await _db.Order.FindAsync(idOrder);
 
-            if (existingOrder is null)
-                return "";
+                if (existingOrder is null)
+                {
+                    _logger.LogWarning("Order with ID {OrderId} not found for updating Status", idOrder);
 
-            existingOrder.Status = status;
+                    return "";
+                }
 
-            await _db.SaveChangesAsync();
+                existingOrder.Status = status;
 
-            return "Mise à jour réussi !";
+                await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Updated Status for order with ID: {OrderId}", idOrder);
+
+                return "Mise à jour réussie !";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating Status for order with ID: {OrderId}", idOrder);
+
+                throw;
+            }
         }
         #endregion
+
 
 
 
         #region <-------------> DELETE <------------->
         public async Task<bool> Delete(int id)
         {
-            var result = await _db.Order.FindAsync(id);
+            try
+            {
+                var result = await _db.Order.FindAsync(id);
 
-            if (result is null)
-                return false;
+                if (result is null)
+                {
+                    _logger.LogWarning("Order with ID {OrderId} not found for deletion", id);
 
-            _db.Remove(result);
-            await _db.SaveChangesAsync();
+                    return false;
+                }
 
-            return true;
+                _db.Remove(result);
+
+                await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Deleted order with ID: {OrderId}", id);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting order with ID: {OrderId}", id);
+
+                throw;
+            }
         }
         #endregion
+
 
 
     }

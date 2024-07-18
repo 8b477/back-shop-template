@@ -35,13 +35,17 @@ namespace DAL_Shop.Repository
             try
             {
                 var result = await _ctx.Article.AddAsync(article);
+
                 await _ctx.SaveChangesAsync();
+
                 _logger.LogInformation("Article created with ID {ArticleId}", result.Entity.Id);
+
                 return result.Entity;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating article");
+
                 return null;
             }
         }
@@ -51,7 +55,7 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> GET <------------->
-        public async Task<List<Article>> GetAll()
+        public async Task<IReadOnlyCollection<Article>> GetAll()
         {
             try
             {
@@ -60,11 +64,12 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all articles");
+
                 return new List<Article>();
             }
         }
 
-        public async Task<List<Article>> GetByCategory(string categoryName)
+        public async Task<IReadOnlyCollection<Article>> GetByCategory(string categoryName)
         {
             try
             {
@@ -78,11 +83,12 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving articles by category {CategoryName}", categoryName);
+
                 return new List<Article>();
             }
         }
 
-        public async Task<List<Article>> GetByIdList(List<int> ids)
+        public async Task<IReadOnlyCollection<Article>> GetByIdList(IReadOnlyCollection<int> ids)
         {
             try
             {
@@ -91,6 +97,7 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving articles by ID list");
+
                 return new List<Article>();
             }
         }
@@ -104,6 +111,7 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving article by ID {ArticleId}", id);
+
                 return null;
             }
         }
@@ -134,11 +142,13 @@ namespace DAL_Shop.Repository
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Article with ID {ArticleId} updated", id);
+
                 return existingArticle;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article with ID {ArticleId}", id);
+
                 return null;
             }
         }
@@ -153,15 +163,19 @@ namespace DAL_Shop.Repository
                     return "";
 
                 existingArticle.Name = name;
+
                 _ctx.Article.Update(existingArticle);
+
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Updated name of article with ID {ArticleId} to {Name}", id, name);
+
                 return $"Nouveau nom '{name}' mis à jour";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating name of article with ID {ArticleId}", id);
+
                 return "";
             }
         }
@@ -176,15 +190,19 @@ namespace DAL_Shop.Repository
                     return "";
 
                 existingArticle.Price = price;
+
                 _ctx.Article.Update(existingArticle);
+
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Updated price of article with ID {ArticleId} to {Price}", id, price);
+
                 return $"Nouveau prix '{price}' mis à jour";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating price of article with ID {ArticleId}", id);
+
                 return "";
             }
         }
@@ -199,15 +217,19 @@ namespace DAL_Shop.Repository
                     return "";
 
                 existingArticle.Promo = promo;
+
                 _ctx.Article.Update(existingArticle);
+
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Updated promo of article with ID {ArticleId} to {Promo}", id, promo);
+
                 return "Mis à jour de la promotion de l'article, nouvelle valeur : '{promo}'";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating promo of article with ID {ArticleId}", id);
+
                 return "";
             }
         }
@@ -222,15 +244,19 @@ namespace DAL_Shop.Repository
                     return "";
 
                 existingArticle.Stock = stock;
+
                 _ctx.Article.Update(existingArticle);
+
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Updated stock of article with ID {ArticleId} to {Stock}", id, stock);
+
                 return "Mis à jour du stock de l'article, nouveau stock : '{stock}'";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating stock of article with ID {ArticleId}", id);
+
                 return "";
             }
         }
@@ -250,14 +276,17 @@ namespace DAL_Shop.Repository
                     return false;
 
                 _ctx.Article.Remove(existingArticle);
+
                 await _ctx.SaveChangesAsync();
 
                 _logger.LogInformation("Deleted article with ID {ArticleId}", id);
+
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting article with ID {ArticleId}", id);
+
                 return false;
             }
         }

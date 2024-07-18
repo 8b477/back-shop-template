@@ -18,6 +18,8 @@ namespace BLL_Shop.Services
 {
     public class UserServices : IUserService
     {
+
+
         #region DI
         private readonly IUserRepository _userRepository;
         private readonly JWTGetClaimsService _getClaimService;
@@ -57,21 +59,27 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Creating new user");
+
                 var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userCreateValidator);
+
                 if (validationResult != Results.Ok())
                 {
                     _logger.LogWarning("Validation failed for user creation");
+
                     return validationResult;
                 }
 
                 bool isValidMail = await _userRepository.IsValidMail(userToAdd.Mail);
+
                 if (!isValidMail)
                 {
                     _logger.LogWarning("Invalid email provided for user creation: {Email}", userToAdd.Mail);
+
                     return TypedResults.BadRequest(new { Message = "The information provided is incorrect. Please try again." });
                 }
 
                 User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
+
                 userMapped.Role = "User";
 
                 try
@@ -81,22 +89,27 @@ namespace BLL_Shop.Services
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error occurred while hashing password");
+
                     return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
                 var result = await _userRepository.Create(userMapped);
+
                 if (result is null)
                 {
                     _logger.LogWarning("User creation failed");
+
                     return TypedResults.BadRequest(new { Message = "Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer." });
                 }
 
                 _logger.LogInformation("User created successfully: {Id}", result.Id);
+
                 return TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating user");
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -110,12 +123,15 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Retrieving all users");
+
                 var result = await _userRepository.GetAll();
+
                 return result is null ? TypedResults.NoContent() : TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving all users");
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -125,6 +141,7 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Retrieving user with ID: {Id}", id);
+
                 var result = await _userRepository.GetByID(id);
 
                 return 
@@ -135,6 +152,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -144,6 +162,7 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Retrieving users with pseudo: {Pseudo}", pseudo);
+
                 var result = await _userRepository.GetByPseudo(pseudo);
 
                 return
@@ -154,6 +173,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving users with pseudo: {Pseudo}", pseudo);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -161,12 +181,14 @@ namespace BLL_Shop.Services
         public async Task<IResult> GetUserProfil()
         {
             int idUser = _getClaimService.GetIdUserToken();
+
             if (idUser == 0)
                 return TypedResults.Unauthorized();
 
             try
             {
                 _logger.LogInformation("Retrieving user with ID: {Id}", idUser);
+
                 var result = await _userRepository.GetByID(idUser);
 
                 return
@@ -177,6 +199,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving user with ID: {Id}", idUser);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -190,10 +213,14 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Updating user with ID: {Id}", id);
+
                 var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userUpdateFullValidator);
-                if (validationResult != Results.Ok()) return validationResult;
+
+                if (validationResult != Results.Ok()) 
+                    return validationResult;
 
                 User userMapped = MapperUser.FromUserUpdateDTOToEntity(userToAdd);
+
                 var result = await _userRepository.Update(id, userMapped);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
@@ -201,6 +228,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -210,15 +238,19 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Updating pseudo for user with ID: {Id}", id);
+
                 var validationResult = await ValidatorModelState.ValidModelState(pseudo, _userPseudoUpdateValidator);
+
                 if (validationResult != Results.Ok()) return validationResult;
 
                 var result = await _userRepository.UpdatePseudo(id, pseudo.Pseudo);
+
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating pseudo for user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -228,15 +260,19 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Updating email for user with ID: {Id}", id);
+
                 var validationResult = await ValidatorModelState.ValidModelState(mail, _userMailUpdateValidator);
+
                 if (validationResult != Results.Ok()) return validationResult;
 
                 var result = await _userRepository.UpdateMail(id, mail.Mail);
+
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating email for user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -246,15 +282,20 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Updating password for user with ID: {Id}", id);
+
                 var validationResult = await ValidatorModelState.ValidModelState(pwd, _userPwdUpdateValidator);
-                if (validationResult != Results.Ok()) return validationResult;
+
+                if (validationResult != Results.Ok())
+                    return validationResult;
 
                 var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
+
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating password for user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -268,12 +309,15 @@ namespace BLL_Shop.Services
             try
             {
                 _logger.LogInformation("Deleting user with ID: {Id}", id);
+
                 var result = await _userRepository.Delete(id);
+
                 return result ? TypedResults.NoContent() : TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while deleting user with ID: {Id}", id);
+
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

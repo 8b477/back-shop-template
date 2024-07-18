@@ -15,10 +15,10 @@ namespace BLL_Shop.DTO.Address.Create
         }
 
         public int? PhoneNumber { get; init; }
-        public int PostalCode { get; init; }
-        public int StreetNumber { get; init; }
-        public string StreetName{ get; init; }
-        public string Country { get; init; }
-        public string City { get; init; }
+        public required int PostalCode { get; init; }
+        public required int StreetNumber { get; init; }
+        public required string StreetName{ get; init; }
+        public required string Country { get; init; }
+        public required string City { get; init; }
     }
 }

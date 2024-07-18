@@ -28,7 +28,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">Order ID.</param>
         /// <param name="idUser">User ID.</param>
         /// <returns>Returns all orders present in database.</returns>
-        Task<List<OrderViewDTO>> GetAll();
+        Task<IReadOnlyCollection<OrderViewDTO>> GetAll();
 
         /// <summary>
         /// Retrieves an order by order ID and user ID.
@@ -43,7 +43,7 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="idUser">User identifier.</param>
         /// <returns>If the order(s) is found in the database, returns it; otherwise, returns null.</returns>
-        Task<List<OrderViewDTO>> GetByIdUser(int idUser);
+        Task<IReadOnlyCollection<OrderViewDTO>> GetByIdUser(int idUser);
         #endregion
 
 

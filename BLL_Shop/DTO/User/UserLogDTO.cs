@@ -8,7 +8,7 @@
             Mdp = mdp;
         }
 
-        public string Mail { get; init; }
-        public string Mdp { get; init; }
+        public required string Mail { get; init; }
+        public required string Mdp { get; init; }
     }
 }

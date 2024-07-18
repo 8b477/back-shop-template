@@ -8,6 +8,6 @@ namespace BLL_Shop.DTO.User.Update
             Pseudo = pseudo;
         }
 
-        public string Pseudo { get; init; }
+        public required string Pseudo { get; init; }
     }
 }

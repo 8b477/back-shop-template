@@ -35,6 +35,7 @@ namespace BLL_Shop.Services
                 if (result is null)
                 {
                     _logger.LogWarning("Authentication failed for email: {Email}.", mail);
+
                     return TypedResults.BadRequest(new { Message = "Authentication failed, please check your credentials" });
                 }
 
@@ -45,6 +46,7 @@ namespace BLL_Shop.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred during user authentication.");
+
                 return TypedResults.BadRequest(new { Message = "An error occurred during authentication" });
             }
         }

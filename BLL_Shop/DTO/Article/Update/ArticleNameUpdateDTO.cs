@@ -6,6 +6,6 @@ namespace BLL_Shop.DTO.Article.Update
     {
         public ArticleNameUpdateDTO(string name) =>  Name = name;
 
-        public string Name { get; init; }
+        public required string Name { get; init; }
     }
 }

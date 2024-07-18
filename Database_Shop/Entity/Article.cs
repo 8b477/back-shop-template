@@ -3,6 +3,7 @@
 
 namespace Database_Shop.Entity
 {
+#nullable disable
     public class Article
     {
         [Key]
@@ -35,4 +36,5 @@ namespace Database_Shop.Entity
 
         public ICollection<OrderArticle> OrderArticles { get; set; }
     }
+#nullable enable
 }

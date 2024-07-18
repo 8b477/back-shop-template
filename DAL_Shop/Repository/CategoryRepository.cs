@@ -31,13 +31,17 @@ namespace DAL_Shop.Repository
             try
             {
                 var result = await _db.Category.AddAsync(category);
+
                 await _db.SaveChangesAsync();
+
                 _logger.LogInformation($"Category created successfully: {category.Name}");
+
                 return result.Entity;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error creating category: {category.Name}");
+
                 return null;
             }
         }
@@ -46,17 +50,20 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> GET <------------->
-        public async Task<List<Category>> GetAll()
+        public async Task<IReadOnlyCollection<Category>> GetAll()
         {
             try
             {
                 var result = await _db.Category.ToListAsync();
+
                 _logger.LogInformation("Retrieved all categories successfully");
+
                 return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all categories");
+
                 return new List<Category>();
             }
         }
@@ -66,6 +73,7 @@ namespace DAL_Shop.Repository
             try
             {
                 var result = await _db.Category.FindAsync(id);
+
                 if (result != null)
                 {
                     _logger.LogInformation($"Retrieved category by ID: {id}");
@@ -79,6 +87,7 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error retrieving category by ID: {id}");
+
                 return null;
             }
         }
@@ -92,19 +101,25 @@ namespace DAL_Shop.Repository
             try
             {
                 var existingCategory = await _db.Category.FindAsync(id);
+
                 if (existingCategory is null)
                 {
                     _logger.LogWarning($"Category not found for update: {id}");
+
                     return null;
                 }
                 existingCategory.Name = name;
+
                 await _db.SaveChangesAsync();
+
                 _logger.LogInformation($"Category updated successfully: {id}");
+
                 return existingCategory;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error updating category: {id}");
+
                 return null;
             }
         }
@@ -119,19 +134,25 @@ namespace DAL_Shop.Repository
             try
             {
                 var existingCategory = await _db.Category.FindAsync(id);
+
                 if (existingCategory is null)
                 {
                     _logger.LogWarning($"Category not found for deletion: {id}");
+
                     return false;
                 }
                 _db.Category.Remove(existingCategory);
+
                 await _db.SaveChangesAsync();
+
                 _logger.LogInformation($"Category deleted successfully: {id}");
+
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error deleting category: {id}");
+
                 return false;
             }
         }

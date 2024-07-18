@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database_Shop.Entity
 {
+#nullable disable
     public class Address
     {
         [Key]
@@ -40,8 +41,9 @@ namespace Database_Shop.Entity
 
 
         [ForeignKey(nameof(UserId))]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
     }
+#nullable enable
 }
 
