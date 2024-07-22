@@ -4,7 +4,7 @@ namespace BLL_Shop.DTO.User.Create
 {
     public record UserCreateDTO
     {
-        public UserCreateDTO(int? phoneNumber, string pseudo, string mail, string mdp, string mdpConfirm)
+        public UserCreateDTO(string? phoneNumber, string pseudo, string mail, string mdp, string mdpConfirm)
         {
             PhoneNumber = phoneNumber;
             Pseudo = pseudo;
@@ -14,7 +14,7 @@ namespace BLL_Shop.DTO.User.Create
             Role = "User";
         }
 
-        public int? PhoneNumber { get; init; }
+        public string? PhoneNumber { get; init; }
         public string Pseudo { get; init; }
         public string Mail { get; init; }
         public string Mdp { get; init; }

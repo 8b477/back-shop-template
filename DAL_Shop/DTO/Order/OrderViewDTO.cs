@@ -23,5 +23,5 @@ namespace DAL_Shop.DTO.Order
         public DateTime? SentAt { get; init; }
         public List<ArticleViewDTO> Articles { get; init; }
     }
-#nullable disable
+#nullable enable
 }
