@@ -12,6 +12,8 @@ namespace TestXUnit_Shop.User_Tests.Repository
 {
     public class UserRepository_Tests
     {
+
+#region -------> DI
         private readonly List<User> _users;
         private readonly Mock<IUserRepository> _mockRepo;
 
@@ -19,9 +21,11 @@ namespace TestXUnit_Shop.User_Tests.Repository
         {
             _users = FakeDB.getUsersData();
             _mockRepo = CreateMockUserRepository();
-        }
+        } 
+#endregion
 
 
+#region -------> Init Mockup
         private Mock<IUserRepository> CreateMockUserRepository()
         {
             var mockRepo = new Mock<IUserRepository>();
@@ -74,17 +78,20 @@ namespace TestXUnit_Shop.User_Tests.Repository
             mockRepo.Setup(repo => repo.GetByPseudo(It.IsAny<string>()))
                 .ReturnsAsync((string pseudo) =>
                 {
-                    List<User> result = _users.FindAll(u => u.Pseudo == pseudo);
+                    List<User> result = _users.FindAll(u => u.Pseudo.ToUpper() == pseudo.ToUpper());
 
                     return MapperUser.EntityToDTO(result);
                 });
 
+            mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<User>()))
+                .ReturnsAsync((string message) => message);
 
             return mockRepo;
-        }
+        } 
+#endregion
 
 
-        #region -------> CREATE
+#region -------> CREATE
         [Fact]
         public async void Create_Add_User()
         {
@@ -114,12 +121,13 @@ namespace TestXUnit_Shop.User_Tests.Repository
             Assert.Equal(newUser.Mdp, result.Mdp);
             Assert.Equal(newUser.Role, result.Role);
         }
-        #endregion
+#endregion
 
 
 
-        #region -------> GET
+#region -------> GET
 
+        #region GET ALL
         [Fact]
         public async Task Get_All_User()
         {
@@ -130,8 +138,10 @@ namespace TestXUnit_Shop.User_Tests.Repository
             Assert.NotNull(result);
             Assert.Equal(_users.Count, result.Count);
         }
+        #endregion
 
 
+        #region GET BY ID
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -177,8 +187,81 @@ namespace TestXUnit_Shop.User_Tests.Repository
                 Assert.Null(correspondingUser.Address);
             }
         }
-
         #endregion
+
+
+        #region GET BY PSEUDO
+        [Theory]
+        [InlineData("John")]
+        [InlineData("Jane")]
+        [InlineData("Bob")]
+        [InlineData("Lily")]
+        [InlineData("MARIE")] // Full Maj
+        [InlineData("john")] // Full Min
+        public async Task Get_User_By_Pseudo(string pseudo)
+        {
+            var result = await _mockRepo.Object.GetByPseudo(pseudo);
+
+            Assert.NotNull(result);
+
+            if (result is List<UserViewDTO> userList)
+            {
+                foreach (UserViewDTO u in userList)
+                {
+                    var correspondingUser = _users.FirstOrDefault(user => user.Id == u.Id);
+
+                    Assert.NotNull(correspondingUser);
+
+                    Assert.Equal(u.Id, correspondingUser.Id);
+                    Assert.Equal(u.Pseudo, correspondingUser.Pseudo);
+                    Assert.Equal(u.Mail, correspondingUser.Mail);
+
+                    if (u.Address is not null)
+                    {
+                        Assert.NotNull(correspondingUser.Address);
+                        Assert.NotNull(u.Address);
+
+                        Assert.Equal(u.Address.Id, correspondingUser.Address.Id);
+                        Assert.Equal(u.Address.UserId, correspondingUser.Address.UserId);
+                        Assert.Equal(u.Address.StreetNumber, correspondingUser.Address.StreetNumber);
+                        Assert.Equal(u.Address.StreetName, correspondingUser.Address.StreetName);
+                        Assert.Equal(u.Address.Country, correspondingUser.Address.Country);
+                        Assert.Equal(u.Address.City, correspondingUser.Address.City);
+                        Assert.Equal(u.Address.PostalCode, correspondingUser.Address.PostalCode);
+                        Assert.Equal(u.Address.PhoneNumber, correspondingUser.Address.PhoneNumber);
+                    }
+                }
+            }
+            else if (result is UserViewDTO u)
+            {
+                var correspondingUser = _users.FirstOrDefault(user => user.Id == u.Id);
+
+                Assert.NotNull(correspondingUser);
+                Assert.NotNull(u);
+
+                Assert.Equal(u.Id, correspondingUser.Id);
+                Assert.Equal(u.Pseudo, correspondingUser.Pseudo);
+                Assert.Equal(u.Mail, correspondingUser.Mail);
+
+                if (u.Address is not null)
+                {
+                    Assert.NotNull(correspondingUser.Address);
+                    Assert.NotNull(u.Address);
+
+                    Assert.Equal(u.Address.Id, correspondingUser.Address.Id);
+                    Assert.Equal(u.Address.UserId, correspondingUser.Address.UserId);
+                    Assert.Equal(u.Address.StreetNumber, correspondingUser.Address.StreetNumber);
+                    Assert.Equal(u.Address.StreetName, correspondingUser.Address.StreetName);
+                    Assert.Equal(u.Address.Country, correspondingUser.Address.Country);
+                    Assert.Equal(u.Address.City, correspondingUser.Address.City);
+                    Assert.Equal(u.Address.PostalCode, correspondingUser.Address.PostalCode);
+                    Assert.Equal(u.Address.PhoneNumber, correspondingUser.Address.PhoneNumber);
+                }
+            }
+        } 
+        #endregion
+
+#endregion
 
     }
 }

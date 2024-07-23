@@ -22,7 +22,7 @@ namespace TestXUnit_Shop.Mockup_DB
                 new User { Id = 3, Pseudo = "Bob", Mail = "bob@example.com", Mdp = "Test1234*", Address = null, Orders = null, Role = "User" },
                 new User { Id = 4, Pseudo = "Lily", Mail = "lily@example.com", Mdp = "Test1234*", Address = adresses[0], Orders = null, Role = "User" },
                 new User { Id = 5, Pseudo = "Marie", Mail = "marie@example.com", Mdp = "Test1235*", Address = adresses[1], Orders = null, Role = "User" },
-                new User { Id = 6, Pseudo = "Céline", Mail = "celine@example.com", Mdp = "Test1236*", Address = adresses[2], Orders = null, Role = "Admin" }
+                new User { Id = 6, Pseudo = "John", Mail = "jojo@example.com", Mdp = "Test1236*", Address = adresses[2], Orders = null, Role = "Admin" }
             };
         }
     }
