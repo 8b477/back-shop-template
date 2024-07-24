@@ -80,8 +80,6 @@ namespace BLL_Shop.Services
 
                 User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
 
-                userMapped.Role = "User";
-
                 try
                 {
                     userMapped.Mdp = PasswordHasher.HashPassword(userMapped.Mdp);
@@ -99,7 +97,7 @@ namespace BLL_Shop.Services
                 {
                     _logger.LogWarning("User creation failed");
 
-                    return TypedResults.BadRequest(new { Message = "Une erreur est survenue lors de la création de l'utilisateur. Veuillez réessayer." });
+                    return TypedResults.BadRequest(new { Message = "An error occurred while creating the user. Please try again." });
                 }
 
                 _logger.LogInformation("User created successfully: {Id}", result.Id);

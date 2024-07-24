@@ -31,14 +31,14 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="id">The ID of the user to retrieve.</param>
         /// <returns>The user with the specified ID, or null if not found.</returns>
-        public Task<User?> GetByID(int id);
+        public Task<UserViewDTO?> GetByID(int id);
 
         /// <summary>
         /// Retrieves users by their pseudo.
         /// </summary>
         /// <param name="pseudo">The pseudo to search for.</param>
         /// <returns>A list of users matching the specified pseudo.</returns>
-        public Task<IReadOnlyCollection<User?>> GetByPseudo(string pseudo);
+        public Task<IReadOnlyCollection<UserViewDTO?>> GetByPseudo(string pseudo);
         #endregion
 
 

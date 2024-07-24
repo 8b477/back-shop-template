@@ -8,7 +8,6 @@ using Database_Shop.Context;
 using DAL_Shop.Mapper;
 
 
-
 namespace DAL_Shop.Repository
 {
     public class UserRepository : IUserRepository
@@ -34,14 +33,19 @@ namespace DAL_Shop.Repository
             try
             {
                 _logger.LogInformation("Attempting to create a new user: {Pseudo}", userToAdd.Pseudo);
+
                 var result = await _db.User.AddAsync(userToAdd);
+
                 await _db.SaveChangesAsync();
+
                 _logger.LogInformation("User created successfully: {Id}", result.Entity.Id);
+
                 return result.Entity;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating user: {Pseudo}", userToAdd.Pseudo);
+
                 throw;
             }
         }
@@ -73,7 +77,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<User?> GetByID(int id)
+        public async Task<UserViewDTO?> GetByID(int id)
         {
             try
             {
@@ -88,7 +92,10 @@ namespace DAL_Shop.Repository
 
                     return null;
                 }
-                return result;
+
+                UserViewDTO userViewDTO = MapperUser.FromEntityToView(result);
+
+                return userViewDTO;
             }
             catch (Exception ex)
             {
@@ -98,7 +105,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<IReadOnlyCollection<User?>> GetByPseudo(string pseudo)
+        public async Task<IReadOnlyCollection<UserViewDTO?>> GetByPseudo(string pseudo)
         {
             try
             {
@@ -110,7 +117,9 @@ namespace DAL_Shop.Repository
 
                 _logger.LogInformation("Retrieved {Count} users with pseudo: {Pseudo}", result.Count, pseudo);
 
-                return result;
+                List<UserViewDTO> userViewDTO = MapperUser.FromEntityToView(result);
+
+                return userViewDTO;
             }
             catch (Exception ex)
             {

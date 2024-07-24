@@ -55,11 +55,10 @@ DELETE {{API_Shop_HostAddress}}/user/1
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
-  "mail":"tadam@mail.fr",
+  "mail":"lily@mail.fr",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
-  "pseudo":"tadam",
-  "role":"Admin"
+  "pseudo":"lily"
 }
 ###
 POST {{API_Shop_HostAddress}}/user

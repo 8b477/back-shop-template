@@ -7,7 +7,7 @@ using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
 using BLL_Shop.Validators.Address_Validator.AddressValidator;
 using BLL_Shop.Validators.User_Validator;
-using BLL_Shop.Validators.User_Validator.UserValidator;
+
 using DAL_Shop.Interfaces;
 using DAL_Shop.Repository;
 
