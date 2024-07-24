@@ -209,7 +209,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<Address?> UpdatePhoneNumber(int id, int phoneNumber)
+        public async Task<Address?> UpdatePhoneNumber(int id, string phoneNumber)
         {
             try
             {

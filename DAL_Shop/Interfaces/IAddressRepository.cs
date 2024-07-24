@@ -75,7 +75,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">The ID of the address to update.</param>
         /// <param name="phoneNumber">The new phoneNumber data.</param>
         /// <returns>The updated address, or null if the address was not found.</returns>
-        Task<Address?> UpdatePhoneNumber(int id, int phoneNumber);
+        Task<Address?> UpdatePhoneNumber(int id, string phoneNumber);
         #endregion
 
 

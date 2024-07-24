@@ -11,12 +11,12 @@ namespace TestXUnit_Shop.User_Tests.Mapper
         public MapperUserEntityToDTO_Tests()
         {
             // Initialize Users
-            _users = FakeDB.getUsersData();
+            _users = FakeDB.GetUsersData();
         }
 
 
         [Fact]
-        private void Test_User_To_UserViewDTO()
+        internal void Test_User_To_UserViewDTO()
         {
             // Act
             var listEntityUser = _users.ToList(); // Original list

@@ -5,7 +5,8 @@ namespace TestXUnit_Shop.Mockup_DB
 {
     internal static class FakeDB
     {
-        internal static List<User> getUsersData()
+
+        internal static List<User> GetUsersData()
         {
 
             List<Address> adresses = new List<Address>
@@ -25,5 +26,19 @@ namespace TestXUnit_Shop.Mockup_DB
                 new User { Id = 6, Pseudo = "John", Mail = "jojo@example.com", Mdp = "Test1236*", Address = adresses[2], Orders = null, Role = "Admin" }
             };
         }
+
+
+        internal static List<Address> GetAdressesData()
+        {
+            return new List<Address>
+            {
+                new Address { Id = 1, UserId = 4, City = "New York", Country = "USA", StreetName = "rue du fou", StreetNumber = 40, PhoneNumber = "0603030", PostalCode = 12345 },
+                new Address { Id = 2, UserId = 5, City = "Los Angeles", Country = "UK", StreetName = "rue longue", StreetNumber = 4, PhoneNumber = "0606060", PostalCode = 54321 },
+                new Address { Id = 3, UserId = 6, City = "New York", Country = "USA", StreetName = "rue de la tour", StreetNumber = 100, PhoneNumber = "0715224", PostalCode = 99999 }
+            };
+        }
+
+
+
     }
 }

@@ -12,25 +12,20 @@ namespace TestXUnit_Shop.User_Tests.Repository
 {
     public class UserRepository_Tests
     {
-
-#region -------> DI
         private readonly List<User> _users;
         private readonly Mock<IUserRepository> _mockRepo;
 
         public UserRepository_Tests()
         {
-            _users = FakeDB.getUsersData();
+            _users = FakeDB.GetUsersData();
             _mockRepo = CreateMockUserRepository();
         } 
-#endregion
 
-
-#region -------> Init Mockup
         private Mock<IUserRepository> CreateMockUserRepository()
         {
             var mockRepo = new Mock<IUserRepository>();
 
-
+            // CREATE
             mockRepo.Setup(repo => repo.Create(It.IsAny<User>()))
                 .Callback<User>(user =>
                 {
@@ -38,14 +33,14 @@ namespace TestXUnit_Shop.User_Tests.Repository
                     _users.Add(user);
                 }).ReturnsAsync((User user) => user);
 
-
+            // GET ALL
             mockRepo.Setup(repo => repo.GetAll())
                 .ReturnsAsync(() =>
                 {
                     return MapperUser.EntityToDTO(_users);
                 });
 
-
+            // GET BY ID
             mockRepo.Setup(repo => repo.GetByID(It.IsAny<int>()))
                 .ReturnsAsync((int id) =>
                 {
@@ -74,7 +69,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
                     );
                 });
 
-
+            // GET BY PSEUDO
             mockRepo.Setup(repo => repo.GetByPseudo(It.IsAny<string>()))
                 .ReturnsAsync((string pseudo) =>
                 {
@@ -83,15 +78,105 @@ namespace TestXUnit_Shop.User_Tests.Repository
                     return MapperUser.EntityToDTO(result);
                 });
 
+            // UPDATE
             mockRepo.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<User>()))
-                .ReturnsAsync((string message) => message);
+                .ReturnsAsync((int idUser, User userToAdd) =>
+                {
+                    User? correspondingUser = _users.FirstOrDefault(u => u.Id == idUser);
+
+                    if (correspondingUser is null)
+                        return "";
+
+                    return "User update !";
+                });
+
+            // UPDATE MAIL
+            mockRepo.Setup(repo => repo.UpdateMail(It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync((int idUser, string mail) =>
+                {
+                    User? result = _users.FirstOrDefault(u => u.Id == idUser);
+
+                    if (result is null)
+                        return "";
+
+                    result.Mail = mail;
+
+                    return "Mail update !";
+                });
+
+            // UPDATE PSEUDO
+            mockRepo.Setup(repo => repo.UpdatePseudo(It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync((int idUser, string pseudo) =>
+                {
+                    User? result = _users.FirstOrDefault(u => u.Id == idUser);
+
+                    if (result is null)
+                        return "";
+
+                    result.Pseudo = pseudo;
+
+                    return "Pseudo update !";
+                });
+
+            // UPDATE PASSWORD
+            mockRepo.Setup(repo => repo.UpdatePwd(It.IsAny<int>(), It.IsAny<string>()))
+                .ReturnsAsync((int idUser, string pwd) =>
+                {
+                    User? result = _users.FirstOrDefault(u => u.Id == idUser);
+
+                    if (result is null)
+                        return "";
+
+                    result.Mdp = pwd;
+
+                    return "Pwd update !";
+                });
+
+            // DELETE
+            mockRepo.Setup(repo => repo.Delete(It.IsAny<int>()))
+                .ReturnsAsync((int id) =>
+                {
+                    User? correspondingUser = _users.FirstOrDefault(u => u.Id == id);
+
+                    if (correspondingUser is null)
+                        return false;
+
+                    _users.Remove(correspondingUser);
+                    return true;
+                });
+
+            // CHECK MAIL
+            mockRepo.Setup(repo => repo.IsValidMail(It.IsAny<string>()))
+                .ReturnsAsync((string mail) =>
+                {
+                    User? result = _users.FirstOrDefault(user => user.Mail == mail);
+
+                    if (result is null)
+                        return true;
+
+                    return false;
+                });
 
             return mockRepo;
-        } 
-#endregion
+        }
 
 
-#region -------> CREATE
+        private User GetModelUser()
+        {
+            return new()
+            {
+                Pseudo = "NewUser",
+                Mail = "newUser@mail.be",
+                Mdp = "Test1234*",
+                MdpConfirm = "Test1234*",
+                Role = "User"
+            };
+        }
+
+
+
+    #region -------> CREATE
+
         [Fact]
         public async void Create_Add_User()
         {
@@ -114,20 +199,21 @@ namespace TestXUnit_Shop.User_Tests.Repository
 
             Assert.Null(result.Address);
             Assert.Null(result.Orders);
-
+            Assert.IsType<User>(result);
             Assert.Equal(newUser.Id, result.Id);
             Assert.Equal(newUser.Pseudo, result.Pseudo);
             Assert.Equal(newUser.Mail, result.Mail);
             Assert.Equal(newUser.Mdp, result.Mdp);
             Assert.Equal(newUser.Role, result.Role);
         }
-#endregion
+
+    #endregion
 
 
 
-#region -------> GET
+    #region -------> GET
 
-        #region GET ALL
+
         [Fact]
         public async Task Get_All_User()
         {
@@ -136,12 +222,12 @@ namespace TestXUnit_Shop.User_Tests.Repository
 
             // Assert
             Assert.NotNull(result);
+            Assert.IsType<UserViewDTO>(result);
             Assert.Equal(_users.Count, result.Count);
         }
-        #endregion
 
 
-        #region GET BY ID
+
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -166,6 +252,8 @@ namespace TestXUnit_Shop.User_Tests.Repository
             Assert.Equal(correspondingUser.Mail, result.Mail);
             Assert.Equal(correspondingUser.Role, result.Role);
 
+            Assert.IsType<User>(correspondingUser);
+            Assert.IsType<UserViewDTO>(result);
 
             if (correspondingUser.Address != null)
             {
@@ -187,10 +275,9 @@ namespace TestXUnit_Shop.User_Tests.Repository
                 Assert.Null(correspondingUser.Address);
             }
         }
-        #endregion
 
 
-        #region GET BY PSEUDO
+
         [Theory]
         [InlineData("John")]
         [InlineData("Jane")]
@@ -203,6 +290,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
             var result = await _mockRepo.Object.GetByPseudo(pseudo);
 
             Assert.NotNull(result);
+            Assert.IsType<UserViewDTO>(result);
 
             if (result is List<UserViewDTO> userList)
             {
@@ -258,10 +346,236 @@ namespace TestXUnit_Shop.User_Tests.Repository
                     Assert.Equal(u.Address.PhoneNumber, correspondingUser.Address.PhoneNumber);
                 }
             }
-        } 
-        #endregion
+        }
 
-#endregion
+    #endregion
+
+
+
+    #region -------> UPDATE
+
+        [Fact]
+        public async Task Update_User_Returns_Success_Message()
+        {
+            // Arrange
+            int idUser = 1;
+            string messageExpected = "User update !";
+            User userToAdd = GetModelUser();
+
+            //Act
+            string result = await _mockRepo.Object.Update(idUser, userToAdd);
+
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+        [Fact]
+        public async Task Update_User_Returns_Empty_String_When_User_Not_Found()
+        {
+            // Arrange
+            int idUser = 0;
+            string messageExpected = "";
+            User userToAdd = GetModelUser();
+
+            //Act
+            string result = await _mockRepo.Object.Update(idUser, userToAdd);
+
+
+            //Assert
+            Assert.Empty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+
+        [Fact]
+        public async Task Update_Mail_User_Returns_Success_Message_String()
+        {
+            // Arrange
+            int idUser = 1;
+            string messageExpected = "Mail update !";
+            string newMail = "mailUp@mail.be";
+
+            //Act
+            string result = await _mockRepo.Object.UpdateMail(idUser, newMail);
+
+
+            //Assert
+            Assert.NotEmpty(result.ToString());
+            Assert.NotNull(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+        [Fact]
+        public async Task Update_Mail_User_Returns_Empty_Message_String()
+        {
+            // Arrange
+            int idUser = 0;
+            string messageExpected = "";
+            string newMail = "mailUp@mail.be";
+
+            //Act
+            string result = await _mockRepo.Object.UpdateMail(idUser, newMail);
+
+
+            //Assert
+            Assert.Empty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+
+        [Fact]
+        public async Task Update_Pseudo_User_Returns_Success_Message_String()
+        {
+            // Arrange
+            int idUser = 1;
+            string messageExpected = "Pseudo update !";
+            string pseudo = "new pseudo";
+
+            //Act
+            string result = await _mockRepo.Object.UpdatePseudo(idUser, pseudo);
+
+
+            //Assert
+            Assert.NotEmpty(result.ToString());
+            Assert.NotNull(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+        [Fact]
+        public async Task Update_Pseudo_User_Returns_Empty_Message_String()
+        {
+            // Arrange
+            int idUser = 0;
+            string messageExpected = "";
+            string pseudo = "new pseudo";
+
+            //Act
+            string result = await _mockRepo.Object.UpdatePseudo(idUser, pseudo);
+
+
+            //Assert
+            Assert.Empty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+
+        [Fact]
+        public async Task Update_Password_User_Returns_Empty_Message_String()
+        {
+            // Arrange
+            int idUser = 0;
+            string messageExpected = "";
+            string newMdp = "1234Test*";
+
+            //Act
+            string result = await _mockRepo.Object.UpdatePwd(idUser, newMdp);
+
+
+            //Assert
+            Assert.Empty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+
+        [Fact]
+        public async Task Update_Password_User_Returns_Success_Message_String()
+        {
+            // Arrange
+            int idUser = 1;
+            string messageExpected = "Pwd update !";
+            string newMdp = "1234Test*";
+
+            //Act
+            string result = await _mockRepo.Object.UpdatePwd(idUser, newMdp);
+
+
+            //Assert
+            Assert.NotEmpty(result.ToString());
+            Assert.Contains(messageExpected, result.ToString());
+        }
+
+    #endregion
+
+
+
+    #region -------> DELETE
+
+        [Fact]
+        public async Task Delete_User_By_ID_Returns_True()
+        {
+            int idUser = 1;
+
+            int totalUsersBeforeDelete = _users.Count;
+
+            User? user = _users.FirstOrDefault(u => u.Id == idUser);
+
+            var result = await _mockRepo.Object.Delete(idUser);
+
+            int totalUsersAfterDelete = _users.Count;
+
+            Assert.True(result);
+            Assert.NotEqual(totalUsersBeforeDelete,totalUsersAfterDelete);
+            Assert.DoesNotContain(user,_users);
+            Assert.Null(_users.FirstOrDefault(u => u.Id == idUser));
+        }
+
+
+        [Fact]
+        public async Task Delete_User_By_ID_Returns_False()
+        {
+            int idUser = 0;
+
+            int totalUsersBeforeDelete = _users.Count;
+
+            User? user = _users.FirstOrDefault(u => u.Id == idUser);
+
+            var result = await _mockRepo.Object.Delete(idUser);
+
+            int totalUsersAfterDelete = _users.Count;
+
+            Assert.False(result);
+            Assert.Equal(totalUsersBeforeDelete, totalUsersAfterDelete);
+        }
+
+    #endregion
+
+
+
+    #region  -------> Tools
+
+        [Fact]
+        public async Task Check_Whether_Mail_Is_Already_In_Database_If_Is_It_Return_False()
+        {
+            string mailToCheck = "john@example.com";
+
+            bool result = await _mockRepo.Object.IsValidMail(mailToCheck);
+
+            Assert.False(result);
+        }
+
+
+        [Fact]
+        public async Task Check_Whether_Mail_Is_Already_In_Database_If_Is_It_Return_True()
+        {
+            string mailToCheck = "fake@example.com";
+
+            bool result = await _mockRepo.Object.IsValidMail(mailToCheck);
+
+            Assert.True(result);
+        }
+
+    #endregion
+
+
 
     }
 }

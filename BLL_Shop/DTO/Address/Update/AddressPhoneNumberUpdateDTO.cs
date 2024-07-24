@@ -3,11 +3,11 @@ namespace BLL_Shop.DTO.Address.Update
 {
     public record AddressPhoneNumberUpdateDTO
     {
-        public AddressPhoneNumberUpdateDTO(int phoneNumber)
+        public AddressPhoneNumberUpdateDTO(string phoneNumber)
         {
             PhoneNumber = phoneNumber;
         }
 
-        public int PhoneNumber { get; init; }
+        public string PhoneNumber { get; init; }
     }
 }
