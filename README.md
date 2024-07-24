@@ -61,15 +61,10 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
 
 ------------------- 
 
-## Note à moi même !
-
-Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf :
-- Email => pour la contrainte unique.
-- A venir les propriétés qui me servirons de filtre pour une recherche fluide dans la db (categorie, promo, ..).
-
 
 ## TODO
  
+- Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf.
 - Create validator :
   - Article. 
   - Category.
