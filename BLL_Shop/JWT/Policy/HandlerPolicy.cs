@@ -10,6 +10,7 @@ namespace BLL_Shop.JWT.Policy
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
                 options.AddPolicy("UserOrAdmin", policy => policy.RequireRole("User", "Admin"));
             });
         }

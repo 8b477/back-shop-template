@@ -61,3 +61,6 @@ Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récur
   - Order.
 
 - Rework Unit test (mockup is not current)
+
+- TEST :
+	- Validator Address. 

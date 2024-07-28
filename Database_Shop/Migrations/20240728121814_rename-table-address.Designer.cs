@@ -3,6 +3,7 @@ using System;
 using Database_Shop.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database_Shop.Migrations
 {
     [DbContext(typeof(ShopDB))]
-    partial class ShopDBModelSnapshot : ModelSnapshot
+    [Migration("20240728121814_rename-table-address")]
+    partial class renametableaddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -71,7 +74,7 @@ namespace Database_Shop.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Addresse", (string)null);
 
                     b.HasData(
                         new
@@ -587,7 +590,7 @@ namespace Database_Shop.Migrations
                             Id = 1,
                             Mail = "admin@mail.be",
                             Pseudo = "admin",
-                            Pwd = "$2a$11$tWOILVd7BHWBA5R1y3D.NOEp9x6NU5sbfTm9hxCJr0X2HGYA7ekK6",
+                            Pwd = "$2a$11$JH3NvMdgD3yud4ygjab/5.R8Ejaf6q2msKAGLCodqmxCAR4UB9Mnu",
                             Role = "Admin"
                         },
                         new
@@ -595,7 +598,7 @@ namespace Database_Shop.Migrations
                             Id = 2,
                             Mail = "user@mail.be",
                             Pseudo = "user",
-                            Pwd = "$2a$11$U4g.KSjNTTs9tbLKvnGP6.xtCfu.Fp.Y1dfB/kUKk6NdlqyCySo1e",
+                            Pwd = "$2a$11$1qdMP5pesSwBxAUlsq/uh.LgbK/TakB7KZrk8auIu7lPNplF7hwv6",
                             Role = "User"
                         },
                         new
@@ -603,7 +606,7 @@ namespace Database_Shop.Migrations
                             Id = 3,
                             Mail = "user2@mail.be",
                             Pseudo = "user2",
-                            Pwd = "$2a$11$FxcRbE8muAllaodUwTNndO2KUKgFUQMXmRbQkerTBwIrYTKyNpYxm",
+                            Pwd = "$2a$11$wnGuUMwp0quJIB87tV76duG5TLUNKZc6waGxYxOdVPSdaErVuCBEq",
                             Role = "User"
                         },
                         new
@@ -611,7 +614,7 @@ namespace Database_Shop.Migrations
                             Id = 4,
                             Mail = "user3@mail.be",
                             Pseudo = "user3",
-                            Pwd = "$2a$11$bHZCUgMz3QZ/fsINESlGKeXUcOU3pKndL42cpDmh.zda4QsPHz97G",
+                            Pwd = "$2a$11$3NAL5bC.viRwzvFY0bK/EOrzv7KIR7/xNMqki1QtJydF5HTVapNPa",
                             Role = "User"
                         },
                         new
@@ -619,7 +622,7 @@ namespace Database_Shop.Migrations
                             Id = 5,
                             Mail = "user4@mail.be",
                             Pseudo = "user4",
-                            Pwd = "$2a$11$rtjC2mMQ/bkje3nsIgTSV.jtVC2xXE1FWOog3LHm39UZPJVeQQRJ.",
+                            Pwd = "$2a$11$.7XQfmZNHL/JeD8ltPeQu.C891RcLK/Kt..INYPc.FjGZnfktcZOe",
                             Role = "User"
                         });
                 });

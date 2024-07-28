@@ -23,12 +23,27 @@ namespace BLL_Shop.Services
         private readonly JWTGetClaimsService _jwtGetClaimService;
         private readonly ILogger<IAddressService> _logger;
         private readonly IValidator<AddressCreateDTO> _addressCreateValidator;
+        private readonly IValidator<AddressCountryUpdateDTO> _addressUpdateCountryValidator;
+        private readonly IValidator<AddressCityUpdateDTO> _addressUpdateCityValidator;
+        private readonly IValidator<AddressPhoneNumberUpdateDTO> _addressUpdatePhoneNumberValidator;
 
-        public AddressService(IAddressRepository addressRepository, JWTGetClaimsService jwtGetClaimService, ILogger<IAddressService> logger, IValidator<AddressCreateDTO> addressCreateValidator)
+        public AddressService(
+            IAddressRepository addressRepository,
+            JWTGetClaimsService jwtGetClaimService,
+            ILogger<IAddressService> logger,
+            IValidator<AddressCreateDTO> addressCreateValidator,
+            IValidator<AddressCountryUpdateDTO> addressUpdateCountryValidator,
+            IValidator<AddressCityUpdateDTO> addressUpdateCityValidator,
+            IValidator<AddressPhoneNumberUpdateDTO> addressUpdatePhoneNumberValidator
+            )
         {
             _addressRepository = addressRepository;
             _jwtGetClaimService = jwtGetClaimService;
             _logger = logger;
+            _addressCreateValidator = addressCreateValidator;
+            _addressUpdatePhoneNumberValidator = addressUpdatePhoneNumberValidator;
+            _addressUpdateCountryValidator = addressUpdateCountryValidator;
+            _addressUpdateCityValidator = addressUpdateCityValidator;
             _addressCreateValidator = addressCreateValidator;
         }
 
@@ -108,14 +123,14 @@ namespace BLL_Shop.Services
 
                 var result = await _addressRepository.GetAll();
 
-                if (result is null || !result.Any())
+                if (result is null || result.Count == 0)
                 {
                     _logger.LogInformation("No addresses found");
 
                     return TypedResults.NoContent();
                 }
 
-                _logger.LogInformation("Retrieved {Count} addresses", result.Count());
+                _logger.LogInformation("Retrieved {Count} addresses", result.Count);
 
                 return TypedResults.Ok(result);
             }
@@ -135,14 +150,14 @@ namespace BLL_Shop.Services
 
                 var result = await _addressRepository.GetByPostalCode(postalCode);
 
-                if (!result.Any())
+                if (result.Count == 0)
                 {
                     _logger.LogInformation("No addresses found for postal code: {PostalCode}", postalCode);
 
                     return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
-                _logger.LogInformation("Retrieved {Count} addresses for postal code: {PostalCode}", result.Count(), postalCode);
+                _logger.LogInformation("Retrieved {Count} addresses for postal code: {PostalCode}", result.Count, postalCode);
 
                 return TypedResults.Ok(result);
             }
@@ -162,14 +177,14 @@ namespace BLL_Shop.Services
 
                 var result = await _addressRepository.GetByCity(city);
 
-                if (!result.Any())
+                if (result.Count == 0)
                 {
                     _logger.LogInformation("No addresses found for city: {City}", city);
 
                     return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
-                _logger.LogInformation("Retrieved {Count} addresses for city: {City}", result.Count(), city);
+                _logger.LogInformation("Retrieved {Count} addresses for city: {City}", result.Count, city);
 
                 return TypedResults.Ok(result);
             }
@@ -189,14 +204,14 @@ namespace BLL_Shop.Services
 
                 var result = await _addressRepository.GetByCountry(country);
 
-                if (!result.Any())
+                if (result.Count == 0)
                 {
                     _logger.LogInformation("No addresses found for country: {Country}", country);
 
                     return TypedResults.NotFound(new { Message = "Aucune correspondance" });
                 }
 
-                _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count(), country);
+                _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count, country);
 
                 return TypedResults.Ok(result);
             }
@@ -212,90 +227,252 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> Update(int id, AddressCountryUpdateDTO addressToAdd)
+        public async Task<IResult> UpdateAddressForSimpleUser(AddressCountryUpdateDTO addressToAdd)
         {
             try
             {
-                _logger.LogInformation("Updating address with ID: {Id}", id);
+                _logger.LogInformation("Try to authenticate user");
+
+                int idUser = _jwtGetClaimService.GetIdUserToken();
+
+                if (idUser == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating address with IDUser: {IdUser}", idUser);
+
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdateCountryValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address update");
+
+                    return validationResult;
+                }
 
                 Address addressMapped = MapperAddress.FromAddressCountryUpdateDTOToEntity(addressToAdd);
 
-                var result = await _addressRepository.Update(id, addressMapped);
+                var result = await _addressRepository.Update(idUser, addressMapped);
 
                 if (result is null)
                 {
-                    _logger.LogWarning("Failed to update address with ID: {Id}", id);
+                    _logger.LogWarning("Failed to update address with IDUser: {IdUser}", idUser);
                     return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
 
                 }
 
-                _logger.LogInformation("Address with ID {Id} updated successfully", id);
+                _logger.LogInformation("Address with ID {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}", id);
+                _logger.LogError(ex, "Error occurred while updating address with IDUser");
 
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
-        public async Task<IResult> UpdateCity(int id, AddressCityUpdateDTO addressToAdd)
+        public async Task<IResult> UpdateAddressUserWithAdminAccess(int idUser, AddressCountryUpdateDTO addressToAdd)
         {
             try
             {
-                _logger.LogInformation("Updating City address with ID: {Id}", id);
+                _logger.LogInformation("Updating address with IDUser: {idUser}", idUser);
 
-                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdateCountryValidator);
 
-                var result = await _addressRepository.UpdateCity(
-                    id,
-                    addressMapped.PostalCode,
-                    addressMapped.StreetNumber,
-                    addressMapped.City);
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address update");
+
+                    return validationResult;
+                }
+
+                Address addressMapped = MapperAddress.FromAddressCountryUpdateDTOToEntity(addressToAdd);
+
+                var result = await _addressRepository.Update(idUser, addressMapped);
 
                 if (result is null)
                 {
-                    _logger.LogWarning("Failed to update City address with ID: {Id}", id);
+                    _logger.LogWarning("Failed to update address with IDUser: {IdUser}", idUser);
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+
+                }
+
+                _logger.LogInformation("Address with ID {Id} updated successfully", idUser);
+
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}", idUser);
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateCityForSimpleUser(AddressCityUpdateDTO addressToAdd)
+        {
+            try
+            {
+                int idUser = _jwtGetClaimService.GetIdUserToken();
+                if(idUser == 0)
+                {
+                    _logger.LogWarning("Authentication failed ! Impossible to retrieve the id user in token");
+
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating City address with IDUser: {IdUser}", idUser);
+
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdateCityValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
+
+                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+
+                var result = await _addressRepository.UpdateCity(idUser,addressMapped);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update City address with IDUser: {IdUser}", idUser);
 
                     return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
                 }
 
-                _logger.LogInformation("Address with ID {Id} updated successfully", id);
+                _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);                
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}, PostalCode: {PostalCode}, StreetNumber: {StreetNumber}, City: {City}", id, addressToAdd.PostalCode, addressToAdd.StreetNumber, addressToAdd.City);
+                _logger.LogError(ex, "Error occurred while updating address with IDUser give, PostalCode: {PostalCode}, StreetNumber: {StreetNumber}, City: {City}", addressToAdd.PostalCode, addressToAdd.StreetNumber, addressToAdd.City);
 
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
-        public async Task<IResult> UpdatePhoneNumber(int id, AddressPhoneNumberUpdateDTO addressToAdd)
+        public async Task<IResult> UpdateCityUserWithAdminAccess(int idUser, AddressCityUpdateDTO addressToAdd)
         {
             try
             {
-                _logger.LogInformation("Updating PhoneNumber with ID: {Id}", id);
+                _logger.LogInformation("Updating City address with IDUser: {IdUser}", idUser);
 
-                var result = await _addressRepository.UpdatePhoneNumber(id, addressToAdd.PhoneNumber);
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdateCityValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
+
+                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+
+                var result = await _addressRepository.UpdateCity(idUser, addressMapped);
 
                 if (result is null)
                 {
-                    _logger.LogWarning("Failed to update PhoneNumber with ID: {Id}", id);
+                    _logger.LogWarning("Failed to update City address with IDUser: {IdUser}", idUser);
 
                     return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
                 }
 
-                _logger.LogInformation("Address with ID {Id} and PhoneNumber {PhoneNumber} updated successfully", id, addressToAdd.PhoneNumber);
+                _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating address with ID: {Id} and PhoneNumber {PhoneNumber}", id, addressToAdd.PhoneNumber);
+                _logger.LogError(ex, "Error occurred while updating address with IDUser give, PostalCode: {PostalCode}, StreetNumber: {StreetNumber}, City: {City}", addressToAdd.PostalCode, addressToAdd.StreetNumber, addressToAdd.City);
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdatePhoneNumberForSimpleUser(AddressPhoneNumberUpdateDTO addressToAdd)
+        {
+            try
+            {
+                int idUser = _jwtGetClaimService.GetIdUserToken();
+
+                if(idUser == 0)
+                {
+                    _logger.LogWarning("Authentication failed ! Impossible to retrieve the id user in token");
+                    return TypedResults.Unauthorized();
+                }
+
+
+                _logger.LogInformation("Updating PhoneNumber with IDUser: {IdUser}", idUser);
+
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdatePhoneNumberValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
+
+                var result = await _addressRepository.UpdatePhoneNumber(idUser, addressToAdd.PhoneNumber);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update PhoneNumber with IDUser: {IdUser}", idUser);
+
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+                }
+
+                _logger.LogInformation("Address with IDUser {IdUser} and PhoneNumber {PhoneNumber} updated successfully", idUser, addressToAdd.PhoneNumber);
+
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdatePhoneNumberUserWithAdminAccess(int idUser, AddressPhoneNumberUpdateDTO addressToAdd)
+        {
+            try
+            {
+                _logger.LogInformation("Updating PhoneNumber with IDUser: {Id}", idUser);
+
+                var validationResult = await ValidatorModelState.ValidModelState(addressToAdd, _addressUpdatePhoneNumberValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
+
+                var result = await _addressRepository.UpdatePhoneNumber(idUser, addressToAdd.PhoneNumber);
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Failed to update PhoneNumber with IDUser: {IdUser}", idUser);
+
+                    return TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+                }
+
+                _logger.LogInformation("Address with ID {IdUser} and PhoneNumber {PhoneNumber} updated successfully", idUser, addressToAdd.PhoneNumber);
+
+                return TypedResults.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
 
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }

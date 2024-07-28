@@ -1,4 +1,6 @@
-﻿using Database_Shop.Entity;
+﻿using DAL_Shop.DTO.Article;
+
+using Database_Shop.Entity;
 
 namespace DAL_Shop.Interfaces
 {
@@ -21,7 +23,7 @@ namespace DAL_Shop.Interfaces
         /// Retrieve all articles already in the database.
         /// </summary>
         /// <returns>Returns a list of articles.</returns>
-        Task<IReadOnlyCollection<Article>> GetAll();
+        Task<IReadOnlyCollection<ArticleViewDTO>> GetAll();
 
         /// <summary>
         /// Retrieve articles by category name.

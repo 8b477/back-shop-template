@@ -1,10 +1,8 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database_Shop.Entity
 {
-#nullable disable
     public class OrderArticle
     {
         [Key]
@@ -22,5 +20,4 @@ namespace Database_Shop.Entity
 
         public Article Article { get; set; }
     }
-#nullable enable
 }

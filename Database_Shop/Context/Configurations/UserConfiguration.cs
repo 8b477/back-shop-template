@@ -1,4 +1,6 @@
-﻿using Database_Shop.Entity;
+﻿using BCrypt.Net;
+
+using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,12 +21,10 @@ namespace Database_Shop.Context.Configurations
             builder.Property(u => u.Mail)
                 .IsRequired();
 
-            builder.Property(u => u.Mdp)
+            builder.Property(u => u.Pwd)
                 .IsRequired();
 
-            builder.Property(u => u.MdpConfirm)
-                .IsRequired();
-
+            
             builder.Property(u => u.Role);
 
             builder.HasOne(u => u.Address)
@@ -36,10 +36,9 @@ namespace Database_Shop.Context.Configurations
              new User
              {
                  Id = 1,
-                 Pseudo = "user1",
+                 Pseudo = "admin",
                  Mail = "admin@mail.be",
-                 Mdp = "Test1234*",
-                 MdpConfirm = "Test1234*",
+                 Pwd = BCrypt.Net.BCrypt.HashPassword("Test1234*"),
                  Role = "Admin"
              },
              new User
@@ -47,8 +46,7 @@ namespace Database_Shop.Context.Configurations
                  Id = 2,
                  Pseudo = "user",
                  Mail = "user@mail.be",
-                 Mdp = "Test1234*",
-                 MdpConfirm = "Test1234*",
+                 Pwd = BCrypt.Net.BCrypt.HashPassword("Test1234*"),
                  Role = "User"
              },
              new User
@@ -56,8 +54,23 @@ namespace Database_Shop.Context.Configurations
                  Id = 3,
                  Pseudo = "user2",
                  Mail = "user2@mail.be",
-                 Mdp = "Test1234*",
-                 MdpConfirm = "Test1234*",
+                 Pwd = BCrypt.Net.BCrypt.HashPassword("Test1234*"),
+                 Role = "User"
+             },
+             new User
+             {
+                 Id = 4,
+                 Pseudo = "user3",
+                 Mail = "user3@mail.be",
+                 Pwd = BCrypt.Net.BCrypt.HashPassword("Test1234*"),
+                 Role = "User"
+             },
+             new User
+             {
+                 Id = 5,
+                 Pseudo = "user4",
+                 Mail = "user4@mail.be",
+                 Pwd = BCrypt.Net.BCrypt.HashPassword("Test1234*"),
                  Role = "User"
              }
          );

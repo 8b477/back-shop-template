@@ -1,4 +1,5 @@
-﻿using BLL_Shop.Interfaces;
+﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.Interfaces;
 using Database_Shop.Entity;
 
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,7 @@ namespace API_Shop.Endpoints
 
             // ADD (ADMIN)
             app.MapPost("/article", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromBody] Article article)
+            async ([FromServices] IArticleService articleService, [FromBody] ArticleCreateDTO article)
                     => await articleService.CreateArticle(article));
 
 
@@ -26,33 +27,33 @@ namespace API_Shop.Endpoints
                 async ([FromServices] IArticleService articleService) => await articleService.GetAllArticles());
 
 /*ONE*/     app.MapGet("/article/{id:int}",
-                async ([FromServices] IArticleService articleService, int id) => await articleService.GetArticleById(id));
+                async ([FromServices] IArticleService articleService, [FromRoute] int id) => await articleService.GetArticleById(id));
 
 /*NAME*/    app.MapGet("/article/{categoryName}",
-                async ([FromServices] IArticleService articleService, string categoryName) => await articleService.GetArticleByCategory(categoryName));
+                async ([FromServices] IArticleService articleService,[FromRoute] string categoryName) => await articleService.GetArticleByCategory(categoryName));
 
 
 
 
             // UPDATE (ADMIN)
 /*FULL*/    app.MapPut("/article/{id:int}",[Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id, [FromBody] Article article)
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] Article article)
                     => await articleService.UpdateArticle(id, article));
 
 /*NAME*/    app.MapPut("/article/name/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id, [FromBody] string name)
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] string name)
                     => await articleService.UpdateArticleName(id, name));
 
 /*PRICE*/   app.MapPut("/article/price/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id, [FromBody] int price) 
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] int price) 
                     => await articleService.UpdateArticlePrice(id, price));
 
 /*STOCK*/   app.MapPut("/article/stock/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id, [FromBody] int stock) 
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] int stock) 
                     => await articleService.UpdateArticleStock(id, stock));
 
 /*PROMO*/   app.MapPut("/article/promo/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id, [FromBody] bool promo) 
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] bool promo) 
                 => await articleService.UpdateArticlePromo(id, promo));
 
 
@@ -60,7 +61,7 @@ namespace API_Shop.Endpoints
 
             // DELETE (ADMIN)
             app.MapDelete("/article/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, int id)
+                async ([FromServices] IArticleService articleService, [FromRoute] int id)
                     => await articleService.DeleteArticle(id));
 
 

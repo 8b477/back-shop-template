@@ -1,4 +1,6 @@
-﻿using BLL_Shop.Interfaces;
+﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.Interfaces;
+using BLL_Shop.Mappers;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
@@ -14,11 +16,13 @@ namespace BLL_Shop.Services
 
         #region DI
         private readonly IArticleRepository _repoArticle;
+        private readonly ICategoryRepository _repoCategory;
         private readonly ILogger<ArticleService> _logger;
 
-        public ArticleService(IArticleRepository repoArticle, ILogger<ArticleService> logger)
+        public ArticleService(IArticleRepository repoArticle, ICategoryRepository repoCategory, ILogger<ArticleService> logger)
         {
             _repoArticle = repoArticle;
+            _repoCategory = repoCategory;
             _logger = logger;
         }
         #endregion
@@ -26,11 +30,42 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> CREATE <------------->
-        public async Task<IResult> CreateArticle(Article article)
+        public async Task<IResult> CreateArticle(ArticleCreateDTO article)
         {
             try
             {
-                var result = await _repoArticle.Create(article);
+                _logger.LogInformation("Create new article");
+
+
+                //VALIDTOR !!!
+                //....
+
+
+                var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
+
+                if (correspondingCategories is null)
+                {
+                    _logger.LogWarning("No reference match");
+                    return TypedResults.BadRequest(new { Message = "No reference provided is correct" });
+                }
+
+                if(article.Categories.Count != correspondingCategories.Count)
+                {
+                    _logger.LogWarning("All supplied identifiers are not matched");
+                    return TypedResults.BadRequest(new { Message = "Not all identifiers supplied are correct, please check and retry" });
+                }
+
+
+                Article articleMapped = MapperArticle.FromArticleCreateDTOToEntity(article);
+
+                // Update relation table
+                articleMapped.ArticleCategories = correspondingCategories.Select(c => new ArticleCategory 
+                {
+                    CategoryId = c.Id
+                }).ToList();
+
+
+                var result = await _repoArticle.Create(articleMapped);
 
                 return result is null
                     ? TypedResults.BadRequest()
@@ -44,6 +79,7 @@ namespace BLL_Shop.Services
             }
         }
         #endregion
+
 
 
 

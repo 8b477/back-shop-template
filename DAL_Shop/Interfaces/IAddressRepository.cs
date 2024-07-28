@@ -54,28 +54,28 @@ namespace DAL_Shop.Interfaces
         /// <summary>
         /// Updates an existing address in the database.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
+        /// <param name="idUser">The ID of the user for find corresponding Address.</param>
         /// <param name="addressToAdd">The new address data.</param>
         /// <returns>The updated address, or null if the address was not found.</returns>
-        public Task<Address?> Update(int id, Address addressToAdd);
+        public Task<Address?> Update(int idUser, Address addressToAdd);
 
         /// <summary>
         /// Updates an existing address in the database.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
+        /// <param name="idUser">The IDUser for find the corresponding Address to update.</param>
         /// <param name="postalCode">The new postalCode data.</param>
         /// <param name="streetNumber">The new streetNumber data.</param>
         /// <param name="city">The new city data.</param>
         /// <returns>The updated address, or null if the address was not found.</returns>
-        Task<Address?> UpdateCity(int id, int postalCode, int streetNumber, string city);
+        Task<Address?> UpdateCity(int idUser, Address addressToUpdate);
 
         /// <summary>
         /// Updates an existing address in the database.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
+        /// <param name="idUser">The IDUser for find corresponding Address to update.</param>
         /// <param name="phoneNumber">The new phoneNumber data.</param>
         /// <returns>The updated address, or null if the address was not found.</returns>
-        Task<Address?> UpdatePhoneNumber(int id, string phoneNumber);
+        Task<Address?> UpdatePhoneNumber(int idUser, string phoneNumber);
         #endregion
 
 

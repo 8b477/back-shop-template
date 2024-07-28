@@ -1,5 +1,5 @@
 ﻿using BLL_Shop.DTO.Address.Create;
-using BLL_Shop.Validators.Address_Validator.AddressValidator;
+using BLL_Shop.Validators.Address_Validator;
 
 using FluentValidation.TestHelper;
 
@@ -7,11 +7,11 @@ namespace TestXUnit_Shop.Address_Tests.Validator
 {
     public class AddressValidatorTests
     {
-        private readonly AddressValidator _validator;
+        private readonly AddressCreateValidator _validator;
 
         public AddressValidatorTests()
         {
-            _validator = new AddressValidator();
+            _validator = new AddressCreateValidator();
         }
 
 

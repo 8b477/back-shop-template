@@ -246,8 +246,7 @@ namespace DAL_Shop.Repository
                     return "";
                 }
 
-                existingUser.Mdp = pwd;
-                existingUser.MdpConfirm = pwd;
+                existingUser.Pwd = pwd;
 
                 await _db.SaveChangesAsync();
 

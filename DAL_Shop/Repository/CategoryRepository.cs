@@ -91,6 +91,16 @@ namespace DAL_Shop.Repository
                 return null;
             }
         }
+
+        public async Task<List<Category>?> GetByIds(List<int> ids)
+        {
+            var result = await _db.Category.Where(c => ids.Contains(c.Id)).ToListAsync();
+
+            if (result is null)
+                return null;
+
+            return result;
+        }
         #endregion
 
 

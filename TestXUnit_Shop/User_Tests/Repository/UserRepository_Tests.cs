@@ -127,7 +127,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
                     if (result is null)
                         return "";
 
-                    result.Mdp = pwd;
+                    result.Pwd = pwd;
 
                     return "Pwd update !";
                 });
@@ -167,8 +167,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
             {
                 Pseudo = "NewUser",
                 Mail = "newUser@mail.be",
-                Mdp = "Test1234*",
-                MdpConfirm = "Test1234*",
+                Pwd = "Test1234*",
                 Role = "User"
             };
         }
@@ -186,8 +185,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
                 Id = _users.Count + 1,
                 Pseudo = "Lily",
                 Mail = "lily@mail.be",
-                Mdp = "Test1234*",
-                MdpConfirm = "Test1234*",
+                Pwd = "Test1234*",
                 Role = "User"
             };
 
@@ -203,7 +201,7 @@ namespace TestXUnit_Shop.User_Tests.Repository
             Assert.Equal(newUser.Id, result.Id);
             Assert.Equal(newUser.Pseudo, result.Pseudo);
             Assert.Equal(newUser.Mail, result.Mail);
-            Assert.Equal(newUser.Mdp, result.Mdp);
+            Assert.Equal(newUser.Pwd, result.Pwd);
             Assert.Equal(newUser.Role, result.Role);
         }
 

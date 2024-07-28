@@ -32,6 +32,13 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">The ID of the category to retrieve.</param>
         /// <returns>The category with the specified ID, or null if not found.</returns>
         Task<Category?> GetById(int id);
+
+        /// <summary>
+        /// Retrieves all categories corresponding to the list ID.
+        /// </summary>
+        /// <param name="ids">List of categories identifier to be retrieved.</param>
+        /// <returns>Returns categories matching the specified IDs, or null if there is no match.</returns>
+        Task<List<Category>?> GetByIds(List<int> ids);
         #endregion
 
 

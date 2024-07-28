@@ -1,11 +1,12 @@
 ﻿using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.DTO.Address.Update;
 using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Models;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
-using BLL_Shop.Validators.Address_Validator.AddressValidator;
+using BLL_Shop.Validators.Address_Validator;
 using BLL_Shop.Validators.User_Validator;
 
 using DAL_Shop.Interfaces;
@@ -37,7 +38,10 @@ namespace API_Shop.DI
             services.AddScoped<IAddressService, AddressService>();
 
             //ADDRESS VALIDATOR
-            services.AddScoped<IValidator<AddressCreateDTO>, AddressValidator>();
+            services.AddScoped<IValidator<AddressCreateDTO>, AddressCreateValidator>();
+            services.AddScoped<IValidator<AddressCountryUpdateDTO>, AddressUpdateValidator>();
+            services.AddScoped<IValidator<AddressCityUpdateDTO>, AddressUpdateCityValidator>();
+            services.AddScoped<IValidator<AddressPhoneNumberUpdateDTO>, AddressUpdatePhoneNumberValidator>();
 
 
             //ARTICLE

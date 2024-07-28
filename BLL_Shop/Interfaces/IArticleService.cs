@@ -1,4 +1,5 @@
-﻿using Database_Shop.Entity;
+﻿using BLL_Shop.DTO.Article.Create;
+using Database_Shop.Entity;
 
 using Microsoft.AspNetCore.Http;
 
@@ -14,7 +15,7 @@ namespace BLL_Shop.Interfaces
         /// </summary>
         /// <param name="article">Article to add.</param>
         /// <returns>If the insertion is successful, returns the added article; otherwise, returns null.</returns>
-        Task<IResult> CreateArticle(Article article);
+        Task<IResult> CreateArticle(ArticleCreateDTO article);
         #endregion
 
 

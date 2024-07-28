@@ -26,17 +26,47 @@ namespace Database_Shop.Context.Configurations
                 new Category
                 {
                     Id = 1,
-                    Name = "Catégorie 1"
+                    Name = "Boisson"
                 },
                 new Category
                 {
                     Id = 2,
-                    Name = "Catégorie 2"
+                    Name = "Alcool"
                 },
                 new Category
                 {
                     Id = 3,
-                    Name = "Catégorie 3"
+                    Name = "Snack"
+                },
+                new Category
+                {
+                    Id = 4,
+                    Name = "Frais"
+                },
+                new Category
+                {
+                    Id = 5,
+                    Name = "Surgeler"
+                },
+                new Category
+                {
+                    Id = 6,
+                    Name = "Légume"
+                },
+                new Category
+                {
+                    Id = 7,
+                    Name = "Fruit"
+                },
+                new Category
+                {
+                    Id = 8,
+                    Name = "Sec"
+                },
+                new Category
+                {
+                    Id = 9,
+                    Name = "Conserve"
                 }
             );
         }

@@ -1,4 +1,5 @@
 ﻿using DAL_Shop.DTO.Article;
+using DAL_Shop.DTO.Category;
 using DAL_Shop.DTO.Order;
 using Database_Shop.Entity;
 
@@ -20,7 +21,13 @@ namespace DAL_Shop.Mapper
                     oa.Article.Name,
                     oa.Article.Stock,
                     oa.Article.Promo,
-                    oa.Article.Price
+                    oa.Article.Price,
+                    oa.Article.ArticleCategories.Select(ac => 
+                    new CategoryViewDTO
+                    (
+                        ac.Id,
+                        ac.Category.Name
+                    )).ToList()
                 )).ToList()
             );
         }
@@ -39,7 +46,13 @@ namespace DAL_Shop.Mapper
                     oa.Article.Name,
                     oa.Article.Stock,
                     oa.Article.Promo,
-                    oa.Article.Price
+                    oa.Article.Price,
+                    oa.Article.ArticleCategories.Select(ac =>
+                    new CategoryViewDTO
+                    (
+                        ac.Id,
+                        ac.Category.Name
+                    )).ToList()
                 )).ToList()
             )).ToList();
         }

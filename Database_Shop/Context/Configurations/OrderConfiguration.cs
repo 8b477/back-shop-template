@@ -35,25 +35,41 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 1,
                     UserId = 2,
-                    Status = "En cours",
+                    Status = "Livré",
                     CreatedAt = new DateTime(2023, 6, 1),
                     SentAt = new DateTime(2023, 6, 5)
                 },
                 new Order
                 {
                     Id = 2,
+                    UserId = 2,
+                    Status = "En attente",
+                    CreatedAt = new DateTime(2023, 7, 10),
+                    SentAt = null
+                },
+                new Order
+                {
+                    Id = 3,
                     UserId = 3,
+                    Status = "En attente",
+                    CreatedAt = new DateTime(2023, 7, 10),
+                    SentAt = null
+                },
+                new Order
+                {
+                    Id = 4,
+                    UserId = 4,
                     Status = "Livré",
                     CreatedAt = new DateTime(2023, 7, 10),
                     SentAt = new DateTime(2023, 7, 15)
                 },
                 new Order
                 {
-                    Id = 3,
-                    UserId = 3,
-                    Status = "En cours",
-                    CreatedAt = new DateTime(2023, 7, 10),
-                    SentAt = new DateTime(2023, 7, 15)
+                    Id = 5,
+                    UserId = 4,
+                    Status = "Livré",
+                    CreatedAt = new DateTime(2023, 8, 23),
+                    SentAt = new DateTime(2023, 8, 28)
                 }
             );
         }

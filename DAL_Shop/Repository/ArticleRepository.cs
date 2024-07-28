@@ -10,6 +10,8 @@ namespace DAL_Shop.Repository
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using DAL_Shop.Mapper;
+    using DAL_Shop.DTO.Article;
 
     public class ArticleRepository : IArticleRepository
     {
@@ -55,17 +57,23 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> GET <------------->
-        public async Task<IReadOnlyCollection<Article>> GetAll()
+        public async Task<IReadOnlyCollection<ArticleViewDTO>> GetAll()
         {
             try
             {
-                return await _ctx.Article.ToListAsync();
+                var result = await _ctx.Article
+                    .Include(a => a.ArticleCategories)
+                    .ThenInclude(ac => ac.Category)
+                    .ToListAsync();
+
+                List<ArticleViewDTO> listMapped = MapperArticle.EntityToViewDTO(result);
+                return listMapped;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all articles");
 
-                return new List<Article>();
+                return [];
             }
         }
 
@@ -84,7 +92,7 @@ namespace DAL_Shop.Repository
             {
                 _logger.LogError(ex, "Error retrieving articles by category {CategoryName}", categoryName);
 
-                return new List<Article>();
+                return [];
             }
         }
 
