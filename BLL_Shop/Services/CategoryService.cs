@@ -2,9 +2,12 @@
 using BLL_Shop.DTO.Category.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.Mappers;
+using BLL_Shop.Validators;
 
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
+
+using FluentValidation;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -18,11 +21,20 @@ namespace BLL_Shop.Services
 
         #region DI
         private readonly ICategoryRepository _repoCategory;
+        private readonly IValidator<CategoryCreateDTO> _categoryCreateDTOValidator;
+        private readonly IValidator<CategoryUpdateDTO> _categoryUpdateDTOValidator;
         private readonly ILogger<CategoryService> _logger;
 
-        public CategoryService(ICategoryRepository repoCategory, ILogger<CategoryService> logger)
+        public CategoryService(
+            ICategoryRepository repoCategory,
+            IValidator<CategoryCreateDTO> categoryCreateDTOValidator,
+            IValidator<CategoryUpdateDTO> categoryUpdateDTOValidator,
+            ILogger<CategoryService> logger
+            )
         {
             _repoCategory = repoCategory;
+            _categoryCreateDTOValidator = categoryCreateDTOValidator;
+            _categoryUpdateDTOValidator = categoryUpdateDTOValidator;
             _logger = logger;
         }
         #endregion
@@ -34,7 +46,16 @@ namespace BLL_Shop.Services
         {
             try
             {
-                // VALIDATOR
+                _logger.LogInformation("Creating new Category");
+
+                var validationResult = await ValidatorModelState.ValidModelState(category, _categoryCreateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for category creation");
+
+                    return validationResult;
+                }
 
                 Category categoryMapped = MapperCategory.DTOToEntity(category);
 
@@ -118,6 +139,18 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("updating new Category");
+
+                var validationResult = await ValidatorModelState.ValidModelState(categoryNameToUpdate, _categoryUpdateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for category update");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoCategory.Update(id, categoryNameToUpdate.Name);
 
                 if (result is null)
