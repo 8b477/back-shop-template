@@ -1,4 +1,5 @@
-﻿using Database_Shop.Entity;
+﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
 
 using Microsoft.AspNetCore.Http;
 
@@ -14,7 +15,7 @@ namespace BLL_Shop.Interfaces
         /// </summary>
         /// <param name="article">Article to add.</param>
         /// <returns>If the insertion is successful, returns the added article; otherwise, returns null.</returns>
-        Task<IResult> CreateArticle(Article article);
+        Task<IResult> CreateArticle(ArticleCreateDTO article);
         #endregion
 
 
@@ -50,39 +51,39 @@ namespace BLL_Shop.Interfaces
         /// <param name="id">ID of the article.</param>
         /// <param name="article">New values for the article.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<IResult> UpdateArticle(int id, Article article);
+        Task<IResult> UpdateArticle(int id, ArticleUpdateDTO article);
 
         /// <summary>
         /// Update the name of an article already in the database.
         /// </summary>
         /// <param name="id">ID of the article.</param>
-        /// <param name="name">New name for the article.</param>
+        /// <param name="articleNameToUpdate">New name for the article.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<IResult> UpdateArticleName(int id, string name);
+        Task<IResult> UpdateArticleName(int id, ArticleNameUpdateDTO articleNameToUpdate);
 
         /// <summary>
         /// Update the stock of an article already in the database.
         /// </summary>
         /// <param name="id">ID of the article.</param>
-        /// <param name="stock">New stock quantity.</param>
+        /// <param name="articleStockToUpdate">New stock quantity.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<IResult> UpdateArticleStock(int id, int stock);
+        Task<IResult> UpdateArticleStock(int id, ArticleStockUpdateDTO articleStockToUpdate);
 
         /// <summary>
         /// Update the promo status of an article already in the database.
         /// </summary>
         /// <param name="id">ID of the article.</param>
-        /// <param name="promo">New promo status (true/false).</param>
+        /// <param name="articlePromoToUpdate">New promo status (true/false).</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<IResult> UpdateArticlePromo(int id, bool promo);
+        Task<IResult> UpdateArticlePromo(int id, ArticlePromoUpdateDTO articlePromoToUpdate);
 
         /// <summary>
         /// Update the price of an article already in the database.
         /// </summary>
         /// <param name="id">ID of the article.</param>
-        /// <param name="price">New price of the article.</param>
+        /// <param name="articlePriceToUpdate">New price of the article.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<IResult> UpdateArticlePrice(int id, int price);
+        Task<IResult> UpdateArticlePrice(int id, ArticlePriceUpdateDTO articlePriceToUpdate);
         #endregion
 
 

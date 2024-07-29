@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Database_Shop.Entity
 {
-#nullable disable
     public class Address
     {
         [Key]
@@ -42,8 +42,9 @@ namespace Database_Shop.Entity
 
         [ForeignKey(nameof(UserId))]
         public int UserId { get; set; }
+
+        [JsonIgnore]
         public User User { get; set; }
     }
-#nullable enable
 }
 

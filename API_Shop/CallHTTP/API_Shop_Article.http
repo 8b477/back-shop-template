@@ -1,12 +1,16 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI1MTM3MywiZXhwIjoxNzIyMjYyMTczLCJpYXQiOjE3MjIyNTEzNzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.4DOzoar2320irPkjfT0MG5aLl4BI6MdLbbTN6-sLA4w
 
+###
 POST {{API_Shop_HostAddress}}/article
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
   "name":"coca",
   "stock":10,
-  "promo":"false",
-  "price":2.00
+  "promo":false,
+  "price":2.00,
+  "categories":[1,2]
 }
 ###
 
@@ -14,50 +18,57 @@ GET {{API_Shop_HostAddress}}/article
 
 ###
 
-GET {{API_Shop_HostAddress}}/article/{categoryName}
+GET {{API_Shop_HostAddress}}/article/boisson
 
 ###
 
-GET {{API_Shop_HostAddress}}/article/{id:int}
+GET {{API_Shop_HostAddress}}/article/9
 
 ###
-
-PUT {{API_Shop_HostAddress}}/article/{id:int}
+# AJouter un retour d'erreur quand l'id n'existe pas
+PUT {{API_Shop_HostAddress}}/article/9
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
   "name":"fanta",
   "stock":15,
-  "promo":"false",
-  "price":2.50
+  "promo":false,
+  "price":2.50,
+  "categories":[1]
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/name/{id:int}
+PUT {{API_Shop_HostAddress}}/article/name/9
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "name":"sprite"
+  "name":"Sprite"
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/price/{id:int}
+PUT {{API_Shop_HostAddress}}/article/price/9
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "price":1.00
+  "price":1.50
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/promo/{id:int}/{promo}
+PUT {{API_Shop_HostAddress}}/article/promo/9
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "promo":"true"
+  "promo":true
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/stock/{id:int}/{stock:int}
+PUT {{API_Shop_HostAddress}}/article/stock/9
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "stock":10
+  "stock":10000000
 }
 ###
 
-DELETE {{API_Shop_HostAddress}}/article/{id:int}
+DELETE {{API_Shop_HostAddress}}/article/8
+Authorization: Bearer {{authToken}}

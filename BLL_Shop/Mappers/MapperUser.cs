@@ -1,6 +1,8 @@
 ﻿using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 
+using DAL_Shop.DTO.User;
+
 using Database_Shop.Entity;
 
 
@@ -13,14 +15,13 @@ namespace BLL_Shop.Mappers
         /// </summary>
         /// <param name="userCreate">The DTO containing information to create a new user.</param>
         /// <returns>A new instance of the User entity.</returns>
-        public static User FromUserCreateDTOToEntity(UserCreateDTO userCreate)
+        internal static User FromUserCreateDTOToEntity(UserCreateDTO userCreate)
         {
             return new User
             {
                 Pseudo = userCreate.Pseudo,
                 Mail = userCreate.Mail,
-                Mdp = userCreate.Mdp,
-                MdpConfirm = userCreate.MdpConfirm,
+                Pwd = userCreate.Mdp,
                 Role = userCreate.Role,
             };
         }
@@ -31,14 +32,13 @@ namespace BLL_Shop.Mappers
         /// </summary>
         /// <param name="userPwdToUpdate">The DTO containing information to update the user's password.</param>
         /// <returns>An instance of the User entity with the updated password.</returns>
-        public static User FromUserUpdateDTOToEntity(UserUpdateDTO userToUpdate)
+        internal static User FromUserUpdateDTOToEntity(UserUpdateDTO userToUpdate)
         {
             return new User
             {
                 Pseudo = userToUpdate.Pseudo,
                 Mail = userToUpdate.Mail,
-                Mdp = userToUpdate.Mdp,            
-                MdpConfirm = userToUpdate.MdpConfirm,   
+                Pwd = userToUpdate.Mdp        
             };
         }
 
@@ -48,7 +48,7 @@ namespace BLL_Shop.Mappers
         /// </summary>
         /// <param name="userCreate">The DTO containing information to update the user's email.</param>
         /// <returns>An instance of the User entity with the updated email.</returns>
-        public static User FromUserMailUpdateDTOToEntity(UserMailUpdateDTO userCreate)
+        internal static User FromUserMailUpdateDTOToEntity(UserMailUpdateDTO userCreate)
         {
             return new User
             {
@@ -62,7 +62,7 @@ namespace BLL_Shop.Mappers
         /// </summary>
         /// <param name="userPseudoToUpdate">The DTO containing information to update the user's pseudo.</param>
         /// <returns>An instance of the User entity with the updated pseudo.</returns>
-        public static User FromUserPseudoUpdateDTOToEntity(UserPseudoUpdateDTO userPseudoToUpdate) 
+        internal static User FromUserPseudoUpdateDTOToEntity(UserPseudoUpdateDTO userPseudoToUpdate) 
         {
             return new User
             {
@@ -80,9 +80,9 @@ namespace BLL_Shop.Mappers
         {
             return new User
             {
-                Mdp = userPwdToUpdate.Mdp,
-                MdpConfirm = userPwdToUpdate.MdpConfirm,
+                Pwd = userPwdToUpdate.Mdp
             };
         }
+
     }
 }

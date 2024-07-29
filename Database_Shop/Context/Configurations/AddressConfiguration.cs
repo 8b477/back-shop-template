@@ -9,12 +9,11 @@ namespace Database_Shop.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
-            builder.ToTable("Addresses");
+            builder.ToTable("Address");
 
             builder.HasKey(a => a.Id);
 
             builder.Property(a => a.PhoneNumber)
-                .IsRequired()
                 .HasColumnName("PhoneNumber")
                 .HasColumnType("TEXT")
                 .HasComment("Numéro de téléphone");

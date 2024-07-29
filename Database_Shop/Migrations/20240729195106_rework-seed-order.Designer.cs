@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database_Shop.Migrations
 {
     [DbContext(typeof(ShopDB))]
-    [Migration("20240715220936_init")]
-    partial class init
+    [Migration("20240729195106_rework-seed-order")]
+    partial class reworkseedorder
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,6 @@ namespace Database_Shop.Migrations
                         .HasComment("Pays");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("PhoneNumber")
                         .HasComment("Numéro de téléphone");
@@ -67,7 +66,7 @@ namespace Database_Shop.Migrations
                         .HasColumnName("StreetNumber")
                         .HasComment("Numéro de rue");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -75,7 +74,7 @@ namespace Database_Shop.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Address", (string)null);
 
                     b.HasData(
                         new
@@ -130,7 +129,9 @@ namespace Database_Shop.Migrations
                         .HasDefaultValue(0.0);
 
                     b.Property<bool>("Promo")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Stock")
                         .ValueGeneratedOnAdd()
@@ -145,26 +146,58 @@ namespace Database_Shop.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Article 1",
-                            Price = 50.0,
+                            Name = "Tomate",
+                            Price = 0.25,
+                            Promo = false,
+                            Stock = 100
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Banane",
+                            Price = 1.3,
+                            Promo = true,
+                            Stock = 50
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Vodka",
+                            Price = 14.949999999999999,
+                            Promo = false,
+                            Stock = 20
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Chips Lays Nature",
+                            Price = 2.9500000000000002,
                             Promo = false,
                             Stock = 10
                         },
                         new
                         {
-                            Id = 2,
-                            Name = "Article 2",
-                            Price = 30.0,
-                            Promo = true,
-                            Stock = 5
+                            Id = 5,
+                            Name = "Chips Lays Paprika",
+                            Price = 4.9900000000000002,
+                            Promo = false,
+                            Stock = 200
                         },
                         new
                         {
-                            Id = 3,
-                            Name = "Article 3",
-                            Price = 75.0,
+                            Id = 6,
+                            Name = "Fritte",
+                            Price = 4.9900000000000002,
                             Promo = false,
-                            Stock = 20
+                            Stock = 200
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Thon",
+                            Price = 3.9500000000000002,
+                            Promo = false,
+                            Stock = 15
                         });
                 });
 
@@ -193,25 +226,79 @@ namespace Database_Shop.Migrations
                         {
                             Id = 1,
                             ArticleId = 1,
-                            CategoryId = 1
+                            CategoryId = 4
                         },
                         new
                         {
                             Id = 2,
                             ArticleId = 1,
-                            CategoryId = 2
+                            CategoryId = 6
                         },
                         new
                         {
                             Id = 3,
-                            ArticleId = 2,
-                            CategoryId = 2
+                            ArticleId = 1,
+                            CategoryId = 7
                         },
                         new
                         {
                             Id = 4,
+                            ArticleId = 2,
+                            CategoryId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ArticleId = 2,
+                            CategoryId = 7
+                        },
+                        new
+                        {
+                            Id = 6,
                             ArticleId = 3,
+                            CategoryId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ArticleId = 3,
+                            CategoryId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ArticleId = 4,
                             CategoryId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ArticleId = 4,
+                            CategoryId = 8
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ArticleId = 5,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ArticleId = 5,
+                            CategoryId = 8
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ArticleId = 6,
+                            CategoryId = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ArticleId = 7,
+                            CategoryId = 9
                         });
                 });
 
@@ -234,17 +321,47 @@ namespace Database_Shop.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Catégorie 1"
+                            Name = "Boisson"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Catégorie 2"
+                            Name = "Alcool"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Catégorie 3"
+                            Name = "Snack"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Frais"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Surgeler"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Légume"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Fruit"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Sec"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Conserve"
                         });
                 });
 
@@ -280,68 +397,163 @@ namespace Database_Shop.Migrations
                             Id = 1,
                             CreatedAt = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SentAt = new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "En cours",
+                            Status = "Sent",
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SentAt = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Livré",
-                            UserId = 3
+                            Status = "Pending",
+                            UserId = 2
                         },
                         new
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SentAt = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "En cours",
+                            Status = "Pending",
                             UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SentAt = new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "InProgress",
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2023, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SentAt = new DateTime(2023, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "InProgress",
+                            UserId = 4
                         });
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.OrderArticle", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ArticleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("OrderId", "ArticleId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderArticle");
 
                     b.HasData(
                         new
                         {
-                            OrderId = 1,
+                            Id = 1,
                             ArticleId = 1,
-                            Id = 0
+                            OrderId = 1
                         },
                         new
                         {
-                            OrderId = 1,
+                            Id = 2,
+                            ArticleId = 1,
+                            OrderId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
                             ArticleId = 2,
-                            Id = 0
+                            OrderId = 2
                         },
                         new
                         {
-                            OrderId = 2,
+                            Id = 4,
+                            ArticleId = 1,
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
                             ArticleId = 2,
-                            Id = 0
+                            OrderId = 3
                         },
                         new
                         {
-                            OrderId = 2,
+                            Id = 6,
                             ArticleId = 3,
-                            Id = 0
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ArticleId = 1,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ArticleId = 2,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ArticleId = 3,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ArticleId = 4,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ArticleId = 1,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ArticleId = 2,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ArticleId = 3,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ArticleId = 4,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ArticleId = 5,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ArticleId = 6,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ArticleId = 7,
+                            OrderId = 5
                         });
                 });
 
@@ -355,17 +567,13 @@ namespace Database_Shop.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Mdp")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MdpConfirm")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Pseudo")
                         .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Pwd")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Role")
@@ -381,27 +589,40 @@ namespace Database_Shop.Migrations
                         {
                             Id = 1,
                             Mail = "admin@mail.be",
-                            Mdp = "Test1234*",
-                            MdpConfirm = "Test1234*",
-                            Pseudo = "user1",
+                            Pseudo = "admin",
+                            Pwd = "$2a$11$U5643BXKBHqxOGAT/zP/Jekk/hig.rK8.FPO3A234agmkuuAg2Lyq",
                             Role = "Admin"
                         },
                         new
                         {
                             Id = 2,
                             Mail = "user@mail.be",
-                            Mdp = "Test1234*",
-                            MdpConfirm = "Test1234*",
                             Pseudo = "user",
+                            Pwd = "$2a$11$h2dwVmdlTSwWQ/tS4A0cOeGtZV8iJageN9jJzEB6NqwgIXT.NlU9m",
                             Role = "User"
                         },
                         new
                         {
                             Id = 3,
                             Mail = "user2@mail.be",
-                            Mdp = "Test1234*",
-                            MdpConfirm = "Test1234*",
                             Pseudo = "user2",
+                            Pwd = "$2a$11$6jqfZgFxSH50fz9Ykzo0w.qqVse7haclbe18JS.FL8HKfn8Pqpf3K",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Mail = "user3@mail.be",
+                            Pseudo = "user3",
+                            Pwd = "$2a$11$0LejspD6Ez40XGoiwuBVc.CDdHtnA0NQ7z6jTbEbpE5qp1knvqI5.",
+                            Role = "User"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Mail = "user4@mail.be",
+                            Pseudo = "user4",
+                            Pwd = "$2a$11$BSzebWwDiZYmZFZrcTVQ0ONX7eok1UrehKO/NkBTaZcPOdgX.8A4G",
                             Role = "User"
                         });
                 });
@@ -411,7 +632,8 @@ namespace Database_Shop.Migrations
                     b.HasOne("Database_Shop.Entity.User", "User")
                         .WithOne("Address")
                         .HasForeignKey("Database_Shop.Entity.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -449,7 +671,7 @@ namespace Database_Shop.Migrations
             modelBuilder.Entity("Database_Shop.Entity.OrderArticle", b =>
                 {
                     b.HasOne("Database_Shop.Entity.Article", "Article")
-                        .WithMany("OrderArticles")
+                        .WithMany("OrdersArticles")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -469,7 +691,7 @@ namespace Database_Shop.Migrations
                 {
                     b.Navigation("ArticleCategories");
 
-                    b.Navigation("OrderArticles");
+                    b.Navigation("OrdersArticles");
                 });
 
             modelBuilder.Entity("Database_Shop.Entity.Category", b =>

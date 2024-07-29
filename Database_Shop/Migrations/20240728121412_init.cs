@@ -21,7 +21,7 @@ namespace Database_Shop.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Stock = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    Promo = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Promo = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
                     Price = table.Column<double>(type: "REAL", nullable: false, defaultValue: 0.0)
                 },
                 constraints: table =>
@@ -50,8 +50,7 @@ namespace Database_Shop.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Pseudo = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Mail = table.Column<string>(type: "TEXT", nullable: false),
-                    Mdp = table.Column<string>(type: "TEXT", nullable: false),
-                    MdpConfirm = table.Column<string>(type: "TEXT", nullable: false),
+                    Pwd = table.Column<string>(type: "TEXT", nullable: false),
                     Role = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -91,13 +90,13 @@ namespace Database_Shop.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false, comment: "Numéro de téléphone"),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true, comment: "Numéro de téléphone"),
                     PostalCode = table.Column<int>(type: "TEXT", nullable: false, defaultValue: 0, comment: "Code postal"),
                     StreetNumber = table.Column<int>(type: "TEXT", nullable: false, defaultValue: 0, comment: "Numéro de rue"),
                     StreetName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, comment: "Nom de rue"),
                     Country = table.Column<string>(type: "TEXT", maxLength: 35, nullable: false, comment: "Pays"),
                     City = table.Column<string>(type: "TEXT", maxLength: 85, nullable: false, comment: "Ville"),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,13 +135,14 @@ namespace Database_Shop.Migrations
                 name: "OrderArticle",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ArticleId = table.Column<int>(type: "INTEGER", nullable: false),
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ArticleId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderArticle", x => new { x.OrderId, x.ArticleId });
+                    table.PrimaryKey("PK_OrderArticle", x => x.Id);
                     table.ForeignKey(
                         name: "FK_OrderArticle_Article_ArticleId",
                         column: x => x.ArticleId,
@@ -159,12 +159,24 @@ namespace Database_Shop.Migrations
 
             migrationBuilder.InsertData(
                 table: "Article",
+                columns: new[] { "Id", "Name", "Price", "Stock" },
+                values: new object[] { 1, "Tomate", 0.25, 100 });
+
+            migrationBuilder.InsertData(
+                table: "Article",
                 columns: new[] { "Id", "Name", "Price", "Promo", "Stock" },
+                values: new object[] { 2, "Banane", 1.3, true, 50 });
+
+            migrationBuilder.InsertData(
+                table: "Article",
+                columns: new[] { "Id", "Name", "Price", "Stock" },
                 values: new object[,]
                 {
-                    { 1, "Article 1", 50.0, false, 10 },
-                    { 2, "Article 2", 30.0, true, 5 },
-                    { 3, "Article 3", 75.0, false, 20 }
+                    { 3, "Vodka", 14.949999999999999, 20 },
+                    { 4, "Chips Lays Nature", 2.9500000000000002, 10 },
+                    { 5, "Chips Lays Paprika", 4.9900000000000002, 200 },
+                    { 6, "Fritte", 4.9900000000000002, 200 },
+                    { 7, "Thon", 3.9500000000000002, 15 }
                 });
 
             migrationBuilder.InsertData(
@@ -172,19 +184,27 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Catégorie 1" },
-                    { 2, "Catégorie 2" },
-                    { 3, "Catégorie 3" }
+                    { 1, "Boisson" },
+                    { 2, "Alcool" },
+                    { 3, "Snack" },
+                    { 4, "Frais" },
+                    { 5, "Surgeler" },
+                    { 6, "Légume" },
+                    { 7, "Fruit" },
+                    { 8, "Sec" },
+                    { 9, "Conserve" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "Mail", "Mdp", "MdpConfirm", "Pseudo", "Role" },
+                columns: new[] { "Id", "Mail", "Pseudo", "Pwd", "Role" },
                 values: new object[,]
                 {
-                    { 1, "admin@mail.be", "Test1234*", "Test1234*", "user1", "Admin" },
-                    { 2, "user@mail.be", "Test1234*", "Test1234*", "user", "User" },
-                    { 3, "user2@mail.be", "Test1234*", "Test1234*", "user2", "User" }
+                    { 1, "admin@mail.be", "admin", "$2a$11$u9wl1YMAUDkTVbA2VWJBKuqd2WJNkqA47joqDiWN7U6SuYD0YM6VC", "Admin" },
+                    { 2, "user@mail.be", "user", "$2a$11$gs..ixsgiSBcuervhOVMie.o5R0cLE7m4zlpDhVdGOG7QM56WStPG", "User" },
+                    { 3, "user2@mail.be", "user2", "$2a$11$y05wuXNUZKIpBUfQCyKPJe9cE3DfRxikwiTTDrtu0.LCxYjgjihJ2", "User" },
+                    { 4, "user3@mail.be", "user3", "$2a$11$OYHTAemuoBofjEhrBJAYkOGW/CjY/4gZn3Jfg8ZbyWwBvETz/D9ye", "User" },
+                    { 5, "user4@mail.be", "user4", "$2a$11$PUttJEdSLyNhqej6s0.wbut8riK4Ovs/s7tzTSn54o.4fukLlCdl2", "User" }
                 });
 
             migrationBuilder.InsertData(
@@ -202,10 +222,19 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "ArticleId", "CategoryId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 2, 2 },
-                    { 4, 3, 3 }
+                    { 1, 1, 4 },
+                    { 2, 1, 6 },
+                    { 3, 1, 7 },
+                    { 4, 2, 4 },
+                    { 5, 2, 7 },
+                    { 6, 3, 1 },
+                    { 7, 3, 2 },
+                    { 8, 4, 3 },
+                    { 9, 4, 8 },
+                    { 10, 5, 3 },
+                    { 11, 5, 8 },
+                    { 12, 6, 5 },
+                    { 13, 7, 9 }
                 });
 
             migrationBuilder.InsertData(
@@ -213,20 +242,35 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "CreatedAt", "SentAt", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "En cours", 2 },
-                    { 2, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 3 },
-                    { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "En cours", 3 }
+                    { 1, new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 2 },
+                    { 2, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "En attente", 2 },
+                    { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "En attente", 3 },
+                    { 4, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 4 },
+                    { 5, new DateTime(2023, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 4 }
                 });
 
             migrationBuilder.InsertData(
                 table: "OrderArticle",
-                columns: new[] { "ArticleId", "OrderId", "Id" },
+                columns: new[] { "Id", "ArticleId", "OrderId" },
                 values: new object[,]
                 {
-                    { 1, 1, 0 },
-                    { 2, 1, 0 },
-                    { 2, 2, 0 },
-                    { 3, 2, 0 }
+                    { 1, 1, 1 },
+                    { 2, 1, 2 },
+                    { 3, 2, 2 },
+                    { 4, 1, 3 },
+                    { 5, 2, 3 },
+                    { 6, 3, 3 },
+                    { 7, 1, 4 },
+                    { 8, 2, 4 },
+                    { 9, 3, 4 },
+                    { 10, 4, 4 },
+                    { 11, 1, 5 },
+                    { 12, 2, 5 },
+                    { 13, 3, 5 },
+                    { 14, 4, 5 },
+                    { 15, 5, 5 },
+                    { 16, 6, 5 },
+                    { 17, 7, 5 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -249,6 +293,11 @@ namespace Database_Shop.Migrations
                 name: "IX_OrderArticle_ArticleId",
                 table: "OrderArticle",
                 column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderArticle_OrderId",
+                table: "OrderArticle",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",

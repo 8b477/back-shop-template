@@ -1,7 +1,12 @@
-﻿using BLL_Shop.Interfaces;
+﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
+using BLL_Shop.Interfaces;
+using BLL_Shop.Mappers;
+using BLL_Shop.Validators;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -14,11 +19,35 @@ namespace BLL_Shop.Services
 
         #region DI
         private readonly IArticleRepository _repoArticle;
+        private readonly ICategoryRepository _repoCategory;
+        private readonly IValidator<ArticleCreateDTO> _articleCreateValidator;
+        private readonly IValidator<ArticleUpdateDTO> _articleUpdateValidator;
+        private readonly IValidator<ArticleNameUpdateDTO> _articleUpdateNameValidator;
+        private readonly IValidator<ArticlePriceUpdateDTO> _articleUpdatePriceValidator;
+        private readonly IValidator<ArticlePromoUpdateDTO> _articleUpdatePromoValidator;
+        private readonly IValidator<ArticleStockUpdateDTO> _articleUpdateStockValidator;
         private readonly ILogger<ArticleService> _logger;
 
-        public ArticleService(IArticleRepository repoArticle, ILogger<ArticleService> logger)
+        public ArticleService(
+            IArticleRepository repoArticle,
+            ICategoryRepository repoCategory,
+            IValidator<ArticleCreateDTO> articleCreateValidator,
+            IValidator<ArticleUpdateDTO> articleUpdateValidator,
+            IValidator<ArticleNameUpdateDTO> articleUpdateNameValidator,
+            IValidator<ArticlePriceUpdateDTO> articleUpdatePriceValidator,
+            IValidator<ArticlePromoUpdateDTO> articleUpdatePromoValidator,
+            IValidator<ArticleStockUpdateDTO> articleUpdateStockValidator,
+            ILogger<ArticleService> logger
+            )
         {
             _repoArticle = repoArticle;
+            _repoCategory = repoCategory;
+            _articleCreateValidator = articleCreateValidator;
+            _articleUpdateValidator = articleUpdateValidator;
+            _articleUpdateNameValidator = articleUpdateNameValidator;
+            _articleUpdatePriceValidator = articleUpdatePriceValidator;
+            _articleUpdatePromoValidator = articleUpdatePromoValidator;
+            _articleUpdateStockValidator = articleUpdateStockValidator;
             _logger = logger;
         }
         #endregion
@@ -26,11 +55,48 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> CREATE <------------->
-        public async Task<IResult> CreateArticle(Article article)
+        public async Task<IResult> CreateArticle(ArticleCreateDTO article)
         {
             try
             {
-                var result = await _repoArticle.Create(article);
+                _logger.LogInformation("Create new article");
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(article, _articleCreateValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
+
+
+                var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
+
+                if (correspondingCategories is null)
+                {
+                    _logger.LogWarning("No reference match");
+                    return TypedResults.BadRequest(new { Message = "No reference provided is correct" });
+                }
+
+                if(article.Categories.Count != correspondingCategories.Count)
+                {
+                    _logger.LogWarning("All supplied identifiers are not matched");
+                    return TypedResults.BadRequest(new { Message = "Not all identifiers supplied are correct, please check and retry" });
+                }
+
+
+                Article articleMapped = MapperArticle.FromArticleCreateDTOToEntity(article);
+
+                // Update relation table
+                articleMapped.ArticleCategories = correspondingCategories.Select(c => new ArticleCategory 
+                {
+                    CategoryId = c.Id
+                }).ToList();
+
+
+                var result = await _repoArticle.Create(articleMapped);
 
                 return result is null
                     ? TypedResults.BadRequest()
@@ -44,6 +110,7 @@ namespace BLL_Shop.Services
             }
         }
         #endregion
+
 
 
 
@@ -105,11 +172,51 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> UpdateArticle(int id, Article article)
+        public async Task<IResult> UpdateArticle(int id, ArticleUpdateDTO article)
         {
             try
             {
-                var result = await _repoArticle.Update(id, article);
+                _logger.LogInformation("Update article id : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(article, _articleUpdateValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update");
+
+                    return validationResult;
+                }
+
+
+
+                var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
+
+                if (correspondingCategories is null)
+                {
+                    _logger.LogWarning("No reference match");
+                    return TypedResults.BadRequest(new { Message = "No reference provided is correct" });
+                }
+
+                if (article.Categories.Count != correspondingCategories.Count)
+                {
+                    _logger.LogWarning("All supplied identifiers are not matched");
+                    return TypedResults.BadRequest(new { Message = "Not all identifiers supplied are correct, please check and retry" });
+                }
+
+
+                Article articleMapped = MapperArticle.FromArticleUpdateDTOToEntity(article);
+
+                articleMapped.Id = id;
+
+                // Update relation table
+                articleMapped.ArticleCategories = correspondingCategories.Select(c => new ArticleCategory
+                {
+                    ArticleId = id,
+                    CategoryId = c.Id
+                }).ToList();
+
+                var result = await _repoArticle.Update(id, articleMapped);
 
                 return result is not null
                     ? TypedResults.Ok(result)
@@ -123,11 +230,24 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticleName(int id, string name)
+        public async Task<IResult> UpdateArticleName(int id, ArticleNameUpdateDTO articleNameToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdateName(id, name);
+                _logger.LogInformation("Update article name, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articleNameToUpdate, _articleUpdateNameValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : name");
+
+                    return validationResult;
+                }
+
+
+                var result = await _repoArticle.UpdateName(id, articleNameToUpdate.Name);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -141,11 +261,24 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticlePrice(int id, int price)
+        public async Task<IResult> UpdateArticlePrice(int id, ArticlePriceUpdateDTO articlePriceToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdatePrice(id, price);
+                _logger.LogInformation("Update article price, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articlePriceToUpdate, _articleUpdatePriceValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : price");
+
+                    return validationResult;
+                }
+
+
+                var result = await _repoArticle.UpdatePrice(id, articlePriceToUpdate.Price);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -159,11 +292,24 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticlePromo(int id, bool promo)
+        public async Task<IResult> UpdateArticlePromo(int id, ArticlePromoUpdateDTO articlePromoToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdatePromo(id, promo);
+                _logger.LogInformation("Update article promo, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articlePromoToUpdate, _articleUpdatePromoValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : promo");
+
+                    return validationResult;
+                }
+
+
+                var result = await _repoArticle.UpdatePromo(id, articlePromoToUpdate.Promo);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -177,11 +323,24 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticleStock(int id, int stock)
+        public async Task<IResult> UpdateArticleStock(int id, ArticleStockUpdateDTO articleStockToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdateStock(id, stock);
+                _logger.LogInformation("Update article stock, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articleStockToUpdate, _articleUpdateStockValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : stock");
+
+                    return validationResult;
+                }
+
+
+                var result = await _repoArticle.UpdateStock(id, articleStockToUpdate.Stock);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)

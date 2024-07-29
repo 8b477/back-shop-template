@@ -72,6 +72,14 @@ namespace BLL_Shop.Interfaces
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
         Task<IResult> UpdateSendAtOrder(int idOrder, OrderSentAtUpdateDTO sendAt);
+
+        /// <summary>
+        /// Updates sendAt of an existing order in the database.
+        /// </summary>
+        /// <param name="idOrder">Identifier order to update.</param>
+        /// <param name="statusAndSendAt">The new values for the target order.</param>
+        /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
+        Task<IResult> UpdateStatusSendAtOrder(int idOrder, OrderStatusAndSentAtUpdateDTO statusAndSendAt);
         #endregion
 
 
@@ -85,7 +93,6 @@ namespace BLL_Shop.Interfaces
         /// <returns>Returns a string with an explicit response.</returns>
         Task<IResult> DeleteOrder(int id);
         #endregion
-
 
 
     }

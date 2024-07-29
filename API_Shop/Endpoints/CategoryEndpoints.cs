@@ -1,5 +1,6 @@
-﻿using BLL_Shop.Interfaces;
-using Database_Shop.Entity;
+﻿using BLL_Shop.DTO.Category.Create;
+using BLL_Shop.DTO.Category.Update;
+using BLL_Shop.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace API_Shop.Endpoints
 
             // ADD (ADMIN)
             app.MapPost("/category", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] ICategoryService categoryService, [FromBody] Category category)
+                async ([FromServices] ICategoryService categoryService, [FromBody] CategoryCreateDTO category)
                     => await categoryService.CreateCategory(category));
 
 
@@ -26,21 +27,21 @@ namespace API_Shop.Endpoints
                     => await categoryService.GetAllCategories());
 
             app.MapGet("/category/{id:int}", [Authorize(Policy = "UserOrAdmin")]
-                async ([FromServices] ICategoryService categoryService, int id)
+                async ([FromServices] ICategoryService categoryService,[FromRoute] int id)
                     => await categoryService.GetCategoryById(id));
 
 
 
             // UPDATE
             app.MapPut("/category/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] ICategoryService categoryService, int id, [FromBody] string name)
-                    => await categoryService.UpdateCategory(id, name));
+                async ([FromServices] ICategoryService categoryService,[FromRoute] int id, [FromBody] CategoryUpdateDTO categoryNameToUpdate)
+                    => await categoryService.UpdateCategory(id, categoryNameToUpdate));
 
 
 
             // DELETE
             app.MapDelete("/category/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] ICategoryService categoryService, int id)
+                async ([FromServices] ICategoryService categoryService,[FromRoute] int id)
                     => await categoryService.DeleteCategory(id));
 
 

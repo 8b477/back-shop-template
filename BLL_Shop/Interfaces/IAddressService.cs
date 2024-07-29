@@ -63,29 +63,49 @@ namespace BLL_Shop.Interfaces
         /// <summary>
         /// Updates the country of an existing address.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The address data transfer object containing the updated country details.</param>
         /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
-        Task<IResult> Update(int id, AddressCountryUpdateDTO addressToAdd);
+        Task<IResult> UpdateAddressForSimpleUser(AddressCountryUpdateDTO addressToAdd);
+
+        /// <summary>
+        /// Updates the country of an existing address.
+        /// </summary>
+        /// <param name="idUser">The ID of the User for find corresponding Address.</param>
+        /// <param name="addressToAdd">The address data transfer object containing the updated country details.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateAddressUserWithAdminAccess(int idUser, AddressCountryUpdateDTO addressToAdd);
 
         /// <summary>
         /// Updates the city of an existing address.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The address data transfer object containing the updated city details.</param>
         /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
-        Task<IResult> UpdateCity(int id, AddressCityUpdateDTO addressToAdd);
+        Task<IResult> UpdateCityForSimpleUser(AddressCityUpdateDTO addressToAdd);
+
+        /// <summary>
+        /// Updates the city of an existing address.
+        /// </summary>
+        /// <param name="idUser">The IDUser for find corresponding Address to update.</param>
+        /// <param name="addressToAdd">The address data transfer object containing the updated city details.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateCityUserWithAdminAccess(int idUser, AddressCityUpdateDTO addressToAdd);
 
         /// <summary>
         /// Updates the phone number of an existing address.
         /// </summary>
-        /// <param name="id">The ID of the address to update.</param>
         /// <param name="addressToAdd">The address data transfer object containing the updated phone number details.</param>
         /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
-        Task<IResult> UpdatePhoneNumber(int id, AddressPhoneNumberUpdateDTO addressToAdd);
+        Task<IResult> UpdatePhoneNumberForSimpleUser(AddressPhoneNumberUpdateDTO addressToAdd);
+
+        /// <summary>
+        /// Updates the phone number of an existing address.
+        /// </summary>
+        /// <param name="idUser">The IDUser for find the corresponding Address to update.</param>
+        /// <param name="addressToAdd">The address data transfer object containing the updated phone number details.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdatePhoneNumberUserWithAdminAccess(int idUser, AddressPhoneNumberUpdateDTO addressToAdd);
 
         #endregion
-
 
 
 

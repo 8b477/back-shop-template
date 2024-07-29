@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 
 namespace Database_Shop.Entity
 {
-#nullable disable
     public class Article
     {
         [Key]
@@ -33,8 +33,7 @@ namespace Database_Shop.Entity
         [Range(0,200)]
         public double Price { get; set; }
 
-
-        public ICollection<OrderArticle> OrderArticles { get; set; }
+        [JsonIgnore]
+        public List<OrderArticle> OrdersArticles { get; set; }
     }
-#nullable enable
 }

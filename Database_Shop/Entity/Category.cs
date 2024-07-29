@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 
 namespace Database_Shop.Entity
 {
-#nullable disable
     public class Category
     {
         [Key]
@@ -13,7 +13,7 @@ namespace Database_Shop.Entity
         [MaxLength(50)]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public ICollection<ArticleCategory> ArticleCategories { get; set; }
     }
-#nullable enable
 }

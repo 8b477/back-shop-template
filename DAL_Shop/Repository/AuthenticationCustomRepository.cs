@@ -37,7 +37,7 @@ namespace DAL_Shop.Repository
                 }
 
 
-                if (!PasswordHasher.VerifyPassword(password, user.Mdp))
+                if (!PasswordHasher.VerifyPassword(password, user.Pwd))
                 {
                     _logger.LogInformation("Invalid password for email: {Email}", mail);
                     return null;

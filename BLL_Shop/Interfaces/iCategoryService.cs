@@ -1,4 +1,5 @@
-﻿using Database_Shop.Entity;
+﻿using BLL_Shop.DTO.Category.Create;
+using BLL_Shop.DTO.Category.Update;
 
 using Microsoft.AspNetCore.Http;
 
@@ -16,7 +17,7 @@ namespace BLL_Shop.Interfaces
         /// </summary>
         /// <param name="category">The category to create.</param>
         /// <returns>An <see cref="IResult"/> indicating the outcome of the creation process.</returns>
-        Task<IResult> CreateCategory(Category category);
+        Task<IResult> CreateCategory(CategoryCreateDTO category);
         #endregion
 
 
@@ -47,7 +48,7 @@ namespace BLL_Shop.Interfaces
         /// <param name="id">The ID of the category to update.</param>
         /// <param name="name">The new name of the category.</param>
         /// <returns>An <see cref="IResult"/> indicating the outcome of the update process.</returns>
-        Task<IResult> UpdateCategory(int id, string name);
+        Task<IResult> UpdateCategory(int id, CategoryUpdateDTO categoryNameToUpdate);
         #endregion
 
 

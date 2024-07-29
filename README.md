@@ -69,7 +69,3 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
   - Article. 
   - Category.
   - Order.
-
-- Rework Unit test (mockup is not current).
-- Add patern Unit of Work.
-- Adding Redis for performance optimization with memory caching.

@@ -1,13 +1,22 @@
 ﻿using BLL_Shop.DTO.Address.Create;
+using BLL_Shop.DTO.Address.Update;
+using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
+using BLL_Shop.DTO.Category.Create;
+using BLL_Shop.DTO.Category.Update;
+using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.DTO.Order.Update;
 using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Models;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
-using BLL_Shop.Validators.Address_Validator.AddressValidator;
+using BLL_Shop.Validators.Address_Validator;
+using BLL_Shop.Validators.Article_Validator;
+using BLL_Shop.Validators.Category_Validator;
+using BLL_Shop.Validators.Order_Validator;
 using BLL_Shop.Validators.User_Validator;
-
 using DAL_Shop.Interfaces;
 using DAL_Shop.Repository;
 
@@ -37,7 +46,10 @@ namespace API_Shop.DI
             services.AddScoped<IAddressService, AddressService>();
 
             //ADDRESS VALIDATOR
-            services.AddScoped<IValidator<AddressCreateDTO>, AddressValidator>();
+            services.AddScoped<IValidator<AddressCreateDTO>, AddressCreateValidator>();
+            services.AddScoped<IValidator<AddressCountryUpdateDTO>, AddressUpdateValidator>();
+            services.AddScoped<IValidator<AddressCityUpdateDTO>, AddressUpdateCityValidator>();
+            services.AddScoped<IValidator<AddressPhoneNumberUpdateDTO>, AddressUpdatePhoneNumberValidator>();
 
 
             //ARTICLE
@@ -45,21 +57,30 @@ namespace API_Shop.DI
             services.AddScoped<IArticleService, ArticleService>();
 
             //ARTICLE VALIDATOR
-
+            services.AddScoped<IValidator<ArticleCreateDTO>, ArticleCreateValidator>();
+            services.AddScoped<IValidator<ArticleUpdateDTO>, ArticleUpdateValidator>();
+            services.AddScoped<IValidator<ArticleNameUpdateDTO>, ArticleUpdateNameValidator>();
+            services.AddScoped<IValidator<ArticlePriceUpdateDTO>, ArticleUpdatePriceValidator>();
+            services.AddScoped<IValidator<ArticlePromoUpdateDTO>, ArticleUpdatePromoValidator>();
+            services.AddScoped<IValidator<ArticleStockUpdateDTO>, ArticleUpdateStockValidator>();
 
             //CATEGORY
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
 
             //CATEGORY VALIDATOR
-
+            services.AddScoped<IValidator<CategoryCreateDTO>, CategoryCreateValidator>();
+            services.AddScoped<IValidator<CategoryUpdateDTO>, CategoryUpdateValidator>();
 
             //ORDER
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderService, OrderService>();
 
             //ORDER VALIDATOR
-
+            services.AddScoped<IValidator<OrderCreateDTO>, OrderCreateValidator>();
+            services.AddScoped<IValidator<OrderSentAtUpdateDTO>, OrderUpdateSentAtValidator>();
+            services.AddScoped<IValidator<OrderStatusAndSentAtUpdateDTO>, OrderUpdateStatusAndSentAtValidator>();
+            services.AddScoped<IValidator<OrderStatusUpdateDTO>, OrderUpdateStatusValidator>();
 
             //AUTHENTICATION
             services.AddScoped<IAuthentificationCustomRepository, AuthenticationCustomRepository>();

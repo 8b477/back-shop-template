@@ -139,87 +139,89 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<Address?> Update(int id, Address addressToAdd)
+        public async Task<Address?> Update(int idUser, Address addressToAdd)
         {
             try
             {
-                _logger.LogInformation("Updating address with ID: {Id}", id);
+                _logger.LogInformation("Updating address with ID: {IdUser}", idUser);
 
-                var result = await _shopDB.Address.FindAsync(id);
+                var result = await _shopDB.Address.FirstOrDefaultAsync(a => a.UserId == idUser);
 
                 if (result == null)
                 {
-                    _logger.LogWarning("Address with ID {Id} not found for update", id);
+                    _logger.LogWarning("Address with IDUser {IdUser} not found for update", idUser);
 
                     return null;
                 }
 
                 foreach (var property in _shopDB.Entry(result).Properties)
                 {
-                    if (property.Metadata.Name != "Id" && property.Metadata.Name != "Role")
+                    if (property.Metadata.Name != "Id" && property.Metadata.Name != "PhoneNumber")
                     {
                         property.CurrentValue = _shopDB.Entry(addressToAdd).Property(property.Metadata.Name).CurrentValue;
                     }
                 }
+                result.UserId = idUser;
 
                 await _shopDB.SaveChangesAsync();
 
-                _logger.LogInformation("Address with ID {Id} updated successfully", id);
+                _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating address with ID: {Id}", id);
+                _logger.LogError(ex, "Error occurred while updating address with IDUser: {IdUser}", idUser);
 
                 throw;
             }
         }
 
-        public async Task<Address?> UpdateCity(int id, int postalCode, int streetNumber, string city)
+        public async Task<Address?> UpdateCity(int idUser, Address addressToUpdate)
         {
             try
             {
-                _logger.LogInformation("Updating address with ID: {Id}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city}", id, postalCode, streetNumber, city);
+                _logger.LogInformation("Updating address with IDUser: {idUser}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city}", idUser, addressToUpdate.PostalCode, addressToUpdate.StreetNumber, addressToUpdate.City);
 
-                var result = await _shopDB.Address.FindAsync(id);
+                var result = await _shopDB.Address.FirstOrDefaultAsync(a => a.UserId == idUser);
 
                 if (result == null)
                 {
-                    _logger.LogWarning("Address with ID {Id} not found for update", id);
+                    _logger.LogWarning("Address with IDUser {IdUser} not found for update", idUser);
 
                     return null;
                 }
 
-                result.StreetNumber = streetNumber;
-                result.City = city;
-                result.PostalCode = postalCode;
+                result.StreetNumber = addressToUpdate.StreetNumber;
+                result.StreetName = addressToUpdate.StreetName;
+                result.City = addressToUpdate.City;
+                result.PostalCode = addressToUpdate.PostalCode;
 
                 await _shopDB.SaveChangesAsync();
 
-                _logger.LogInformation("Address with ID {Id}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city} updated successfully", id, postalCode, streetNumber, city);
+                _logger.LogInformation("Address with IDUser {IdUser}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city} updated successfully", idUser, addressToUpdate.PostalCode, addressToUpdate.StreetNumber, addressToUpdate.City);
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating City with ID: {Id}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city}", id, postalCode, streetNumber, city);
+                _logger.LogError(ex, "Error occurred while updating City with IDUser: {IdUser}, postalCode: {postalCode}, streetNumber : {streetNumber}, city : {city}", idUser, addressToUpdate.PostalCode, addressToUpdate.StreetNumber, addressToUpdate.City);
 
                 throw;
             }
         }
 
-        public async Task<Address?> UpdatePhoneNumber(int id, string phoneNumber)
+        public async Task<Address?> UpdatePhoneNumber(int idUser, string phoneNumber)
         {
             try
             {
-                _logger.LogInformation("Updating address with ID: {Id}, phoneNumber : {phoneNumber}", id, phoneNumber);
+                _logger.LogInformation("Updating address with IDUser: {IdUser}, phoneNumber : {phoneNumber}", idUser, phoneNumber);
 
-                var result = await _shopDB.Address.FindAsync(id);
+                var result = await _shopDB.Address.FirstOrDefaultAsync(a => a.UserId == idUser);
 
                 if (result == null)
                 {
-                    _logger.LogWarning("Address with ID {Id} not found for update", id);
+                    _logger.LogWarning("Address with ID {Id} not found for update", idUser);
 
                     return null;
                 }
@@ -228,13 +230,13 @@ namespace DAL_Shop.Repository
 
                 await _shopDB.SaveChangesAsync();
 
-                _logger.LogInformation("Address with ID {Id}, phoneNumber : {phoneNumber} updated successfully", id, phoneNumber);
+                _logger.LogInformation("Address with IDUser {IdUser}, phoneNumber : {phoneNumber} updated successfully", idUser, phoneNumber);
 
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating phoneNumber with ID: {Id}, phoneNumber : {phoneNumber}", id, phoneNumber);
+                _logger.LogError(ex, "Error occurred while updating phoneNumber with IDUser: {IdUser}, phoneNumber : {phoneNumber}", idUser, phoneNumber);
 
                 throw;
             }

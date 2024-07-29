@@ -82,7 +82,7 @@ namespace BLL_Shop.Services
 
                 try
                 {
-                    userMapped.Mdp = PasswordHasher.HashPassword(userMapped.Mdp);
+                    userMapped.Pwd = PasswordHasher.HashPassword(userMapped.Pwd);
                 }
                 catch (Exception ex)
                 {

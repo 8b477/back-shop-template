@@ -1,16 +1,15 @@
 ﻿using DAL_Shop.Interfaces;
 using Database_Shop.Context;
 using Database_Shop.Entity;
+using DAL_Shop.Mapper;
+using DAL_Shop.DTO.Article;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DAL_Shop.Repository
 {
-    using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
-
     public class ArticleRepository : IArticleRepository
     {
 
@@ -55,36 +54,45 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> GET <------------->
-        public async Task<IReadOnlyCollection<Article>> GetAll()
+        public async Task<IReadOnlyCollection<ArticleViewDTO>> GetAll()
         {
             try
             {
-                return await _ctx.Article.ToListAsync();
+                var result = await _ctx.Article
+                    .Include(a => a.ArticleCategories)
+                    .ThenInclude(ac => ac.Category)
+                    .ToListAsync();
+
+                List<ArticleViewDTO> listMapped = MapperArticle.EntityToViewDTO(result);
+                return listMapped;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all articles");
 
-                return new List<Article>();
+                return [];
             }
         }
 
-        public async Task<IReadOnlyCollection<Article>> GetByCategory(string categoryName)
+        public async Task<IReadOnlyCollection<ArticleViewDTO>> GetByCategory(string categoryName)
         {
             try
             {
-                var result = await _ctx.Category.Where(c => c.Name == categoryName)
-                    .SelectMany(c => c.ArticleCategories)
-                    .Select(ac => ac.Article)
+                var result = await _ctx.Article
+                    .Include(a => a.ArticleCategories) // Inclure les catégories d'articles
+                    .ThenInclude(ac => ac.Category) // Inclure la catégorie elle-même
+                    .Where(ac => ac.ArticleCategories.Any(c => c.Category.Name.ToUpper() == categoryName.ToUpper())) // Filtrer les articles par catégorie
                     .ToListAsync();
 
-                return result;
+                List<ArticleViewDTO> listMapped = MapperArticle.EntityToViewDTO(result);
+
+                return listMapped;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving articles by category {CategoryName}", categoryName);
 
-                return new List<Article>();
+                return [];
             }
         }
 
@@ -98,15 +106,25 @@ namespace DAL_Shop.Repository
             {
                 _logger.LogError(ex, "Error retrieving articles by ID list");
 
-                return new List<Article>();
+                return [];
             }
         }
 
-        public async Task<Article?> GetById(int id)
+        public async Task<ArticleViewDTO?> GetById(int id)
         {
             try
             {
-                return await _ctx.Article.FindAsync(id);
+                var result = await _ctx.Article
+                    .Include(a => a.ArticleCategories)
+                    .ThenInclude(ac => ac.Category)
+                    .FirstOrDefaultAsync(result => result.Id == id);
+
+                if (result is null)
+                    return null;
+
+                ArticleViewDTO? listMapped = MapperArticle.EntityToViewDTO(result);
+
+                return listMapped;
             }
             catch (Exception ex)
             {
@@ -121,34 +139,37 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<Article?> Update(int id, Article article)
+        public async Task<ArticleViewDTO?> Update(int id, Article article)
         {
             try
             {
-                var existingArticle = await _ctx.Article.FindAsync(id);
+                var existingArticle = await _ctx.Article
+                    .Include(a => a.ArticleCategories)
+                    .FirstOrDefaultAsync(a => a.Id == id);
 
                 if (existingArticle is null)
                     return null;
 
-                foreach (var property in _ctx.Entry(existingArticle).Properties)
+                _ctx.Entry(existingArticle).CurrentValues.SetValues(article);
+
+                // Mise à jour des catégories
+                existingArticle.ArticleCategories.Clear();
+                foreach (var category in article.ArticleCategories)
                 {
-                    if (property.Metadata.Name != "Id")
+                    existingArticle.ArticleCategories.Add(new ArticleCategory
                     {
-                        property.CurrentValue = _ctx.Entry(article).Property(property.Metadata.Name).CurrentValue;
-                    }
+                        CategoryId = category.CategoryId
+                    });
                 }
-                _ctx.Article.Update(existingArticle);
 
                 await _ctx.SaveChangesAsync();
-
                 _logger.LogInformation("Article with ID {ArticleId} updated", id);
 
-                return existingArticle;
+                return MapperArticle.EntityToViewDTO(existingArticle);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article with ID {ArticleId}", id);
-
                 return null;
             }
         }
@@ -168,9 +189,9 @@ namespace DAL_Shop.Repository
 
                 await _ctx.SaveChangesAsync();
 
-                _logger.LogInformation("Updated name of article with ID {ArticleId} to {Name}", id, name);
+                _logger.LogInformation("Updated name of article with ID {ArticleId} to {Name}", id, existingArticle.Name);
 
-                return $"Nouveau nom '{name}' mis à jour";
+                return $"Nouveau nom '{name}' mis à jour pour l'article id : {id}";
             }
             catch (Exception ex)
             {
@@ -180,7 +201,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<string> UpdatePrice(int id, int price)
+        public async Task<string> UpdatePrice(int id, double price)
         {
             try
             {
@@ -195,7 +216,7 @@ namespace DAL_Shop.Repository
 
                 await _ctx.SaveChangesAsync();
 
-                _logger.LogInformation("Updated price of article with ID {ArticleId} to {Price}", id, price);
+                _logger.LogInformation("Updated price of article with ID {ArticleId} to {Price}", id, existingArticle.Price);
 
                 return $"Nouveau prix '{price}' mis à jour";
             }
@@ -222,9 +243,9 @@ namespace DAL_Shop.Repository
 
                 await _ctx.SaveChangesAsync();
 
-                _logger.LogInformation("Updated promo of article with ID {ArticleId} to {Promo}", id, promo);
+                _logger.LogInformation("Updated promo of article with ID {ArticleId} to {Promo}", id, existingArticle.Promo);
 
-                return "Mis à jour de la promotion de l'article, nouvelle valeur : '{promo}'";
+                return $"Mis à jour de la promotion de l'article id : {id}, nouvelle valeur : '{existingArticle.Promo}'";
             }
             catch (Exception ex)
             {
@@ -249,9 +270,9 @@ namespace DAL_Shop.Repository
 
                 await _ctx.SaveChangesAsync();
 
-                _logger.LogInformation("Updated stock of article with ID {ArticleId} to {Stock}", id, stock);
+                _logger.LogInformation("Updated stock of article with ID {ArticleId} to {Stock}", id, existingArticle.Stock);
 
-                return "Mis à jour du stock de l'article, nouveau stock : '{stock}'";
+                return $"Mis à jour du stock de l'article id : {id}, nouveau stock : '{existingArticle.Stock}'";
             }
             catch (Exception ex)
             {

@@ -21,7 +21,8 @@ namespace Database_Shop.Context.Configurations
                 .HasDefaultValue(0);
 
             builder.Property(a => a.Promo)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValue(false);
 
             builder.Property(a => a.Price)
                 .IsRequired()
@@ -29,6 +30,7 @@ namespace Database_Shop.Context.Configurations
 
             builder.HasMany(a => a.ArticleCategories)
                 .WithOne(ac => ac.Article)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(ac => ac.ArticleId);
 
 
@@ -36,26 +38,58 @@ namespace Database_Shop.Context.Configurations
                  new Article
                  {
                      Id = 1,
-                     Name = "Article 1",
-                     Stock = 10,
+                     Name = "Tomate",
+                     Stock = 100,
                      Promo = false,
-                     Price = 50
+                     Price = 0.25
                  },
                 new Article
                 {
                     Id = 2,
-                    Name = "Article 2",
-                    Stock = 5,
+                    Name = "Banane",
+                    Stock = 50,
                     Promo = true,
-                    Price = 30
+                    Price = 1.30
                 },
                 new Article
                 {
                     Id = 3,
-                    Name = "Article 3",
+                    Name = "Vodka",
                     Stock = 20,
                     Promo = false,
-                    Price = 75
+                    Price = 14.95
+                },
+                new Article
+                {
+                    Id = 4,
+                    Name = "Chips Lays Nature",
+                    Stock = 10,
+                    Promo = false,
+                    Price = 2.95
+                },
+                new Article
+                {
+                    Id = 5,
+                    Name = "Chips Lays Paprika",
+                    Stock = 200,
+                    Promo = false,
+                    Price = 4.99
+                },
+                new Article
+                {
+                    Id = 6,
+                    Name = "Fritte",
+                    Stock = 200,
+                    Promo = false,
+                    Price = 4.99
+                },
+                new Article
+                {
+                    Id = 7,
+                    Name = "Thon",
+                    Stock = 15,
+                    Promo = false,
+                    Price = 3.95
                 }
             );
         }

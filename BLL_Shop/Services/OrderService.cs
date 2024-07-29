@@ -2,10 +2,13 @@
 using BLL_Shop.DTO.Order.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Services;
+using BLL_Shop.Mappers;
+using BLL_Shop.Validators;
+using DAL_Shop.CustomException;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
-
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -19,19 +22,31 @@ namespace BLL_Shop.Services
         #region DI
         private readonly IOrderRepository _repoOrder;
         private readonly IArticleRepository _repoArticle;
+        private readonly IValidator<OrderCreateDTO> _orderCreateDTOValidator;
+        private readonly IValidator<OrderSentAtUpdateDTO> _orderSentAtUpdateDTOValidator;
+        private readonly IValidator<OrderStatusUpdateDTO> _orderStatusUpdateDTOValidator;
+        private readonly IValidator<OrderStatusAndSentAtUpdateDTO> _orderStatusAndSentAtUpdateDTOValidator;
         private readonly JWTGetClaimsService _getClaimService;
         private readonly ILogger<OrderService> _logger;
         public OrderService
             (
             IOrderRepository repoOrder,
-            JWTGetClaimsService getClaimService,
             IArticleRepository repoArticle,
+            IValidator<OrderCreateDTO> orderCreateDTOValidator,
+            IValidator<OrderSentAtUpdateDTO> orderSentAtUpdateDTOValidator,
+            IValidator<OrderStatusUpdateDTO> orderStatusUpdateDTOValidator,
+            IValidator<OrderStatusAndSentAtUpdateDTO> orderStatusAndSentAtUpdateDTOValidator,
+            JWTGetClaimsService getClaimService,
             ILogger<OrderService> logger
             )
         {
-            _getClaimService = getClaimService;
             _repoOrder = repoOrder;
             _repoArticle = repoArticle;
+            _orderCreateDTOValidator = orderCreateDTOValidator;
+            _orderSentAtUpdateDTOValidator = orderSentAtUpdateDTOValidator;
+            _orderStatusUpdateDTOValidator = orderStatusUpdateDTOValidator;
+            _orderStatusAndSentAtUpdateDTOValidator = orderStatusAndSentAtUpdateDTOValidator;
+            _getClaimService = getClaimService;
             _logger = logger;
         }
         #endregion
@@ -52,9 +67,25 @@ namespace BLL_Shop.Services
                     return TypedResults.Unauthorized();
                 }
 
+
+                _logger.LogInformation("Creating new order");
+
+                var validationResult = await ValidatorModelState.ValidModelState(order, _orderCreateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for order creation");
+
+                    return validationResult;
+                }
+
+
                 var listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
 
-                Order orderMapped = new() { UserId = idUser, CreatedAt = order.CreatedAt, SentAt = order.SentAt, Status = order.Status };
+                Order orderMapped = MapperOrder.DTOToEntity(order);
+
+                orderMapped.UserId = idUser;
+
 
                 orderMapped.OrderArticles = listArticle.Select(a => new OrderArticle
                 {
@@ -64,12 +95,15 @@ namespace BLL_Shop.Services
 
                 var result = await _repoOrder.Create(orderMapped);
 
+
+
                 if (result is null)
                 {
                     _logger.LogWarning("Order creation failed for user ID {UserId}", idUser);
 
                     return TypedResults.BadRequest(new { Message = "Une erreur s'est produite lors de la création de la commande." });
                 }
+
 
                 _logger.LogInformation("Order created successfully for user ID {UserId}", idUser);
 
@@ -197,6 +231,18 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Updating value 'sentAt' order : {id}",idOrder);
+
+                var validationResult = await ValidatorModelState.ValidModelState(sendAt, _orderSentAtUpdateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for order value 'sentAt' updating");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoOrder.UpdateSendAt(idOrder, sendAt.SentAt);
 
                 if (string.IsNullOrEmpty(result))
@@ -210,6 +256,52 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (SentAtBeforeCreatedAtException ex)
+            {
+                return TypedResults.BadRequest(ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating SendAt for order ID {OrderId}", idOrder);
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateStatusSendAtOrder(int idOrder, OrderStatusAndSentAtUpdateDTO statusAndSendAt)
+        {
+            try
+            {
+                _logger.LogInformation("Updating value 'sentAt' and 'status' order : {id}", idOrder);
+
+                var validationResult = await ValidatorModelState.ValidModelState(statusAndSendAt, _orderStatusAndSentAtUpdateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for order value 'sentAt' and 'status' updating");
+
+                    return validationResult;
+                }
+
+
+                var result = await _repoOrder.UpdateStatusAndSentAt(idOrder, statusAndSendAt.Status, statusAndSendAt.SentAt);
+
+                if (string.IsNullOrEmpty(result))
+                {
+                    _logger.LogWarning("Failed to update Status and SendAt for order ID {OrderId}", idOrder);
+
+                    return TypedResults.BadRequest(new { Message = "Failed to update SentAt and Status." });
+                }
+
+
+                _logger.LogInformation("Updated SendAt for order ID {OrderId}", idOrder);
+
+                return TypedResults.Ok(result);
+            }
+            catch (SentAtBeforeCreatedAtException ex)
+            {
+                return TypedResults.BadRequest(ex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating SendAt for order ID {OrderId}", idOrder);
@@ -222,6 +314,18 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Updating value 'status' order : {id}", idOrder);
+
+                var validationResult = await ValidatorModelState.ValidModelState(status, _orderStatusUpdateDTOValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for order value 'status' updating");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoOrder.UpdateStatus(idOrder, status.Status);
 
                 if (string.IsNullOrEmpty(result))
@@ -271,7 +375,6 @@ namespace BLL_Shop.Services
             }
         }
         #endregion
-
 
     }
 }
