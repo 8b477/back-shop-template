@@ -30,14 +30,14 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="categoryName">Name of the category.</param>
         /// <returns>Returns all articles found matching the category name, or null if none are matched.</returns>
-        Task<IReadOnlyCollection<Article>> GetByCategory(string categoryName);
+        Task<IReadOnlyCollection<ArticleViewDTO>> GetByCategory(string categoryName);
 
         /// <summary>
         /// Retrieve an article by its ID.
         /// </summary>
         /// <param name="id">ID of the article.</param>
         /// <returns>Returns the article found by ID, or null if not matched.</returns>
-        Task<Article?> GetById(int id);
+        Task<ArticleViewDTO?> GetById(int id);
 
         /// <summary>
         /// Retrieve all articles already in the database with matching Identifiers.
@@ -55,7 +55,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the article.</param>
         /// <param name="article">New values for the article.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<Article?> Update(int id, Article article);
+        Task<ArticleViewDTO?> Update(int id, Article article);
 
         /// <summary>
         /// Update the name of an article already in the database.
@@ -87,7 +87,7 @@ namespace DAL_Shop.Interfaces
         /// <param name="id">ID of the article.</param>
         /// <param name="price">New price of the article.</param>
         /// <returns>If successful, returns the updated article; otherwise, returns null.</returns>
-        Task<string> UpdatePrice(int id, int price);
+        Task<string> UpdatePrice(int id, double price);
         #endregion
 
 

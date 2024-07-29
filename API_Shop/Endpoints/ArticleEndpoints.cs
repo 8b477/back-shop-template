@@ -1,4 +1,5 @@
 ﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
 using BLL_Shop.Interfaces;
 using Database_Shop.Entity;
 
@@ -37,24 +38,24 @@ namespace API_Shop.Endpoints
 
             // UPDATE (ADMIN)
 /*FULL*/    app.MapPut("/article/{id:int}",[Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] Article article)
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] ArticleUpdateDTO article)
                     => await articleService.UpdateArticle(id, article));
 
 /*NAME*/    app.MapPut("/article/name/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] string name)
-                    => await articleService.UpdateArticleName(id, name));
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] ArticleNameUpdateDTO articleNameToUpdate)
+                    => await articleService.UpdateArticleName(id, articleNameToUpdate));
 
 /*PRICE*/   app.MapPut("/article/price/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] int price) 
-                    => await articleService.UpdateArticlePrice(id, price));
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] ArticlePriceUpdateDTO articlePriceToUpdate) 
+                    => await articleService.UpdateArticlePrice(id, articlePriceToUpdate));
 
 /*STOCK*/   app.MapPut("/article/stock/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] int stock) 
-                    => await articleService.UpdateArticleStock(id, stock));
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] ArticleStockUpdateDTO articleStockToUpdate) 
+                    => await articleService.UpdateArticleStock(id, articleStockToUpdate));
 
 /*PROMO*/   app.MapPut("/article/promo/{id:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] bool promo) 
-                => await articleService.UpdateArticlePromo(id, promo));
+                async ([FromServices] IArticleService articleService, [FromRoute] int id, [FromBody] ArticlePromoUpdateDTO articlePromoToUpdate) 
+                => await articleService.UpdateArticlePromo(id, articlePromoToUpdate));
 
 
 

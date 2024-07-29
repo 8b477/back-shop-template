@@ -23,7 +23,6 @@ namespace DAL_Shop.Mapper
                 article.ArticleCategories.Where(ac => ac.ArticleId == article.Id).Select(ac =>
                 new CategoryViewDTO
                 (
-                    ac.Id,
                     ac.Category.Name
                 )).ToList()
             );

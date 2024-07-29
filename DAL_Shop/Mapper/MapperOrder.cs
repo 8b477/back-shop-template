@@ -25,7 +25,6 @@ namespace DAL_Shop.Mapper
                     oa.Article.ArticleCategories.Select(ac => 
                     new CategoryViewDTO
                     (
-                        ac.Id,
                         ac.Category.Name
                     )).ToList()
                 )).ToList()
@@ -35,26 +34,13 @@ namespace DAL_Shop.Mapper
 
         public static List<OrderViewDTO> FromOrderEntityToOrderViewDTO(List<Order> orders)
         {
-            return orders.Select(order => new OrderViewDTO(
-                order.Id,
-                order.UserId,
-                order.Status,
-                order.CreatedAt,
-                order.SentAt,
-                order.OrderArticles.Select(oa => new ArticleViewDTO(
-                    oa.Article.Id,
-                    oa.Article.Name,
-                    oa.Article.Stock,
-                    oa.Article.Promo,
-                    oa.Article.Price,
-                    oa.Article.ArticleCategories.Select(ac =>
-                    new CategoryViewDTO
-                    (
-                        ac.Id,
-                        ac.Category.Name
-                    )).ToList()
-                )).ToList()
-            )).ToList();
+            List<OrderViewDTO> listMapped = [];
+
+            foreach (Order o in orders)
+            {
+                listMapped.Add(FromOrderEntityToOrderViewDTO(o));
+            }
+            return listMapped;
         }
 
     }

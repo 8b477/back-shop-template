@@ -30,6 +30,7 @@ namespace Database_Shop.Context.Configurations
 
             builder.HasMany(a => a.ArticleCategories)
                 .WithOne(ac => ac.Article)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(ac => ac.ArticleId);
 
 

@@ -1,6 +1,5 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMTkzNDkwMCwiZXhwIjoxNzIxOTQ1NzAwLCJpYXQiOjE3MjE5MzQ5MDAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.yfDyHurC0jTv7obBGtfnFbLY7_POT8RwFBD0JmIOz6c
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI0NzM2MCwiZXhwIjoxNzIyMjU4MTYwLCJpYXQiOjE3MjIyNDczNjAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.SLxbk50Y9f7rC1vWv-Uyacs-2ndI4_Q2wq3-_Ld8fAg
 
 
 ###
@@ -20,26 +19,27 @@ GET {{API_Shop_HostAddress}}/article
 
 ###
 
-GET {{API_Shop_HostAddress}}/article/coca
+GET {{API_Shop_HostAddress}}/article/frais
 
 ###
 
-GET {{API_Shop_HostAddress}}/article/{id:int}
+GET {{API_Shop_HostAddress}}/article/8
 
 ###
 
-PUT {{API_Shop_HostAddress}}/article/{id:int}
+PUT {{API_Shop_HostAddress}}/article/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
   "name":"fanta",
   "stock":15,
-  "promo":"false",
-  "price":2.50
+  "promo":false,
+  "price":2.50,
+  "categories":[1]
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/name/{id:int}
+PUT {{API_Shop_HostAddress}}/article/name/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
@@ -47,29 +47,29 @@ Content-Type: application/json
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/price/{id:int}
+PUT {{API_Shop_HostAddress}}/article/price/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "price":1.00
+  "price":1.50
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/promo/{id:int}/{promo}
+PUT {{API_Shop_HostAddress}}/article/promo/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "promo":"true"
+  "promo":true
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/article/stock/{id:int}/{stock:int}
+PUT {{API_Shop_HostAddress}}/article/stock/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "stock":10
+  "stock":100
 }
 ###
 
-DELETE {{API_Shop_HostAddress}}/article/{id:int}
+DELETE {{API_Shop_HostAddress}}/article/8
 Authorization: Bearer {{authToken}}

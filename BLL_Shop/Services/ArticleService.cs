@@ -1,4 +1,5 @@
 ﻿using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.Mappers;
 using DAL_Shop.Interfaces;
@@ -141,11 +142,37 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> UpdateArticle(int id, Article article)
+        public async Task<IResult> UpdateArticle(int id, ArticleUpdateDTO article)
         {
             try
             {
-                var result = await _repoArticle.Update(id, article);
+                var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
+
+                if (correspondingCategories is null)
+                {
+                    _logger.LogWarning("No reference match");
+                    return TypedResults.BadRequest(new { Message = "No reference provided is correct" });
+                }
+
+                if (article.Categories.Count != correspondingCategories.Count)
+                {
+                    _logger.LogWarning("All supplied identifiers are not matched");
+                    return TypedResults.BadRequest(new { Message = "Not all identifiers supplied are correct, please check and retry" });
+                }
+
+
+                Article articleMapped = MapperArticle.FromArticleUpdateDTOToEntity(article);
+
+                articleMapped.Id = id;
+
+                // Update relation table
+                articleMapped.ArticleCategories = correspondingCategories.Select(c => new ArticleCategory
+                {
+                    ArticleId = id,
+                    CategoryId = c.Id
+                }).ToList();
+
+                var result = await _repoArticle.Update(id, articleMapped);
 
                 return result is not null
                     ? TypedResults.Ok(result)
@@ -159,11 +186,11 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticleName(int id, string name)
+        public async Task<IResult> UpdateArticleName(int id, ArticleNameUpdateDTO articleNameToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdateName(id, name);
+                var result = await _repoArticle.UpdateName(id, articleNameToUpdate.Name);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -177,11 +204,11 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticlePrice(int id, int price)
+        public async Task<IResult> UpdateArticlePrice(int id, ArticlePriceUpdateDTO articlePriceToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdatePrice(id, price);
+                var result = await _repoArticle.UpdatePrice(id, articlePriceToUpdate.Price);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -195,11 +222,11 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticlePromo(int id, bool promo)
+        public async Task<IResult> UpdateArticlePromo(int id, ArticlePromoUpdateDTO articlePromoToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdatePromo(id, promo);
+                var result = await _repoArticle.UpdatePromo(id, articlePromoToUpdate.Promo);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
@@ -213,11 +240,11 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> UpdateArticleStock(int id, int stock)
+        public async Task<IResult> UpdateArticleStock(int id, ArticleStockUpdateDTO articleStockToUpdate)
         {
             try
             {
-                var result = await _repoArticle.UpdateStock(id, stock);
+                var result = await _repoArticle.UpdateStock(id, articleStockToUpdate.Stock);
 
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
