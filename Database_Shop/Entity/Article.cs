@@ -17,7 +17,7 @@ namespace Database_Shop.Entity
 
 
         [Required]
-        public ICollection<ArticleCategory> ArticleCategories { get; set; } // Un article doit contenir au moins une catégorie
+        public ICollection<ArticleCategory> ArticleCategories { get; set; }
 
 
         [Required]

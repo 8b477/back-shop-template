@@ -1,9 +1,7 @@
 ﻿using DAL_Shop.DTO.Article;
 using DAL_Shop.DTO.Category;
-
 using Database_Shop.Entity;
 
-using System.Collections.Generic;
 
 namespace DAL_Shop.Mapper
 {

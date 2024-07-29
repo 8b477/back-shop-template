@@ -64,6 +64,15 @@ namespace DAL_Shop.Interfaces
         /// <param name="sendAt">The new values for the target order.</param>
         /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
         Task<string> UpdateSendAt(int idOrder, DateTime sendAt);
+
+        /// <summary>
+        /// Updates sendAt of an existing order in the database.
+        /// </summary>
+        /// <param name="idOrder">Identifier order to update.</param>
+        /// <param name="status">The new status values for the target order.</param>
+        /// <param name="sendAt">The new sendAt values for the target order.</param>
+        /// <returns>If successful, returns the updated order; otherwise, returns null.</returns>
+        Task<string> UpdateStatusAndSentAt(int idOrder, string status, DateTime sentAt);
         #endregion
 
 

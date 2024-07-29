@@ -29,33 +29,36 @@ namespace API_Shop.Endpoints
             // GET (ADMIN)
 /*ALL*/     app.MapGet("/order", [Authorize(Policy = "AdminOnly")]
                 async ([FromServices] IOrderService orderService)
-                    => await orderService.GetAllOrder()); //Get all orders
+                    => await orderService.GetAllOrder());
 
 /*ONE*/     app.MapGet("/order/{id:int}", [Authorize(Policy = "AdminOnly")]  
-                async ([FromServices] IOrderService orderService, int id)
-                    => await orderService.GetOrderById(id)); //Get order by id Order
+                async ([FromServices] IOrderService orderService,[FromRoute] int id)
+                    => await orderService.GetOrderById(id));
                                                              
-
 /*ID-USER*/ app.MapGet("/order/user/{idUser:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IOrderService orderService, int idUser)
-                    => await orderService.GetOrderByIdUser(idUser)); // Get order by id User
+                async ([FromServices] IOrderService orderService,[FromRoute] int idUser)
+                    => await orderService.GetOrderByIdUser(idUser));
 
 
 
             // UPDATE (ADMIN)
 /*STATUS*/  app.MapPut("/order/status/{idOrder:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IOrderService orderService, int idOrder, [FromBody] OrderStatusUpdateDTO status)
+                async ([FromServices] IOrderService orderService,[FromRoute] int idOrder, [FromBody] OrderStatusUpdateDTO status)
                     => await orderService.UpdateStatusOrder(idOrder, status));
 
 /*SENT-AT*/ app.MapPut("/order/sentAt/{idOrder:int}", [Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IOrderService orderService, int idOrder, [FromBody] OrderSentAtUpdateDTO sentAt)
+                async ([FromServices] IOrderService orderService,[FromRoute] int idOrder, [FromBody] OrderSentAtUpdateDTO sentAt)
                     => await orderService.UpdateSendAtOrder(idOrder, sentAt));
+
+/*STATUS*/ app.MapPut("/order/statusAndSentAt/{idOrder:int}", [Authorize(Policy = "AdminOnly")]
+/*AND*/         async ([FromServices] IOrderService orderService, [FromRoute] int idOrder, [FromBody] OrderStatusAndSentAtUpdateDTO StatusAndSentAt)
+/*SENT-AT*/         => await orderService.UpdateStatusSendAtOrder(idOrder, StatusAndSentAt));
 
 
 
             // DELETE (ADMIN)
             app.MapDelete("/order/{idOrder:int}", [Authorize(Policy ="AdminOnly")]
-                async ([FromServices] IOrderService orderService, int idOrder)
+                async ([FromServices] IOrderService orderService,[FromRoute] int idOrder)
                     => await orderService.DeleteOrder(idOrder));
 
 

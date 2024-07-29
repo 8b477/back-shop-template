@@ -1,18 +1,19 @@
 ﻿using DAL_Shop.DTO.Article;
+using DAL_Shop.DTO.User;
 
 
 namespace DAL_Shop.DTO.Order
 {
-#nullable disable
     public record OrderViewDTO
     {
-        public OrderViewDTO(int id, int userId, string status, DateTime createdAt, DateTime? sentAt, List<ArticleViewDTO> articles)
+        public OrderViewDTO(int id, int userId, string status, DateTime createdAt, DateTime? sentAt, UserViewDTO user, List<ArticleViewDTO> articles)
         {
             Id = id;
             UserId = userId;
             Status = status;
             CreatedAt = createdAt;
             SentAt = sentAt;
+            User = user;
             Articles = articles;
         }
 
@@ -21,7 +22,8 @@ namespace DAL_Shop.DTO.Order
         public string Status { get; init; }
         public DateTime CreatedAt { get; init; }
         public DateTime? SentAt { get; init; }
+        public UserViewDTO User { get; init; }
         public List<ArticleViewDTO> Articles { get; init; }
     }
-#nullable enable
+
 }

@@ -62,6 +62,9 @@ namespace DAL_Shop.Repository
                 var orders = await _db.Order
                     .Include(o => o.OrderArticles)
                     .ThenInclude(oa => oa.Article)
+                    .ThenInclude(c => c.ArticleCategories)
+                    .Include(u => u.User)
+                    .ThenInclude(ad => ad.Address)
                     .ToListAsync();
 
                 _logger.LogInformation("Retrieved {Count} orders", orders.Count);
@@ -85,6 +88,9 @@ namespace DAL_Shop.Repository
                 var order = await _db.Order
                     .Include(o => o.OrderArticles)
                     .ThenInclude(oa => oa.Article)
+                    .ThenInclude(c => c.ArticleCategories)
+                    .Include(u => u.User)
+                    .ThenInclude(ad => ad.Address)
                     .FirstOrDefaultAsync(o => o.Id == id);
 
                 if (order == null)
@@ -115,6 +121,9 @@ namespace DAL_Shop.Repository
                 var result = await _db.Order.Where(o => o.UserId == idUser)
                     .Include(o => o.OrderArticles)
                     .ThenInclude(oa => oa.Article)
+                    .ThenInclude(c => c.ArticleCategories)
+                    .Include(u => u.User)
+                    .ThenInclude(ad => ad.Address)
                     .ToListAsync();
 
                 _logger.LogInformation("Retrieved {Count} orders for user with ID: {UserId}", result.Count, idUser);
@@ -188,6 +197,36 @@ namespace DAL_Shop.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating Status for order with ID: {OrderId}", idOrder);
+
+                throw;
+            }
+        }
+
+        public async Task<string> UpdateStatusAndSentAt(int idOrder, string status, DateTime sentAt)
+        {
+            try
+            {
+                var existingOrder = await _db.Order.FindAsync(idOrder);
+
+                if (existingOrder is null)
+                {
+                    _logger.LogWarning("Order with ID {OrderId} not found for updating Status and SentAt", idOrder);
+
+                    return "";
+                }
+
+                existingOrder.Status = status;
+                existingOrder.SentAt = sentAt;
+
+                await _db.SaveChangesAsync();
+
+                _logger.LogInformation("Updated Status and SentAt for order with ID: {OrderId}", idOrder);
+
+                return "Mise à jour réussie !";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating Status and SendAt for order with ID: {OrderId}", idOrder);
 
                 throw;
             }

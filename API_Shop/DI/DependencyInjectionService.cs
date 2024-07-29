@@ -4,6 +4,8 @@ using BLL_Shop.DTO.Article.Create;
 using BLL_Shop.DTO.Article.Update;
 using BLL_Shop.DTO.Category.Create;
 using BLL_Shop.DTO.Category.Update;
+using BLL_Shop.DTO.Order.Create;
+using BLL_Shop.DTO.Order.Update;
 using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 using BLL_Shop.Interfaces;
@@ -13,6 +15,7 @@ using BLL_Shop.Services;
 using BLL_Shop.Validators.Address_Validator;
 using BLL_Shop.Validators.Article_Validator;
 using BLL_Shop.Validators.Category_Validator;
+using BLL_Shop.Validators.Order_Validator;
 using BLL_Shop.Validators.User_Validator;
 using DAL_Shop.Interfaces;
 using DAL_Shop.Repository;
@@ -74,7 +77,10 @@ namespace API_Shop.DI
             services.AddScoped<IOrderService, OrderService>();
 
             //ORDER VALIDATOR
-
+            services.AddScoped<IValidator<OrderCreateDTO>, OrderCreateValidator>();
+            services.AddScoped<IValidator<OrderSentAtUpdateDTO>, OrderUpdateSentAtValidator>();
+            services.AddScoped<IValidator<OrderStatusAndSentAtUpdateDTO>, OrderUpdateStatusAndSentAtValidator>();
+            services.AddScoped<IValidator<OrderStatusUpdateDTO>, OrderUpdateStatusValidator>();
 
             //AUTHENTICATION
             services.AddScoped<IAuthentificationCustomRepository, AuthenticationCustomRepository>();
