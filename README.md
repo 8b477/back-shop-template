@@ -7,8 +7,9 @@
 - ASP.NET Core ⚙️
 - Minimal API 🛠️
 - SQLite 📦
-- Entity Framework Core🗄️
-- Fluent API 🔗
+- Entity Framework Core (code first)🗄️
+- Data notation 🔑
+- Fluent API 🔐
 - xUnit Test 🧪
 - Pattern repository 📁
 
@@ -21,14 +22,23 @@
 
 ## 📂 Structure du Projet
 
-- **Controllers**: Gère les endpoints de l'API.
-- **Repositories**: Contient les interfaces et implémentations des repositories.
-- **Services**: Contient la logique métier de l'application.
-- **Models**: Contient les entités de la base de données.
-- **Data**: Contient le contexte de la base de données.
-- **Tests**: Contient les tests unitaires.
+- 🌐 **API_Shop**: Ce projet contient les contrôleurs et gère les endpoints de l'API.
+    - 🔗 **Références**: BLL <br>  
 
-## 🌐 Frontend
+- 🧠 **BLL_Shop (Business Logic Layer)**: Contient la logique métier de l'application, elle applique les règles de gestion et les traitements nécessaires.
+   - 🔗 **Références**: DAL <br>  
+
+- 📦 **DAL_Shop (Data Access Layer)**: Contient les interfaces et implémentations des repositories pour accéder aux données, elle gère les interactions avec la base de données.
+   - 🔗 **Références**: DATABASE <br>  
+ 
+- 💾 **Database_Shop**: Contient le contexte de la base de données et les migrations, elle gère la création et la mise à jour de la base de données.
+   - 🔗 **Références**: Aucune <br>  
+
+- 🧪 **TestXUnit_Shop**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
+   - 🔗 **Références**: API, BLL, DAL
+
+
+## 💻 Frontend
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
 
 *projet du Frontend*
@@ -36,31 +46,26 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
 
 <br> 
 
-------------------- 
+## 🗺️ Schema Database
+
+![Ceci est un exemple d’image](https://github.com/8b477/back-shop-template/blob/master/Schema/schema_DB.png)
+
+<br>  
+
+## 🗺️ Schema Database (E-A)  
+
+![Ceci est un exemple d’image](https://github.com/8b477/back-shop-template/blob/master/Schema/schema_DB_EA.png)
+
 
 ------------------- 
 
-## Note à moi même !
-
-Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf :
-- Email => pour la contrainte unique.
-- A venir les propriétés qui me servirons de filtre pour une recherche fluide dans la db (categorie, promo, ..).
+------------------- 
 
 
 ## TODO
-
-- Create DTO :
-  - Article input BLL output DAL 
-  - Category input BLL output DAL 
-  - Order input BLL output DAL 
-  
-
+ 
+- Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf.
 - Create validator :
   - Article. 
   - Category.
   - Order.
-
-- Rework Unit test (mockup is not current)
-
-- TEST :
-	- Validator Address. 
