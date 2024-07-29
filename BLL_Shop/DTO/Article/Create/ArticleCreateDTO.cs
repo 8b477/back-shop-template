@@ -17,6 +17,6 @@ namespace BLL_Shop.DTO.Article.Create
         public int Stock { get; init; }
         public bool Promo { get; init; }
         public double Price { get; init; }
-        public List<int> Categories { get; init; } // mini une caté --> VALIDATOR <--
+        public List<int> Categories { get; init; }
     }
 }

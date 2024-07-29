@@ -1,5 +1,7 @@
 ﻿using BLL_Shop.DTO.Address.Create;
 using BLL_Shop.DTO.Address.Update;
+using BLL_Shop.DTO.Article.Create;
+using BLL_Shop.DTO.Article.Update;
 using BLL_Shop.DTO.User.Create;
 using BLL_Shop.DTO.User.Update;
 using BLL_Shop.Interfaces;
@@ -7,8 +9,8 @@ using BLL_Shop.JWT.Models;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Services;
 using BLL_Shop.Validators.Address_Validator;
+using BLL_Shop.Validators.Article_Validator;
 using BLL_Shop.Validators.User_Validator;
-
 using DAL_Shop.Interfaces;
 using DAL_Shop.Repository;
 
@@ -49,7 +51,12 @@ namespace API_Shop.DI
             services.AddScoped<IArticleService, ArticleService>();
 
             //ARTICLE VALIDATOR
-
+            services.AddScoped<IValidator<ArticleCreateDTO>, ArticleCreateValidator>();
+            services.AddScoped<IValidator<ArticleUpdateDTO>, ArticleUpdateValidator>();
+            services.AddScoped<IValidator<ArticleNameUpdateDTO>, ArticleUpdateNameValidator>();
+            services.AddScoped<IValidator<ArticlePriceUpdateDTO>, ArticleUpdatePriceValidator>();
+            services.AddScoped<IValidator<ArticlePromoUpdateDTO>, ArticleUpdatePromoValidator>();
+            services.AddScoped<IValidator<ArticleStockUpdateDTO>, ArticleUpdateStockValidator>();
 
             //CATEGORY
             services.AddScoped<ICategoryRepository, CategoryRepository>();

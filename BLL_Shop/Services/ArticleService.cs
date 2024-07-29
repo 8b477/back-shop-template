@@ -2,9 +2,11 @@
 using BLL_Shop.DTO.Article.Update;
 using BLL_Shop.Interfaces;
 using BLL_Shop.Mappers;
+using BLL_Shop.Validators;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -18,12 +20,34 @@ namespace BLL_Shop.Services
         #region DI
         private readonly IArticleRepository _repoArticle;
         private readonly ICategoryRepository _repoCategory;
+        private readonly IValidator<ArticleCreateDTO> _articleCreateValidator;
+        private readonly IValidator<ArticleUpdateDTO> _articleUpdateValidator;
+        private readonly IValidator<ArticleNameUpdateDTO> _articleUpdateNameValidator;
+        private readonly IValidator<ArticlePriceUpdateDTO> _articleUpdatePriceValidator;
+        private readonly IValidator<ArticlePromoUpdateDTO> _articleUpdatePromoValidator;
+        private readonly IValidator<ArticleStockUpdateDTO> _articleUpdateStockValidator;
         private readonly ILogger<ArticleService> _logger;
 
-        public ArticleService(IArticleRepository repoArticle, ICategoryRepository repoCategory, ILogger<ArticleService> logger)
+        public ArticleService(
+            IArticleRepository repoArticle,
+            ICategoryRepository repoCategory,
+            IValidator<ArticleCreateDTO> articleCreateValidator,
+            IValidator<ArticleUpdateDTO> articleUpdateValidator,
+            IValidator<ArticleNameUpdateDTO> articleUpdateNameValidator,
+            IValidator<ArticlePriceUpdateDTO> articleUpdatePriceValidator,
+            IValidator<ArticlePromoUpdateDTO> articleUpdatePromoValidator,
+            IValidator<ArticleStockUpdateDTO> articleUpdateStockValidator,
+            ILogger<ArticleService> logger
+            )
         {
             _repoArticle = repoArticle;
             _repoCategory = repoCategory;
+            _articleCreateValidator = articleCreateValidator;
+            _articleUpdateValidator = articleUpdateValidator;
+            _articleUpdateNameValidator = articleUpdateNameValidator;
+            _articleUpdatePriceValidator = articleUpdatePriceValidator;
+            _articleUpdatePromoValidator = articleUpdatePromoValidator;
+            _articleUpdateStockValidator = articleUpdateStockValidator;
             _logger = logger;
         }
         #endregion
@@ -38,8 +62,14 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Create new article");
 
 
-                //VALIDTOR !!!
-                //....
+                var validationResult = await ValidatorModelState.ValidModelState(article, _articleCreateValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for address creation");
+
+                    return validationResult;
+                }
 
 
                 var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
@@ -146,6 +176,20 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Update article id : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(article, _articleUpdateValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update");
+
+                    return validationResult;
+                }
+
+
+
                 var correspondingCategories = await _repoCategory.GetByIds(article.Categories);
 
                 if (correspondingCategories is null)
@@ -190,6 +234,19 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Update article name, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articleNameToUpdate, _articleUpdateNameValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : name");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoArticle.UpdateName(id, articleNameToUpdate.Name);
 
                 return !string.IsNullOrEmpty(result)
@@ -208,6 +265,19 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Update article price, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articlePriceToUpdate, _articleUpdatePriceValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : price");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoArticle.UpdatePrice(id, articlePriceToUpdate.Price);
 
                 return !string.IsNullOrEmpty(result)
@@ -226,6 +296,19 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Update article promo, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articlePromoToUpdate, _articleUpdatePromoValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : promo");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoArticle.UpdatePromo(id, articlePromoToUpdate.Promo);
 
                 return !string.IsNullOrEmpty(result)
@@ -244,6 +327,19 @@ namespace BLL_Shop.Services
         {
             try
             {
+                _logger.LogInformation("Update article stock, id article : {id}", id);
+
+
+                var validationResult = await ValidatorModelState.ValidModelState(articleStockToUpdate, _articleUpdateStockValidator);
+
+                if (validationResult != Results.Ok())
+                {
+                    _logger.LogWarning("Validation failed for article update value : stock");
+
+                    return validationResult;
+                }
+
+
                 var result = await _repoArticle.UpdateStock(id, articleStockToUpdate.Stock);
 
                 return !string.IsNullOrEmpty(result)
