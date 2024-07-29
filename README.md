@@ -65,7 +65,6 @@ Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. 
 ## TODO
  
 - Utilisation de l'indexation avec fluentAPI pour tout ce qui est recherche récurrente pour opti les perf.
-- Create validator :
-  - Article. 
-  - Category.
-  - Order.
+- Rework Unit test (mockup is not current).
+- Add pattern Unit of Work.
+- Adding Redis for improve performance, optimization with memory caching.
