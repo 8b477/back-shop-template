@@ -1,4 +1,8 @@
-﻿using BLL_Shop.Interfaces;
+﻿using BLL_Shop.DTO.Category.Create;
+using BLL_Shop.DTO.Category.Update;
+using BLL_Shop.Interfaces;
+using BLL_Shop.Mappers;
+
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
@@ -26,11 +30,15 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> CREATE <------------->
-        public async Task<IResult> CreateCategory(Category category)
+        public async Task<IResult> CreateCategory(CategoryCreateDTO category)
         {
             try
             {
-                var result = await _repoCategory.Create(category);
+                // VALIDATOR
+
+                Category categoryMapped = MapperCategory.DTOToEntity(category);
+
+                var result = await _repoCategory.Create(categoryMapped);
 
                 if (result is null)
                 {
@@ -106,11 +114,11 @@ namespace BLL_Shop.Services
 
 
         #region <-------------> UPDATE <------------->
-        public async Task<IResult> UpdateCategory(int id, string name)
+        public async Task<IResult> UpdateCategory(int id, CategoryUpdateDTO categoryNameToUpdate)
         {
             try
             {
-                var result = await _repoCategory.Update(id, name);
+                var result = await _repoCategory.Update(id, categoryNameToUpdate.Name);
 
                 if (result is null)
                 {

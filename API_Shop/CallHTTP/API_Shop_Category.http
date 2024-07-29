@@ -1,21 +1,36 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI1MjI5MiwiZXhwIjoxNzIyMjYzMDkyLCJpYXQiOjE3MjIyNTIyOTIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.JlpAWZUWYkwYAm51k2C1pb5RDo1cJ2NT2sdOk0nZjwc
+
 
 POST {{API_Shop_HostAddress}}/category
-
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "name":"super caté"
+}
 ###
 
 GET {{API_Shop_HostAddress}}/category
-
+Accept: application/json
+Authorization: Bearer {{authToken}}
 ###
 
-GET {{API_Shop_HostAddress}}/category/{id:int}
-
+GET {{API_Shop_HostAddress}}/category/10
+Accept: application/json
+Authorization: Bearer {{authToken}}
 ###
 
-DELETE {{API_Shop_HostAddress}}/category/{id:int}
-
+PUT {{API_Shop_HostAddress}}/category/10
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "name":"super caté update"
+}
 ###
 
-PUT {{API_Shop_HostAddress}}/category/{id:int}/{name}
-
+DELETE {{API_Shop_HostAddress}}/category/10
+Accept: application/json
+Authorization: Bearer {{authToken}}
 ###
