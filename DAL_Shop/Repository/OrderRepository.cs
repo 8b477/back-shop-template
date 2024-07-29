@@ -1,4 +1,5 @@
-﻿using DAL_Shop.DTO.Order;
+﻿using DAL_Shop.CustomException;
+using DAL_Shop.DTO.Order;
 using DAL_Shop.Interfaces;
 using DAL_Shop.Mapper;
 using Database_Shop.Context;
@@ -39,7 +40,23 @@ namespace DAL_Shop.Repository
 
                 _logger.LogInformation("Order created successfully with ID: {OrderId}", order.Id);
 
-                var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(order);
+
+                var newOrder = await _db.Order
+                                        .Include(o => o.OrderArticles)
+                                            .ThenInclude(oa => oa.Article)
+                                                .ThenInclude(a => a.ArticleCategories)
+                                                    .ThenInclude(ac => ac.Category)
+                                        .Include(o => o.User)
+                                            .ThenInclude(u => u.Address)
+                                        .FirstOrDefaultAsync(o => o.Id == order.Id);
+
+                if (newOrder == null)
+                {
+                    _logger.LogError("Failed to reload the order with ID: {OrderId}", order.Id);
+                    return null;
+                }
+
+                var orderViewDTO = MapperOrder.FromOrderEntityToOrderViewDTO(newOrder);
 
                 return orderViewDTO;
             }
@@ -61,10 +78,11 @@ namespace DAL_Shop.Repository
             {
                 var orders = await _db.Order
                     .Include(o => o.OrderArticles)
-                    .ThenInclude(oa => oa.Article)
-                    .ThenInclude(c => c.ArticleCategories)
-                    .Include(u => u.User)
-                    .ThenInclude(ad => ad.Address)
+                        .ThenInclude(oa => oa.Article)
+                            .ThenInclude(a => a.ArticleCategories)
+                                .ThenInclude(ac => ac.Category)
+                    .Include(o => o.User)
+                        .ThenInclude(u => u.Address)
                     .ToListAsync();
 
                 _logger.LogInformation("Retrieved {Count} orders", orders.Count);
@@ -87,10 +105,11 @@ namespace DAL_Shop.Repository
             {
                 var order = await _db.Order
                     .Include(o => o.OrderArticles)
-                    .ThenInclude(oa => oa.Article)
-                    .ThenInclude(c => c.ArticleCategories)
+                        .ThenInclude(oa => oa.Article)
+                            .ThenInclude(c => c.ArticleCategories)
+                                .ThenInclude(ac => ac.Category)
                     .Include(u => u.User)
-                    .ThenInclude(ad => ad.Address)
+                        .ThenInclude(ad => ad.Address)
                     .FirstOrDefaultAsync(o => o.Id == id);
 
                 if (order == null)
@@ -120,10 +139,11 @@ namespace DAL_Shop.Repository
             {
                 var result = await _db.Order.Where(o => o.UserId == idUser)
                     .Include(o => o.OrderArticles)
-                    .ThenInclude(oa => oa.Article)
-                    .ThenInclude(c => c.ArticleCategories)
+                        .ThenInclude(oa => oa.Article)
+                            .ThenInclude(c => c.ArticleCategories)
+                                .ThenInclude(ac => ac.Category)
                     .Include(u => u.User)
-                    .ThenInclude(ad => ad.Address)
+                        .ThenInclude(ad => ad.Address)
                     .ToListAsync();
 
                 _logger.LogInformation("Retrieved {Count} orders for user with ID: {UserId}", result.Count, idUser);
@@ -156,6 +176,14 @@ namespace DAL_Shop.Repository
 
                     return "";
                 }
+
+
+                if (existingOrder.CreatedAt > existingOrder.SentAt)
+                {
+                    _logger.LogError("SentAt cannot be before CreatedAt for order with ID: {OrderId}", idOrder);
+                    throw new SentAtBeforeCreatedAtException($"SentAt cannot be before CreatedAt for order with ID: {idOrder}");
+                }
+
 
                 existingOrder.SentAt = sendAt;
 
@@ -214,6 +242,14 @@ namespace DAL_Shop.Repository
 
                     return "";
                 }
+
+
+                if (existingOrder.CreatedAt > existingOrder.SentAt)
+                {
+                    _logger.LogError("SentAt cannot be before CreatedAt for order with ID: {OrderId}", idOrder);
+                    throw new SentAtBeforeCreatedAtException($"SentAt cannot be before CreatedAt for order with ID: {idOrder}");
+                }
+
 
                 existingOrder.Status = status;
                 existingOrder.SentAt = sentAt;

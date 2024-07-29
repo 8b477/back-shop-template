@@ -1,4 +1,5 @@
 ﻿using BLL_Shop.DTO.Order.Update;
+using BLL_Shop.Enum;
 
 using FluentValidation;
 
@@ -10,17 +11,14 @@ namespace BLL_Shop.Validators.Order_Validator
         public OrderUpdateStatusAndSentAtValidator()
         {
             RuleFor(o => o.Status)
-                .NotEmpty().WithMessage("Le statut est requis.")
-                .Length(2, 50).WithMessage("Le statut doit contenir entre 2 et 50 caractères.");
+                .NotEmpty().WithMessage("Le champ 'statut' doit contenir une valeur.")
+                .NotNull().WithMessage("Le champ 'status' ne peut pas être null")
+                .Length(2, 50).WithMessage("Le statut doit contenir entre 2 et 50 caractères.")
+                .IsEnumName(typeof(OrderStatusEnum), caseSensitive: true).WithMessage("Le statut doit être 'Pending', 'InProgress' ou 'Sent' (Respecter les majuscule).");
 
             RuleFor(o => o.SentAt)
-                .Must(BeAValidDate).WithMessage("La date d'envoi doit être une date valide et ne pas être dans le passé.");
-        }
-
-
-        private bool BeAValidDate(DateTime date)
-        {
-            return date >= DateTime.Now;
+                .NotNull().WithMessage("Le champ 'sentAt' ne peut pas être null")
+                .NotEmpty().WithMessage("Le champ 'sentAt' doit contenir une valeur");
         }
     }
 }

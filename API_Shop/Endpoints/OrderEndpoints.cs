@@ -12,6 +12,11 @@ namespace API_Shop.Endpoints
         public static void GetEndpointsOrder(WebApplication app)
         {
 
+            // <--------------------------------> TODO <-------------------------------->
+            // - Add Pagination ou cela semble pertinent
+            // - Add endpoint filtré sur les status des commandes
+            // <--------------------------------> **** <-------------------------------->
+
 
 
             // ADD (ADMIN & USER)

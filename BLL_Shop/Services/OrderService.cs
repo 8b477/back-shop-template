@@ -4,12 +4,11 @@ using BLL_Shop.Interfaces;
 using BLL_Shop.JWT.Services;
 using BLL_Shop.Mappers;
 using BLL_Shop.Validators;
-
+using DAL_Shop.CustomException;
 using DAL_Shop.Interfaces;
 using Database_Shop.Entity;
 
 using FluentValidation;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -84,6 +83,7 @@ namespace BLL_Shop.Services
                 var listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
 
                 Order orderMapped = MapperOrder.DTOToEntity(order);
+
                 orderMapped.UserId = idUser;
 
 
@@ -95,12 +95,15 @@ namespace BLL_Shop.Services
 
                 var result = await _repoOrder.Create(orderMapped);
 
+
+
                 if (result is null)
                 {
                     _logger.LogWarning("Order creation failed for user ID {UserId}", idUser);
 
                     return TypedResults.BadRequest(new { Message = "Une erreur s'est produite lors de la création de la commande." });
                 }
+
 
                 _logger.LogInformation("Order created successfully for user ID {UserId}", idUser);
 
@@ -253,6 +256,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (SentAtBeforeCreatedAtException ex)
+            {
+                return TypedResults.BadRequest(ex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating SendAt for order ID {OrderId}", idOrder);
@@ -286,9 +293,14 @@ namespace BLL_Shop.Services
                     return TypedResults.BadRequest(new { Message = "Failed to update SentAt and Status." });
                 }
 
+
                 _logger.LogInformation("Updated SendAt for order ID {OrderId}", idOrder);
 
                 return TypedResults.Ok(result);
+            }
+            catch (SentAtBeforeCreatedAtException ex)
+            {
+                return TypedResults.BadRequest(ex);
             }
             catch (Exception ex)
             {
@@ -297,7 +309,6 @@ namespace BLL_Shop.Services
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
 
         public async Task<IResult> UpdateStatusOrder(int idOrder, OrderStatusUpdateDTO status)
         {
@@ -364,7 +375,6 @@ namespace BLL_Shop.Services
             }
         }
         #endregion
-
 
     }
 }

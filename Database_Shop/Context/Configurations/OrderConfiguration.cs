@@ -35,7 +35,7 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 1,
                     UserId = 2,
-                    Status = "Livré",
+                    Status = "Sent",
                     CreatedAt = new DateTime(2023, 6, 1),
                     SentAt = new DateTime(2023, 6, 5)
                 },
@@ -43,7 +43,7 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 2,
                     UserId = 2,
-                    Status = "En attente",
+                    Status = "Pending",
                     CreatedAt = new DateTime(2023, 7, 10),
                     SentAt = null
                 },
@@ -51,7 +51,7 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 3,
                     UserId = 3,
-                    Status = "En attente",
+                    Status = "Pending",
                     CreatedAt = new DateTime(2023, 7, 10),
                     SentAt = null
                 },
@@ -59,7 +59,7 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 4,
                     UserId = 4,
-                    Status = "Livré",
+                    Status = "InProgress",
                     CreatedAt = new DateTime(2023, 7, 10),
                     SentAt = new DateTime(2023, 7, 15)
                 },
@@ -67,7 +67,7 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 5,
                     UserId = 4,
-                    Status = "Livré",
+                    Status = "InProgress",
                     CreatedAt = new DateTime(2023, 8, 23),
                     SentAt = new DateTime(2023, 8, 28)
                 }

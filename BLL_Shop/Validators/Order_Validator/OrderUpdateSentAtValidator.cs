@@ -10,13 +10,8 @@ namespace BLL_Shop.Validators.Order_Validator
         public OrderUpdateSentAtValidator()
         {
             RuleFor(o => o.SentAt)
-                .Must(BeAValidDate).WithMessage("La date d'envoi doit être une date valide et ne pas être dans le passé.");
-        }
-
-
-        private bool BeAValidDate(DateTime date)
-        {
-            return date >= DateTime.Now;
+                .NotNull().WithMessage("Le champ 'sentAt' ne peut pas être null")
+                .NotEmpty().WithMessage("Le champ 'sentAt' doit contenir une valeur");
         }
     }
 }

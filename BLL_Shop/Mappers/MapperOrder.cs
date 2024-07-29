@@ -9,9 +9,12 @@ namespace BLL_Shop.Mappers
         internal static Order DTOToEntity(OrderCreateDTO orderDTO)
         {
             return new Order
-            {
-                Status = orderDTO.Status
+            {           
+                Status = "En attente",
+                CreatedAt = DateTime.Now,
+                SentAt = null
             };
         }
+
     }
 }

@@ -1,12 +1,11 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI2MjEyMSwiZXhwIjoxNzIyMjcyOTIxLCJpYXQiOjE3MjIyNjIxMjEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.SZnpm5tlOMTCQwS3Jg82U0tSv3zyog-KM5oDGPcr7aI
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI4MjcwMSwiZXhwIjoxNzIyMjkzNTAxLCJpYXQiOjE3MjIyODI3MDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.C9RTeo24jGVB-H9RQTXyMqg5nhrByMmM7zqChsUJ1x8
 
 POST {{API_Shop_HostAddress}}/order
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "ArticleIds":[1,2,3]
+  "ArticleIds":[7,8]
 }
 
 
@@ -36,7 +35,7 @@ PUT {{API_Shop_HostAddress}}/order/status/1
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "status": "Update"
+  "status": "Sent"
 }
 ###
 
@@ -44,7 +43,7 @@ PUT {{API_Shop_HostAddress}}/order/sentAt/1
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "sentAt": 29/30/2024
+  "sentAt": "2023-07-05T00:00:00"
 }
 ###
 
@@ -52,7 +51,7 @@ PUT {{API_Shop_HostAddress}}/order/statusAndSentAt/1
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-   "status": "Update",
+  "status": "Update",
   "sentAt": "2023-07-05T00:00:00"
 }
 ###

@@ -95,6 +95,5 @@ namespace BLL_Shop.Interfaces
         #endregion
 
 
-
     }
 }
