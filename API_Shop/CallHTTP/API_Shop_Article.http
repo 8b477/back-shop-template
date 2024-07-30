@@ -1,5 +1,6 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI1MTM3MywiZXhwIjoxNzIyMjYyMTczLCJpYXQiOjE3MjIyNTEzNzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.4DOzoar2320irPkjfT0MG5aLl4BI6MdLbbTN6-sLA4w
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjM2NTgwOCwiZXhwIjoxNzIyMzc2NjA4LCJpYXQiOjE3MjIzNjU4MDgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.707aFBYlr31Eay0FFlvmgSxToDa1VmAuWHoGA4PuzGs
+
 
 ###
 POST {{API_Shop_HostAddress}}/article
@@ -14,27 +15,27 @@ Content-Type: application/json
 }
 ###
 
+# Allowed
 GET {{API_Shop_HostAddress}}/article
-
 ###
 
-GET {{API_Shop_HostAddress}}/article/boisson
-
+# Allowed
+GET {{API_Shop_HostAddress}}/article/frais
 ###
 
 GET {{API_Shop_HostAddress}}/article/9
-
 ###
+
 # AJouter un retour d'erreur quand l'id n'existe pas
-PUT {{API_Shop_HostAddress}}/article/9
+PUT {{API_Shop_HostAddress}}/article/8
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "name":"fanta",
-  "stock":15,
-  "promo":false,
-  "price":2.50,
-  "categories":[1]
+  "name":"Thon update",
+  "stock":5,
+  "promo":true,
+  "price":2.05,
+  "categories":[1,2]
 }
 ###
 

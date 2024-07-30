@@ -161,6 +161,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving addresses by postal code: {PostalCode}", postalCode);
@@ -188,6 +192,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving addresses by city: {City}", city);
@@ -214,6 +222,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count, country);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -267,6 +279,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser");
@@ -304,6 +320,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with ID {Id} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -351,6 +371,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);                
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser give, PostalCode: {PostalCode}, StreetNumber: {StreetNumber}, City: {City}", addressToAdd.PostalCode, addressToAdd.StreetNumber, addressToAdd.City);
@@ -388,6 +412,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -434,6 +462,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
@@ -470,6 +502,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
@@ -500,6 +536,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with ID {Id} deleted successfully", id);
 
                 return TypedResults.NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

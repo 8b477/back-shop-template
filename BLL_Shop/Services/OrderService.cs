@@ -156,6 +156,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving order with ID {OrderId}.", id);
@@ -180,6 +184,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Retrieved orders for user ID {UserId}", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -214,6 +222,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Retrieved orders for user ID {UserId}", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -258,11 +270,11 @@ namespace BLL_Shop.Services
             }
             catch (ArgumentNullException ex)
             {
-                return TypedResults.BadRequest(ex);
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (SentAtBeforeCreatedAtException ex)
             {
-                return TypedResults.BadRequest(ex);
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -304,11 +316,11 @@ namespace BLL_Shop.Services
             }
             catch (ArgumentNullException ex)
             {
-                return TypedResults.BadRequest(ex);
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (SentAtBeforeCreatedAtException ex)
             {
-                return TypedResults.BadRequest(ex);
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -348,7 +360,7 @@ namespace BLL_Shop.Services
             }
             catch (ArgumentNullException ex)
             {
-                return TypedResults.BadRequest(ex);
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -378,6 +390,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Deleted order ID {OrderId}", id);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

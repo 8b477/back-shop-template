@@ -1,8 +1,9 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMTg1NDUxNiwiZXhwIjoxNzIxODY1MzE2LCJpYXQiOjE3MjE4NTQ1MTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.hK00sI6tEHf9ubWN00wGYJ8dauOfcUkHj6ZsKuOzeWw
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjM2NTgwOCwiZXhwIjoxNzIyMzc2NjA4LCJpYXQiOjE3MjIzNjU4MDgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.707aFBYlr31Eay0FFlvmgSxToDa1VmAuWHoGA4PuzGs
 
+# Admin only
 GET {{API_Shop_HostAddress}}/address
-
+Authorization: Bearer {{authToken}}
 ###
 
 POST {{API_Shop_HostAddress}}/address
@@ -17,11 +18,31 @@ Content-Type: application/json
 }
 ###
 
+# For admin you need to pass id for target address
 PUT {{API_Shop_HostAddress}}/address/1
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-"Country":"Test"
+"PostalCode":"5050",
+"StreetNumber":"007",
+"StreetName":"toudoum toudoum",
+"Country":"France",
+"City":"Bip"
+}
+###
+
+# Role User is required
+# No need to pass the ID here,
+# the ID is retrieved by the authentication token
+PUT {{API_Shop_HostAddress}}/address
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+"PostalCode":"5050",
+"StreetNumber":"007",
+"StreetName":"toudoum toudoum",
+"Country":"France",
+"City":"Bip"
 }
 ###
 
@@ -30,7 +51,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{API_Shop_HostAddress}}/address/5670
+GET {{API_Shop_HostAddress}}/address/postalCode/5670
 Authorization: Bearer {{authToken}}
 
 ###

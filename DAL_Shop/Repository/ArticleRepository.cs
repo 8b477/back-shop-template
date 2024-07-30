@@ -79,10 +79,17 @@ namespace DAL_Shop.Repository
             try
             {
                 var result = await _ctx.Article
-                    .Include(a => a.ArticleCategories) // Inclure les catégories d'articles
-                    .ThenInclude(ac => ac.Category) // Inclure la catégorie elle-même
-                    .Where(ac => ac.ArticleCategories.Any(c => c.Category.Name.ToUpper() == categoryName.ToUpper())) // Filtrer les articles par catégorie
+                    .Include(a => a.ArticleCategories)
+                    .ThenInclude(ac => ac.Category)
+                    .Where(ac => ac.ArticleCategories.Any(c => c.Category.Name.ToUpper() == categoryName.ToUpper()))
                     .ToListAsync();
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Category name with value {value} not found", categoryName);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 List<ArticleViewDTO> listMapped = MapperArticle.EntityToViewDTO(result);
 
@@ -120,7 +127,11 @@ namespace DAL_Shop.Repository
                     .FirstOrDefaultAsync(result => result.Id == id);
 
                 if (result is null)
-                    return null;
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 ArticleViewDTO? listMapped = MapperArticle.EntityToViewDTO(result);
 
@@ -148,11 +159,14 @@ namespace DAL_Shop.Repository
                     .FirstOrDefaultAsync(a => a.Id == id);
 
                 if (existingArticle is null)
-                    return null;
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 _ctx.Entry(existingArticle).CurrentValues.SetValues(article);
 
-                // Mise à jour des catégories
                 existingArticle.ArticleCategories.Clear();
                 foreach (var category in article.ArticleCategories)
                 {
@@ -181,7 +195,12 @@ namespace DAL_Shop.Repository
                 var existingArticle = await _ctx.Article.FindAsync(id);
 
                 if (existingArticle is null)
-                    return "";
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
+
 
                 existingArticle.Name = name;
 
@@ -208,7 +227,11 @@ namespace DAL_Shop.Repository
                 var existingArticle = await _ctx.Article.FindAsync(id);
 
                 if (existingArticle is null)
-                    return "";
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 existingArticle.Price = price;
 
@@ -234,8 +257,13 @@ namespace DAL_Shop.Repository
             {
                 var existingArticle = await _ctx.Article.FindAsync(id);
 
+
                 if (existingArticle is null)
-                    return "";
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 existingArticle.Promo = promo;
 
@@ -261,8 +289,13 @@ namespace DAL_Shop.Repository
             {
                 var existingArticle = await _ctx.Article.FindAsync(id);
 
+
                 if (existingArticle is null)
-                    return "";
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 existingArticle.Stock = stock;
 
@@ -293,8 +326,13 @@ namespace DAL_Shop.Repository
             {
                 var existingArticle = await _ctx.Article.FindAsync(id);
 
+
                 if (existingArticle is null)
-                    return false;
+                {
+                    _logger.LogWarning("Article with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 _ctx.Article.Remove(existingArticle);
 

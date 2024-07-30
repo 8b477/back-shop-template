@@ -141,6 +141,10 @@ namespace BLL_Shop.Services
                     ? TypedResults.Ok(result)
                     : TypedResults.NotFound(new { Message = "No articles found in this category" });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving articles by category {CategoryName}", categoryName);
@@ -158,6 +162,10 @@ namespace BLL_Shop.Services
                 return result is not null
                     ? TypedResults.Ok(result)
                     : TypedResults.NotFound(new { Message = "No article found with this ID" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -222,6 +230,10 @@ namespace BLL_Shop.Services
                     ? TypedResults.Ok(result)
                     : TypedResults.BadRequest(new { Message = "Error updating article, please retry" });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article with ID {ArticleId}", id);
@@ -252,6 +264,10 @@ namespace BLL_Shop.Services
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
                     : TypedResults.BadRequest(new { Message = "Error updating article name, please retry" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -284,6 +300,10 @@ namespace BLL_Shop.Services
                     ? TypedResults.Ok(result)
                     : TypedResults.BadRequest(new { Message = "Error updating article price, please retry" });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article price with ID {ArticleId}", id);
@@ -314,6 +334,10 @@ namespace BLL_Shop.Services
                 return !string.IsNullOrEmpty(result)
                     ? TypedResults.Ok(result)
                     : TypedResults.BadRequest(new { Message = "Error updating article promo, please retry" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -346,6 +370,10 @@ namespace BLL_Shop.Services
                     ? TypedResults.Ok(result)
                     : TypedResults.BadRequest(new { Message = "Error updating article stock, please retry" });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article stock with ID {ArticleId}", id);
@@ -368,6 +396,10 @@ namespace BLL_Shop.Services
                 return result
                     ? TypedResults.NoContent()
                     : TypedResults.BadRequest(new { Message = "Error deleting article, please retry" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

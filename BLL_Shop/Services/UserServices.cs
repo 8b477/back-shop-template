@@ -147,6 +147,10 @@ namespace BLL_Shop.Services
                     ? TypedResults.NotFound(new { Message = "Aucune correspondance" }) 
                     : TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving user with ID: {Id}", id);
@@ -167,6 +171,10 @@ namespace BLL_Shop.Services
                     result.Any()
                     ? TypedResults.Ok(result)
                     : TypedResults.NotFound(new { Message = "Aucune correspondance" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -193,6 +201,10 @@ namespace BLL_Shop.Services
                     result is null
                     ? TypedResults.NotFound(new { Message = "Aucune correspondance" })
                     : TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -223,6 +235,10 @@ namespace BLL_Shop.Services
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating user with ID: {Id}", id);
@@ -245,6 +261,10 @@ namespace BLL_Shop.Services
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating pseudo for user with ID: {Id}", id);
@@ -266,6 +286,10 @@ namespace BLL_Shop.Services
                 var result = await _userRepository.UpdateMail(id, mail.Mail);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -290,6 +314,10 @@ namespace BLL_Shop.Services
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating password for user with ID: {Id}", id);
@@ -311,6 +339,10 @@ namespace BLL_Shop.Services
                 var result = await _userRepository.Delete(id);
 
                 return result ? TypedResults.NoContent() : TypedResults.BadRequest(new { Message = "Something went wrong, please try again" });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

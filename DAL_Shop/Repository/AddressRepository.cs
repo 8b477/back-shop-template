@@ -83,6 +83,14 @@ namespace DAL_Shop.Repository
 
                 var result = await _shopDB.Address.Where(a => a.PostalCode == postalCode).ToListAsync();
 
+
+                if (result is null)
+                {
+                    _logger.LogWarning("PostalCode with value {value} not found", postalCode);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
+
                 _logger.LogInformation("Retrieved {Count} addresses with postal code: {PostalCode}", result.Count, postalCode);
 
                 return result;
@@ -101,7 +109,15 @@ namespace DAL_Shop.Repository
             {
                 _logger.LogInformation("Retrieving addresses in city: {City}", city);
 
-                var result = await _shopDB.Address.Where(a => a.City == city).ToListAsync();
+                var result = await _shopDB.Address.Where(a => a.City.ToUpper() == city.ToUpper()).ToListAsync();
+
+
+                if (result is null)
+                {
+                    _logger.LogWarning("City with value {value} not found", city);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 _logger.LogInformation("Retrieved {Count} addresses in city: {City}", result.Count, city);
 
@@ -121,7 +137,15 @@ namespace DAL_Shop.Repository
             {
                 _logger.LogInformation("Retrieving addresses in country: {Country}", country);
 
-                var result = await _shopDB.Address.Where(a => a.Country == country).ToListAsync();
+                var result = await _shopDB.Address.Where(a => a.Country.ToUpper() == country.ToUpper()).ToListAsync();
+
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Country with value {value} not found", country);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
 
                 _logger.LogInformation("Retrieved {Count} addresses in country: {Country}", result.Count, country);
 
@@ -151,7 +175,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Address with IDUser {IdUser} not found for update", idUser);
 
-                    return null;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 foreach (var property in _shopDB.Entry(result).Properties)
@@ -189,7 +213,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Address with IDUser {IdUser} not found for update", idUser);
 
-                    return null;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 result.StreetNumber = addressToUpdate.StreetNumber;
@@ -223,7 +247,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Address with ID {Id} not found for update", idUser);
 
-                    return null;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 result.PhoneNumber = phoneNumber.ToString();
