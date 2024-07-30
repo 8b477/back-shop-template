@@ -78,7 +78,7 @@ namespace BLL_Shop.Services
                     return TypedResults.BadRequest(new { Message = "The information provided is incorrect. Please try again." });
                 }
 
-                User userMapped = MapperUser.FromUserCreateDTOToEntity(userToAdd);
+                User userMapped = MapperUser.DtoToEntity(userToAdd);
 
                 try
                 {
@@ -217,7 +217,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok()) 
                     return validationResult;
 
-                User userMapped = MapperUser.FromUserUpdateDTOToEntity(userToAdd);
+                User userMapped = MapperUser.DtoToEntity(userToAdd);
 
                 var result = await _userRepository.Update(id, userMapped);
 

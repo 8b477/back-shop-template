@@ -6,7 +6,7 @@ namespace BLL_Shop.Mappers
 {
     internal static class MapperOrder
     {
-        internal static Order DTOToEntity(OrderCreateDTO orderDTO)
+        internal static Order DtoToEntity(OrderCreateDTO orderDTO)
         {
             return new Order
             {           

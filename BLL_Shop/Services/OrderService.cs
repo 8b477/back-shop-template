@@ -82,7 +82,7 @@ namespace BLL_Shop.Services
 
                 var listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
 
-                Order orderMapped = MapperOrder.DTOToEntity(order);
+                Order orderMapped = MapperOrder.DtoToEntity(order);
 
                 orderMapped.UserId = idUser;
 

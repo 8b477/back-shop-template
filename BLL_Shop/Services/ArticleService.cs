@@ -87,7 +87,7 @@ namespace BLL_Shop.Services
                 }
 
 
-                Article articleMapped = MapperArticle.FromArticleCreateDTOToEntity(article);
+                Article articleMapped = MapperArticle.DtoToEntity(article);
 
                 // Update relation table
                 articleMapped.ArticleCategories = correspondingCategories.Select(c => new ArticleCategory 
@@ -205,7 +205,7 @@ namespace BLL_Shop.Services
                 }
 
 
-                Article articleMapped = MapperArticle.FromArticleUpdateDTOToEntity(article);
+                Article articleMapped = MapperArticle.DtoToEntity(article);
 
                 articleMapped.Id = id;
 

@@ -8,7 +8,7 @@ namespace BLL_Shop.Mappers
 {
     internal static class MapperArticle
     {
-        internal static Article FromArticleCreateDTOToEntity(ArticleCreateDTO articleDTO)
+        internal static Article DtoToEntity(ArticleCreateDTO articleDTO)
         {
             return new Article
             {
@@ -19,7 +19,7 @@ namespace BLL_Shop.Mappers
             };
         }
 
-        internal static Article FromArticleUpdateDTOToEntity(ArticleUpdateDTO articleDTO)
+        internal static Article DtoToEntity(ArticleUpdateDTO articleDTO)
         {
             return new Article
             {

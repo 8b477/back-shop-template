@@ -57,7 +57,7 @@ namespace API_Shop.Endpoints
 
             // DELETE (ADMIN)
             app.MapDelete("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
-             async ([FromServices] IUserService userService, int id)
+             async ([FromServices] IUserService userService,[FromRoute] int id)
                     => await userService.DeleteUser(id));
 
 

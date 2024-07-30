@@ -57,7 +57,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Category categoryMapped = MapperCategory.DTOToEntity(category);
+                Category categoryMapped = MapperCategory.DtoToEntity(category);
 
                 var result = await _repoCategory.Create(categoryMapped);
 
