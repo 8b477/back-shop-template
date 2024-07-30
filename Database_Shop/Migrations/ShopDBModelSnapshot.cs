@@ -587,7 +587,7 @@ namespace Database_Shop.Migrations
                             Id = 1,
                             Mail = "admin@mail.be",
                             Pseudo = "admin",
-                            Pwd = "$2a$11$U5643BXKBHqxOGAT/zP/Jekk/hig.rK8.FPO3A234agmkuuAg2Lyq",
+                            Pwd = "$2a$11$Yk36wUkpJGH3r5kernjDSeGRJE5HIJpH8dAgZ/y2w8yIgq58asrEa",
                             Role = "Admin"
                         },
                         new
@@ -595,7 +595,7 @@ namespace Database_Shop.Migrations
                             Id = 2,
                             Mail = "user@mail.be",
                             Pseudo = "user",
-                            Pwd = "$2a$11$h2dwVmdlTSwWQ/tS4A0cOeGtZV8iJageN9jJzEB6NqwgIXT.NlU9m",
+                            Pwd = "$2a$11$GpKMCWY/1yvNaFP91R8d.umObU1UUil5BE64WzOvclHApajZut.46",
                             Role = "User"
                         },
                         new
@@ -603,7 +603,7 @@ namespace Database_Shop.Migrations
                             Id = 3,
                             Mail = "user2@mail.be",
                             Pseudo = "user2",
-                            Pwd = "$2a$11$6jqfZgFxSH50fz9Ykzo0w.qqVse7haclbe18JS.FL8HKfn8Pqpf3K",
+                            Pwd = "$2a$11$Nw1GymfCKaMamJSIpulc/.1hczIuu8DE9wxDOIz2xdeS9H4ts5v5a",
                             Role = "User"
                         },
                         new
@@ -611,7 +611,7 @@ namespace Database_Shop.Migrations
                             Id = 4,
                             Mail = "user3@mail.be",
                             Pseudo = "user3",
-                            Pwd = "$2a$11$0LejspD6Ez40XGoiwuBVc.CDdHtnA0NQ7z6jTbEbpE5qp1knvqI5.",
+                            Pwd = "$2a$11$14efNir7ds7j4BhrnEgnc.sbM65GB916FBTwdug1vAL2BFrAqrAKa",
                             Role = "User"
                         },
                         new
@@ -619,7 +619,7 @@ namespace Database_Shop.Migrations
                             Id = 5,
                             Mail = "user4@mail.be",
                             Pseudo = "user4",
-                            Pwd = "$2a$11$BSzebWwDiZYmZFZrcTVQ0ONX7eok1UrehKO/NkBTaZcPOdgX.8A4G",
+                            Pwd = "$2a$11$4JheBtLeiBFyHQkUX4IV5esbg6/ApAlHvaJ.w9N0jNI8S4KsZoRZm",
                             Role = "User"
                         });
                 });
@@ -629,7 +629,7 @@ namespace Database_Shop.Migrations
                     b.HasOne("Database_Shop.Entity.User", "User")
                         .WithOne("Address")
                         .HasForeignKey("Database_Shop.Entity.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

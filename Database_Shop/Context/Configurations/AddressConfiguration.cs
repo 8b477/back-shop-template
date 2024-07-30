@@ -54,7 +54,7 @@ namespace Database_Shop.Context.Configurations
             builder.HasOne(a => a.User)
                 .WithOne(u => u.Address)
                 .HasForeignKey<Address>(a => a.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.HasData(

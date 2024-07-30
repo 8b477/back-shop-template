@@ -21,7 +21,6 @@ namespace Database_Shop.Context.Configurations
 
             builder.Property(u => u.Pwd)
                 .IsRequired();
-
             
             builder.Property(u => u.Role);
 

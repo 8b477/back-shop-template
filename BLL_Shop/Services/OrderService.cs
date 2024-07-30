@@ -256,6 +256,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex);
+            }
             catch (SentAtBeforeCreatedAtException ex)
             {
                 return TypedResults.BadRequest(ex);
@@ -298,6 +302,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex);
+            }
             catch (SentAtBeforeCreatedAtException ex)
             {
                 return TypedResults.BadRequest(ex);
@@ -337,6 +345,10 @@ namespace BLL_Shop.Services
 
                 _logger.LogInformation("Updated Status for order ID {OrderId}", idOrder);
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex);
             }
             catch (Exception ex)
             {
