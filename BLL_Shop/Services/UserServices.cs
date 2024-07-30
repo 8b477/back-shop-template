@@ -231,6 +231,19 @@ namespace BLL_Shop.Services
 
                 User userMapped = MapperUser.DtoToEntity(userToAdd);
 
+
+                try
+                {
+                    userMapped.Pwd = PasswordHasher.HashPassword(userMapped.Pwd);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while hashing password");
+
+                    return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+
                 var result = await _userRepository.Update(id, userMapped);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
@@ -310,7 +323,9 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok())
                     return validationResult;
 
-                var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
+                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+
+                var result = await _userRepository.UpdatePwd(id, pwdHash);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }
@@ -349,6 +364,19 @@ namespace BLL_Shop.Services
                     return validationResult;
 
                 User userMapped = MapperUser.DtoToEntity(userToAdd);
+
+
+                try
+                {
+                    userMapped.Pwd = PasswordHasher.HashPassword(userMapped.Pwd);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while hashing password");
+
+                    return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
 
                 var result = await _userRepository.Update(id, userMapped);
 
@@ -456,7 +484,11 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok())
                     return validationResult;
 
-                var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
+
+                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+                
+
+                var result = await _userRepository.UpdatePwd(id, pwdHash);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
             }

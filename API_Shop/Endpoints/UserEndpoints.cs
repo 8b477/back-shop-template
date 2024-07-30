@@ -13,21 +13,21 @@ namespace API_Shop.Endpoints
         {
 
 
-            // ADD (ADMIN & USER)
+            // ADD (ALLOWED)
             app.MapPost("/user",
                 async ([FromServices] IUserService userService, [FromBody] UserCreateDTO userToAdd) => await userService.CreateUser(userToAdd));
 
 
 
             // GET (ADMIN)
-/*ALL*/     app.MapGet("/users", [Authorize(Policy = "AdminOnly")]
+/*ALL*/     app.MapGet("/user", [Authorize(Policy = "AdminOnly")]
              async ([FromServices] IUserService userService) => await userService.GetAllUser());
 
 /*ONE*/    app.MapGet("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
             async ([FromServices] IUserService userService,[FromRoute] int id)
                     => await userService.GetUserByID(id));
 
-/*PSEUDO*/ app.MapGet("/users/{pseudo}", [Authorize(Policy = "AdminOnly")]
+/*PSEUDO*/ app.MapGet("/user/{pseudo}", [Authorize(Policy = "AdminOnly")]
             async ([FromServices] IUserService userService,[FromRoute] string pseudo)
                         => await userService.GetUserByPseudo(pseudo));
 

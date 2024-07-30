@@ -1,9 +1,28 @@
 @API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjM0NTQ1MywiZXhwIjoxNzIyMzU2MjUyLCJpYXQiOjE3MjIzNDU0NTMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.XcPYCcPHCF2XAOthnPtORof358YE4sHtV5vmC0Jr41o
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzIiwiZW1haWwiOiJ1c2VyMkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzIyMzcyNDcwLCJleHAiOjE3MjIzODMyNzAsImlhdCI6MTcyMjM3MjQ3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1NCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJ9.uW-Gf7MrqNMOKS5sfLiZuphKP2hDkWpGCQ6mpC6-Tfs
+
+
+# Allowed
+POST {{API_Shop_HostAddress}}/user
+Content-Type: application/json
+{
+  "mail":"lily@mail.fr",
+  "mdp":"Test1234*",
+  "mdpConfirm":"Test1234*",
+  "pseudo":"lily"
+}
+###
+
+
+# Admin & User
+GET {{API_Shop_HostAddress}}/user/profil
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
 
 
 # Admin
-GET {{API_Shop_HostAddress}}/users
+GET {{API_Shop_HostAddress}}/user
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###
@@ -60,24 +79,12 @@ Authorization: Bearer {{authToken}}
 ###
 
 
-# User & Admin
-POST {{API_Shop_HostAddress}}/user
-Content-Type: application/json
-{
-  "mail":"lily@mail.fr",
-  "mdp":"Test1234*",
-  "mdpConfirm":"Test1234*",
-  "pseudo":"lily"
-}
-###
-
-
 # User
 PUT {{API_Shop_HostAddress}}/user
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "mail":"upp@mail.fr",
+  "mail":"user1@mail.be",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
   "pseudo":"upp"
