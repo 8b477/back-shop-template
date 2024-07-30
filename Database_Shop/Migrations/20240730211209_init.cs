@@ -85,7 +85,7 @@ namespace Database_Shop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "Address",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -100,13 +100,13 @@ namespace Database_Shop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("PK_Address", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_User_UserId",
+                        name: "FK_Address_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,15 +200,15 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "Mail", "Pseudo", "Pwd", "Role" },
                 values: new object[,]
                 {
-                    { 1, "admin@mail.be", "admin", "$2a$11$u9wl1YMAUDkTVbA2VWJBKuqd2WJNkqA47joqDiWN7U6SuYD0YM6VC", "Admin" },
-                    { 2, "user@mail.be", "user", "$2a$11$gs..ixsgiSBcuervhOVMie.o5R0cLE7m4zlpDhVdGOG7QM56WStPG", "User" },
-                    { 3, "user2@mail.be", "user2", "$2a$11$y05wuXNUZKIpBUfQCyKPJe9cE3DfRxikwiTTDrtu0.LCxYjgjihJ2", "User" },
-                    { 4, "user3@mail.be", "user3", "$2a$11$OYHTAemuoBofjEhrBJAYkOGW/CjY/4gZn3Jfg8ZbyWwBvETz/D9ye", "User" },
-                    { 5, "user4@mail.be", "user4", "$2a$11$PUttJEdSLyNhqej6s0.wbut8riK4Ovs/s7tzTSn54o.4fukLlCdl2", "User" }
+                    { 1, "admin@mail.be", "admin", "$2a$11$k5XFpvK5J37vb565.j0/LukltordOrJErdYoWJV9OsnCazmh08ps2", "Admin" },
+                    { 2, "user@mail.be", "user", "$2a$11$L.uswMfOR8G1/Ekwqyda7.t4FbCEajF8kvtRPPNtV7rNv.oy9XhPa", "User" },
+                    { 3, "user2@mail.be", "user2", "$2a$11$SXd5oaECHl7nBaObTvxirOw4S6Hj9KnNnGmWrQuPvtYDZMLsHkqgC", "User" },
+                    { 4, "user3@mail.be", "user3", "$2a$11$vwszXMvGVWxvQX4ZBrhQL.RTxJ70.R88rCsIIZegRh4UIjKDBITri", "User" },
+                    { 5, "user4@mail.be", "user4", "$2a$11$qLH0jNY4IJ2lYxde1Ewvq.iVu/83dSjqkOPJaWpqpXFXCpJhA2ffq", "User" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Addresses",
+                table: "Address",
                 columns: new[] { "Id", "City", "Country", "PhoneNumber", "PostalCode", "StreetName", "StreetNumber", "UserId" },
                 values: new object[,]
                 {
@@ -242,11 +242,11 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "CreatedAt", "SentAt", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 2 },
-                    { 2, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "En attente", 2 },
-                    { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "En attente", 3 },
-                    { 4, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 4 },
-                    { 5, new DateTime(2023, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Livré", 4 }
+                    { 1, new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sent", 2 },
+                    { 2, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pending", 2 },
+                    { 3, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pending", 3 },
+                    { 4, new DateTime(2023, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "InProgress", 4 },
+                    { 5, new DateTime(2023, 8, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "InProgress", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -274,8 +274,8 @@ namespace Database_Shop.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_UserId",
-                table: "Addresses",
+                name: "IX_Address_UserId",
+                table: "Address",
                 column: "UserId",
                 unique: true);
 
@@ -309,7 +309,7 @@ namespace Database_Shop.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "ArticleCategories");

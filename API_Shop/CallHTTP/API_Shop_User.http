@@ -1,57 +1,7 @@
 @API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJ1c2VyQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6ImRlbW8iLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcyMDY5MjE5NSwiZXhwIjoxNzIwNzAyOTk1LCJpYXQiOjE3MjA2OTIxOTUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.pXEZk8rsyrKn1_S_oxsGfyzLaYV8_w410DVxlFXWibY
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwiZW1haWwiOiJ1c2VyQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6InVzZXIiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcyMjM3NDA4NSwiZXhwIjoxNzIyMzg0ODg1LCJpYXQiOjE3MjIzNzQwODUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.22j-kpCNMOO2ld3a_Yz9XT3kuxjnryb80xewR8VISfQ
 
-GET {{API_Shop_HostAddress}}/users
-Accept: application/json
-Authorization: Bearer {{authToken}}
-###
-
-GET {{API_Shop_HostAddress}}/user/2
-Accept: application/json
-Authorization: Bearer {{authToken}}
-###
-
-GET {{API_Shop_HostAddress}}/users/john
-Authorization: Bearer {{authToken}}
-###
-
-PUT {{API_Shop_HostAddress}}/user/12
-Authorization: Bearer {{authToken}}
-Content-Type: application/json
-{
-  "mail":"upp@mail.fr",
-  "mdp":"Test1234*",
-  "mdpConfirm":"Test1234*",
-  "pseudo":"upp"
-}
-###
-
-PUT {{API_Shop_HostAddress}}/user/pseudo/2
-Authorization: Bearer {{authToken}}
-Content-Type: application/json
-{
-  "pseudo":"tadam"
-}
-###
-PUT {{API_Shop_HostAddress}}/user/mail/2
-Authorization: Bearer {{authToken}}
-Content-Type: application/json
-{
-  "mail":"upp@mail.be"
-}
-###
-PUT {{API_Shop_HostAddress}}/user/pwd/2
-Authorization: Bearer {{authToken}}
-Content-Type: application/json
-{
-  "mdp":"Tadam123*",
-  "mdpConfirm":"Tadam123*"
-}
-###
-DELETE {{API_Shop_HostAddress}}/user/1
-###
-
-
+# Allowed
 POST {{API_Shop_HostAddress}}/user
 Content-Type: application/json
 {
@@ -61,11 +11,109 @@ Content-Type: application/json
   "pseudo":"lily"
 }
 ###
-POST {{API_Shop_HostAddress}}/user
+
+
+# Admin & User
+GET {{API_Shop_HostAddress}}/user/profil
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
+
+
+# Admin
+GET {{API_Shop_HostAddress}}/user
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
+
+# Admin
+GET {{API_Shop_HostAddress}}/user/2
+Accept: application/json
+Authorization: Bearer {{authToken}}
+###
+
+# Admin
+PUT {{API_Shop_HostAddress}}/user/2
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "mail":"fake@mail.fr",
+  "mail":"user@mail.fr",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
-  "pseudo":"fake"
+  "pseudo":"upp"
 }
+###
+
+# Admin
+PUT {{API_Shop_HostAddress}}/user/pseudo/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "pseudo":"tadam"
+}
+###
+
+# Admin
+PUT {{API_Shop_HostAddress}}/user/mail/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mail":"upp@mail.be"
+}
+###
+
+# Admin
+PUT {{API_Shop_HostAddress}}/user/pwd/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mdp":"Tadam123*",
+  "mdpConfirm":"Tadam123*"
+}
+###
+
+# Admin
+DELETE {{API_Shop_HostAddress}}/user/2
+Authorization: Bearer {{authToken}}
+###
+
+
+# User
+PUT {{API_Shop_HostAddress}}/user
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mail":"user2@mail.be",
+  "mdp":"Test1234*",
+  "mdpConfirm":"Test1234*",
+  "pseudo":"upp"
+}
+###
+
+# User
+PUT {{API_Shop_HostAddress}}/user/pseudo
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "pseudo":"tadam"
+}
+###
+
+# User
+PUT {{API_Shop_HostAddress}}/user/mail
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mail":"upp@mail.be"
+}
+###
+
+# User
+PUT {{API_Shop_HostAddress}}/user/pwd
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "mdp":"Tadam123*",
+  "mdpConfirm":"Tadam123*"
+}
+###

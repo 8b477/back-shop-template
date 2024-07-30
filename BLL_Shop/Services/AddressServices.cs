@@ -86,7 +86,7 @@ namespace BLL_Shop.Services
                     return TypedResults.BadRequest(new { Message = "The user already has an address, please update it if it has changed"});
                 }
 
-                Address addressMapped = MapperAddress.FromAddressCreateDTOToEntity(addressToAdd);
+                Address addressMapped = MapperAddress.DtoToEntity(addressToAdd);
 
                 addressMapped.UserId = idUser;
 
@@ -161,6 +161,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving addresses by postal code: {PostalCode}", postalCode);
@@ -188,6 +192,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving addresses by city: {City}", city);
@@ -214,6 +222,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Retrieved {Count} addresses for country: {Country}", result.Count, country);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -252,7 +264,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Address addressMapped = MapperAddress.FromAddressCountryUpdateDTOToEntity(addressToAdd);
+                Address addressMapped = MapperAddress.DtoToEntity(addressToAdd);
 
                 var result = await _addressRepository.Update(idUser, addressMapped);
 
@@ -266,6 +278,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with ID {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -290,7 +306,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Address addressMapped = MapperAddress.FromAddressCountryUpdateDTOToEntity(addressToAdd);
+                Address addressMapped = MapperAddress.DtoToEntity(addressToAdd);
 
                 var result = await _addressRepository.Update(idUser, addressMapped);
 
@@ -304,6 +320,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with ID {Id} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -336,7 +356,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+                Address addressMapped = MapperAddress.DtoToEntity(addressToAdd);
 
                 var result = await _addressRepository.UpdateCity(idUser,addressMapped);
 
@@ -350,6 +370,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);                
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -374,7 +398,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Address addressMapped = MapperAddress.FromAddressCityUpdateDTOToEntity(addressToAdd);
+                Address addressMapped = MapperAddress.DtoToEntity(addressToAdd);
 
                 var result = await _addressRepository.UpdateCity(idUser, addressMapped);
 
@@ -388,6 +412,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with IDUser {IdUser} updated successfully", idUser);
 
                 return TypedResults.Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -434,6 +462,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
@@ -470,6 +502,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating address with IDUser and PhoneNumber {PhoneNumber}", addressToAdd.PhoneNumber);
@@ -500,6 +536,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation("Address with ID {Id} deleted successfully", id);
 
                 return TypedResults.NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

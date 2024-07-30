@@ -8,7 +8,8 @@ namespace BLL_Shop.Mappers
 {
     internal static class MapperAddress
     {
-        internal static Address FromAddressCreateDTOToEntity(AddressCreateDTO dto)
+
+        internal static Address DtoToEntity(AddressCreateDTO dto)
         {
             return new Address
             {
@@ -21,7 +22,8 @@ namespace BLL_Shop.Mappers
             };
         }
 
-        internal static Address FromAddressCountryUpdateDTOToEntity(AddressCountryUpdateDTO dto)
+
+        internal static Address DtoToEntity(AddressCountryUpdateDTO dto)
         {
             return new Address
             {
@@ -33,7 +35,8 @@ namespace BLL_Shop.Mappers
             };
         }
 
-        internal static Address FromAddressCityUpdateDTOToEntity(AddressCityUpdateDTO dto)
+
+        internal static Address DtoToEntity(AddressCityUpdateDTO dto)
         {
             return new Address
             {
@@ -44,13 +47,6 @@ namespace BLL_Shop.Mappers
             };
         }
 
-        internal static Address FromAddressPhoneNumberUpdateDTOToEntity(AddressPhoneNumberUpdateDTO dto)
-        {
-            return new Address
-            {
-                PhoneNumber = dto.PhoneNumber.ToString()
-            };
-        }
     }
 
 }

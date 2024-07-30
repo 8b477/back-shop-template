@@ -1,6 +1,6 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
 
-
+# Admin
 GET {{API_Shop_HostAddress}}/log
 Content-Type: application/json
 {
@@ -8,3 +8,12 @@ Content-Type: application/json
 "Mdp":"Test1234*"
 }
 ###
+
+
+# User
+ GET {{API_Shop_HostAddress}}/log
+Content-Type: application/json
+{
+"Mail":"user@mail.be",
+"Mdp":"Tadam123*"
+} 

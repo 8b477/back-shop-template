@@ -27,6 +27,7 @@ namespace Database_Shop.Context.Configurations
             builder.HasOne(o => o.User)
                    .WithMany(u => u.Orders)
                    .HasForeignKey(o => o.UserId)
+                   .OnDelete(DeleteBehavior.Cascade)
                    .IsRequired();
 
 

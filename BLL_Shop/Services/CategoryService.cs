@@ -57,7 +57,7 @@ namespace BLL_Shop.Services
                     return validationResult;
                 }
 
-                Category categoryMapped = MapperCategory.DTOToEntity(category);
+                Category categoryMapped = MapperCategory.DtoToEntity(category);
 
                 var result = await _repoCategory.Create(categoryMapped);
 
@@ -123,6 +123,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error occurred while retrieving category: {id}");
@@ -163,6 +167,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(result);
             }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error occurred while updating category: {id}");
@@ -190,6 +198,10 @@ namespace BLL_Shop.Services
                 _logger.LogInformation($"Category deleted successfully: {id}");
 
                 return TypedResults.NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

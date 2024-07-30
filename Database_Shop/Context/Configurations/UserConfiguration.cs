@@ -1,6 +1,4 @@
-﻿using BCrypt.Net;
-
-using Database_Shop.Entity;
+﻿using Database_Shop.Entity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -23,13 +21,13 @@ namespace Database_Shop.Context.Configurations
 
             builder.Property(u => u.Pwd)
                 .IsRequired();
-
             
             builder.Property(u => u.Role);
 
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User)
-                .HasForeignKey<Address>(a => a.UserId);
+                .HasForeignKey<Address>(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.HasData(

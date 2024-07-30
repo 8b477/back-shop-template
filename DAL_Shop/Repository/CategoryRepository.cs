@@ -74,14 +74,13 @@ namespace DAL_Shop.Repository
             {
                 var result = await _db.Category.FindAsync(id);
 
-                if (result != null)
+                if (result is null)
                 {
-                    _logger.LogInformation($"Retrieved category by ID: {id}");
+                    _logger.LogWarning("Category with ID : {id} not found", id);
+
+                    throw new ArgumentNullException("No matching search !");
                 }
-                else
-                {
-                    _logger.LogWarning($"Category not found for ID: {id}");
-                }
+
                 return result;
             }
             catch (Exception ex)
@@ -114,10 +113,11 @@ namespace DAL_Shop.Repository
 
                 if (existingCategory is null)
                 {
-                    _logger.LogWarning($"Category not found for update: {id}");
+                    _logger.LogWarning("Category with ID : {id} not found", id);
 
-                    return null;
+                    throw new ArgumentNullException("No matching search !");
                 }
+
                 existingCategory.Name = name;
 
                 await _db.SaveChangesAsync();
@@ -147,10 +147,11 @@ namespace DAL_Shop.Repository
 
                 if (existingCategory is null)
                 {
-                    _logger.LogWarning($"Category not found for deletion: {id}");
+                    _logger.LogWarning("Category with ID : {id} not found", id);
 
-                    return false;
+                    throw new ArgumentNullException("No matching search !");
                 }
+
                 _db.Category.Remove(existingCategory);
 
                 await _db.SaveChangesAsync();

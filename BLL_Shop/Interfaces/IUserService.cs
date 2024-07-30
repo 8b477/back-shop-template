@@ -90,6 +90,37 @@ namespace BLL_Shop.Interfaces
         /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
         Task<IResult> UpdateUserPwd(int id, UserPwdUpdateDTO pwd);
 
+
+
+
+        /// <summary>
+        /// Updates the details for an authenticate user.
+        /// </summary>
+        /// <param name="userToAdd">The user data transfer object containing the updated details.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateOwnUser(UserUpdateDTO userToAdd);
+
+        /// <summary>
+        /// Update the pseudo for an authenticate user.
+        /// </summary>
+        /// <param name="pseudo">The new pseudo data transfer object.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateOwnUserPseudo(UserPseudoUpdateDTO pseudo);
+
+        /// <summary>
+        /// Update the mail for an authenticate user.
+        /// </summary>
+        /// <param name="mail">The new email data transfer object.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateOwnUserMail(UserMailUpdateDTO mail);
+
+        /// <summary>
+        /// Update the password for an authenticate user.
+        /// </summary>
+        /// <param name="pwd">The new password data transfer object.</param>
+        /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
+        Task<IResult> UpdateOwnUserPwd(UserPwdUpdateDTO pwd);
+
         #endregion
 
 
@@ -104,8 +135,6 @@ namespace BLL_Shop.Interfaces
         Task<IResult> DeleteUser(int id);
 
         #endregion
-
-
 
     }
 }

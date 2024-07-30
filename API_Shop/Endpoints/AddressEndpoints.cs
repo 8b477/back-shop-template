@@ -11,6 +11,10 @@ namespace API_Shop.Endpoints
         public static void GetEndpointsAddress(WebApplication app)
         {
 
+            // <--------------------------------> TODO <-------------------------------->
+            // 
+            // <--------------------------------> **** <-------------------------------->
+
 
 
             // ADD (USER & ADMIN)

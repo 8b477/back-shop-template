@@ -2,6 +2,7 @@
 @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI1MzM1NiwiZXhwIjoxNzIyMjY0MTU2LCJpYXQiOjE3MjIyNTMzNTYsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.eJTwSqxDTJEopgd-XCLD_Ynq9pij8_fXPJksVJLZC38
 
 
+# Admin only
 POST {{API_Shop_HostAddress}}/category
 Accept: application/json
 Authorization: Bearer {{authToken}}
@@ -11,16 +12,20 @@ Content-Type: application/json
 }
 ###
 
+# Admin only
 GET {{API_Shop_HostAddress}}/category
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###
 
+
+# Admin only
 GET {{API_Shop_HostAddress}}/category/10
 Accept: application/json
 Authorization: Bearer {{authToken}}
 ###
 
+# Admin only
 PUT {{API_Shop_HostAddress}}/category/10
 Accept: application/json
 Authorization: Bearer {{authToken}}
@@ -30,6 +35,7 @@ Content-Type: application/json
 }
 ###
 
+# Admin only
 DELETE {{API_Shop_HostAddress}}/category/10
 Accept: application/json
 Authorization: Bearer {{authToken}}

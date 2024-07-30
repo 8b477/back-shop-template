@@ -1,37 +1,40 @@
 ﻿@API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjI4MjcwMSwiZXhwIjoxNzIyMjkzNTAxLCJpYXQiOjE3MjIyODI3MDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.C9RTeo24jGVB-H9RQTXyMqg5nhrByMmM7zqChsUJ1x8
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjM2NTgwOCwiZXhwIjoxNzIyMzc2NjA4LCJpYXQiOjE3MjIzNjU4MDgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.707aFBYlr31Eay0FFlvmgSxToDa1VmAuWHoGA4PuzGs
 
+
+# Admin & User
 POST {{API_Shop_HostAddress}}/order
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "ArticleIds":[7,8]
+  "ArticleIds":[1,2,7]
 }
-
-
-
-###
-GET {{API_Shop_HostAddress}}/order
-Authorization: Bearer {{authToken}}
 ###
 
+# Admin & User
 GET {{API_Shop_HostAddress}}/order/owner
 Authorization: Bearer {{authToken}}
 ###
 
-GET {{API_Shop_HostAddress}}/order/1
+
+# Admin
+GET {{API_Shop_HostAddress}}/order
 Authorization: Bearer {{authToken}}
 ###
 
+
+# Admin
+GET {{API_Shop_HostAddress}}/order/3
+Authorization: Bearer {{authToken}}
 ###
+
+# Admin
 GET {{API_Shop_HostAddress}}/order/user/2
 Authorization: Bearer {{authToken}}
 ###
 
-
-
-
-PUT {{API_Shop_HostAddress}}/order/status/1
+# Admin
+PUT {{API_Shop_HostAddress}}/order/status/3
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
@@ -39,25 +42,26 @@ Content-Type: application/json
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/order/sentAt/1
+# Admin
+PUT {{API_Shop_HostAddress}}/order/sentAt/3
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "sentAt": "2023-07-05T00:00:00"
+  "sentAt": "2023-07-30T21:00:00"
 }
 ###
 
-PUT {{API_Shop_HostAddress}}/order/statusAndSentAt/1
+# Admin
+PUT {{API_Shop_HostAddress}}/order/statusAndSentAt/3
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "status": "Update",
-  "sentAt": "2023-07-05T00:00:00"
+  "status": "InProgress",
+  "sentAt": "2023-07-30T21:30:00"
 }
 ###
 
-
-
+# Admin
 DELETE {{API_Shop_HostAddress}}/order/1
 Authorization: Bearer {{authToken}}
 ###

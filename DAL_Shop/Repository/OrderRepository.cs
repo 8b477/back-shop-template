@@ -174,7 +174,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Order with ID {OrderId} not found for updating SendAt", idOrder);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
 
@@ -211,7 +211,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Order with ID {OrderId} not found for updating Status", idOrder);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 existingOrder.Status = status;
@@ -240,7 +240,7 @@ namespace DAL_Shop.Repository
                 {
                     _logger.LogWarning("Order with ID {OrderId} not found for updating Status and SentAt", idOrder);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
 
@@ -281,9 +281,9 @@ namespace DAL_Shop.Repository
 
                 if (result is null)
                 {
-                    _logger.LogWarning("Order with ID {OrderId} not found for deletion", id);
+                    _logger.LogWarning("Order  with ID : {id} not found", id);
 
-                    return false;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 _db.Remove(result);

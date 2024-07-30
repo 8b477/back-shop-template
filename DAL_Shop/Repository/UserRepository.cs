@@ -85,12 +85,11 @@ namespace DAL_Shop.Repository
 
                 var result = await _db.User.Include(u => u.Address)
                                            .FirstOrDefaultAsync(u => u.Id == id);
-        
-                if (result == null)
+                if (result is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return null;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 UserViewDTO userViewDTO = MapperUser.FromEntityToView(result);
@@ -114,6 +113,14 @@ namespace DAL_Shop.Repository
                 var result = await _db.User.Include(u => u.Address)
                                            .Where(u => u.Pseudo == pseudo)
                                            .ToListAsync();
+
+                if (result is null)
+                {
+                    _logger.LogWarning("Name with value : {value} not found", pseudo);
+
+                    throw new ArgumentNullException("No matching search !");
+                }
+
 
                 _logger.LogInformation("Retrieved {Count} users with pseudo: {Pseudo}", result.Count, pseudo);
 
@@ -140,11 +147,11 @@ namespace DAL_Shop.Repository
 
                 var existingUser = await _db.User.FindAsync(id);
 
-                if (existingUser == null)
+                if (existingUser is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found for update", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 foreach (var property in _db.Entry(existingUser).Properties)
@@ -177,11 +184,11 @@ namespace DAL_Shop.Repository
 
                 var existingUser = await _db.User.FindAsync(id);
 
-                if (existingUser == null)
+                if (existingUser is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found for pseudo update", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 existingUser.Pseudo = pseudo;
@@ -208,11 +215,11 @@ namespace DAL_Shop.Repository
 
                 var existingUser = await _db.User.FindAsync(id);
 
-                if (existingUser == null)
+                if (existingUser is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found for email update", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 existingUser.Mail = mail;
@@ -239,11 +246,11 @@ namespace DAL_Shop.Repository
 
                 var existingUser = await _db.User.FindAsync(id);
 
-                if (existingUser == null)
+                if (existingUser is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found for password update", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return "";
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 existingUser.Pwd = pwd;
@@ -273,11 +280,11 @@ namespace DAL_Shop.Repository
 
                 var result = await _db.User.FindAsync(id);
 
-                if (result == null)
+                if (result is null)
                 {
-                    _logger.LogWarning("User with ID {Id} not found for deletion", id);
+                    _logger.LogWarning("User with ID : {id} not found", id);
 
-                    return false;
+                    throw new ArgumentNullException("No matching search !");
                 }
 
                 _db.Remove(result);
