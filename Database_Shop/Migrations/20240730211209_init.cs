@@ -200,11 +200,11 @@ namespace Database_Shop.Migrations
                 columns: new[] { "Id", "Mail", "Pseudo", "Pwd", "Role" },
                 values: new object[,]
                 {
-                    { 1, "admin@mail.be", "admin", "$2a$11$Yk36wUkpJGH3r5kernjDSeGRJE5HIJpH8dAgZ/y2w8yIgq58asrEa", "Admin" },
-                    { 2, "user@mail.be", "user", "$2a$11$GpKMCWY/1yvNaFP91R8d.umObU1UUil5BE64WzOvclHApajZut.46", "User" },
-                    { 3, "user2@mail.be", "user2", "$2a$11$Nw1GymfCKaMamJSIpulc/.1hczIuu8DE9wxDOIz2xdeS9H4ts5v5a", "User" },
-                    { 4, "user3@mail.be", "user3", "$2a$11$14efNir7ds7j4BhrnEgnc.sbM65GB916FBTwdug1vAL2BFrAqrAKa", "User" },
-                    { 5, "user4@mail.be", "user4", "$2a$11$4JheBtLeiBFyHQkUX4IV5esbg6/ApAlHvaJ.w9N0jNI8S4KsZoRZm", "User" }
+                    { 1, "admin@mail.be", "admin", "$2a$11$k5XFpvK5J37vb565.j0/LukltordOrJErdYoWJV9OsnCazmh08ps2", "Admin" },
+                    { 2, "user@mail.be", "user", "$2a$11$L.uswMfOR8G1/Ekwqyda7.t4FbCEajF8kvtRPPNtV7rNv.oy9XhPa", "User" },
+                    { 3, "user2@mail.be", "user2", "$2a$11$SXd5oaECHl7nBaObTvxirOw4S6Hj9KnNnGmWrQuPvtYDZMLsHkqgC", "User" },
+                    { 4, "user3@mail.be", "user3", "$2a$11$vwszXMvGVWxvQX4ZBrhQL.RTxJ70.R88rCsIIZegRh4UIjKDBITri", "User" },
+                    { 5, "user4@mail.be", "user4", "$2a$11$qLH0jNY4IJ2lYxde1Ewvq.iVu/83dSjqkOPJaWpqpXFXCpJhA2ffq", "User" }
                 });
 
             migrationBuilder.InsertData(

@@ -1,6 +1,5 @@
 @API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzIiwiZW1haWwiOiJ1c2VyMkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJ1c2VyMiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNzIyMzcyNDcwLCJleHAiOjE3MjIzODMyNzAsImlhdCI6MTcyMjM3MjQ3MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1NCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJ9.uW-Gf7MrqNMOKS5sfLiZuphKP2hDkWpGCQ6mpC6-Tfs
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwiZW1haWwiOiJ1c2VyQG1haWwuYmUiLCJ1bmlxdWVfbmFtZSI6InVzZXIiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcyMjM3NDA4NSwiZXhwIjoxNzIyMzg0ODg1LCJpYXQiOjE3MjIzNzQwODUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.22j-kpCNMOO2ld3a_Yz9XT3kuxjnryb80xewR8VISfQ
 
 # Allowed
 POST {{API_Shop_HostAddress}}/user
@@ -38,7 +37,7 @@ PUT {{API_Shop_HostAddress}}/user/2
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "mail":"upp@mail.fr",
+  "mail":"user@mail.fr",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
   "pseudo":"upp"
@@ -84,7 +83,7 @@ PUT {{API_Shop_HostAddress}}/user
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 {
-  "mail":"user1@mail.be",
+  "mail":"user2@mail.be",
   "mdp":"Test1234*",
   "mdpConfirm":"Test1234*",
   "pseudo":"upp"

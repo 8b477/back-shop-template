@@ -14,6 +14,6 @@ Content-Type: application/json
  GET {{API_Shop_HostAddress}}/log
 Content-Type: application/json
 {
-"Mail":"user1@mail.be",
-"Mdp":"Test1234*"
+"Mail":"user@mail.be",
+"Mdp":"Tadam123*"
 } 

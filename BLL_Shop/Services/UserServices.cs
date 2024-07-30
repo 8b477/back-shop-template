@@ -296,6 +296,17 @@ namespace BLL_Shop.Services
 
                 if (validationResult != Results.Ok()) return validationResult;
 
+
+                bool isValidMail = await _userRepository.IsValidMail(mail.Mail);
+
+                if (!isValidMail)
+                {
+                    _logger.LogWarning("Invalid email provided for user creation: {Email}", mail.Mail);
+
+                    return TypedResults.BadRequest(new { Message = "The information provided is incorrect. Please try again." });
+                }
+
+
                 var result = await _userRepository.UpdateMail(id, mail.Mail);
 
                 return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
@@ -446,7 +457,19 @@ namespace BLL_Shop.Services
 
                 var validationResult = await ValidatorModelState.ValidModelState(mail, _userMailUpdateValidator);
 
-                if (validationResult != Results.Ok()) return validationResult;
+                if (validationResult != Results.Ok()) 
+                    return validationResult;
+
+
+                bool isValidMail = await _userRepository.IsValidMail(mail.Mail);
+
+                if (!isValidMail)
+                {
+                    _logger.LogWarning("Invalid email provided for user creation: {Email}", mail.Mail);
+
+                    return TypedResults.BadRequest(new { Message = "The information provided is incorrect. Please try again." });
+                }
+
 
                 var result = await _userRepository.UpdateMail(id, mail.Mail);
 

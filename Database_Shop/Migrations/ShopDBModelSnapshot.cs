@@ -587,7 +587,7 @@ namespace Database_Shop.Migrations
                             Id = 1,
                             Mail = "admin@mail.be",
                             Pseudo = "admin",
-                            Pwd = "$2a$11$Yk36wUkpJGH3r5kernjDSeGRJE5HIJpH8dAgZ/y2w8yIgq58asrEa",
+                            Pwd = "$2a$11$k5XFpvK5J37vb565.j0/LukltordOrJErdYoWJV9OsnCazmh08ps2",
                             Role = "Admin"
                         },
                         new
@@ -595,7 +595,7 @@ namespace Database_Shop.Migrations
                             Id = 2,
                             Mail = "user@mail.be",
                             Pseudo = "user",
-                            Pwd = "$2a$11$GpKMCWY/1yvNaFP91R8d.umObU1UUil5BE64WzOvclHApajZut.46",
+                            Pwd = "$2a$11$L.uswMfOR8G1/Ekwqyda7.t4FbCEajF8kvtRPPNtV7rNv.oy9XhPa",
                             Role = "User"
                         },
                         new
@@ -603,7 +603,7 @@ namespace Database_Shop.Migrations
                             Id = 3,
                             Mail = "user2@mail.be",
                             Pseudo = "user2",
-                            Pwd = "$2a$11$Nw1GymfCKaMamJSIpulc/.1hczIuu8DE9wxDOIz2xdeS9H4ts5v5a",
+                            Pwd = "$2a$11$SXd5oaECHl7nBaObTvxirOw4S6Hj9KnNnGmWrQuPvtYDZMLsHkqgC",
                             Role = "User"
                         },
                         new
@@ -611,7 +611,7 @@ namespace Database_Shop.Migrations
                             Id = 4,
                             Mail = "user3@mail.be",
                             Pseudo = "user3",
-                            Pwd = "$2a$11$14efNir7ds7j4BhrnEgnc.sbM65GB916FBTwdug1vAL2BFrAqrAKa",
+                            Pwd = "$2a$11$vwszXMvGVWxvQX4ZBrhQL.RTxJ70.R88rCsIIZegRh4UIjKDBITri",
                             Role = "User"
                         },
                         new
@@ -619,7 +619,7 @@ namespace Database_Shop.Migrations
                             Id = 5,
                             Mail = "user4@mail.be",
                             Pseudo = "user4",
-                            Pwd = "$2a$11$4JheBtLeiBFyHQkUX4IV5esbg6/ApAlHvaJ.w9N0jNI8S4KsZoRZm",
+                            Pwd = "$2a$11$qLH0jNY4IJ2lYxde1Ewvq.iVu/83dSjqkOPJaWpqpXFXCpJhA2ffq",
                             Role = "User"
                         });
                 });
