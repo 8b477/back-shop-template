@@ -15,9 +15,19 @@ namespace Database_Shop.Context.Factory
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<ShopDB>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var provider = configuration["DatabaseProvider"];
+            var connectionString = provider == "SqlLite"
+                ? configuration.GetConnectionString("SqlLiteConnection")
+                : configuration.GetConnectionString("SqlServerConnection");
 
-            optionsBuilder.UseSqlite(connectionString);
+            if (provider == "SqlServer")
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
+            else
+            {
+                optionsBuilder.UseSqlite(connectionString);
+            }
 
             return new ShopDB(optionsBuilder.Options);
         }

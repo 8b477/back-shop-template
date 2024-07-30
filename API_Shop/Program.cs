@@ -23,7 +23,22 @@ builder.Host.UseSerilog();
 
 // **************************************************** SETUP DB *****************************************************************************************
 Batteries.Init();
-builder.Services.AddDbContext<ShopDB>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+var provider = builder.Configuration["DatabaseProvider"];
+var connectionString = provider == "SqlServer"
+    ? builder.Configuration.GetConnectionString("SqlServerConnection")
+    : builder.Configuration.GetConnectionString("SqlLiteConnection");
+
+// Configure le DbContext en fonction du fournisseur
+if (provider == "SqlServer")
+{
+    builder.Services.AddDbContext<ShopDB>(opt => opt.UseSqlServer(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<ShopDB>(opt => opt.UseSqlite(connectionString));
+}
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // *******************************************************************************************************************************************************
 
