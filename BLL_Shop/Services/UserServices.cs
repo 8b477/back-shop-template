@@ -325,6 +325,152 @@ namespace BLL_Shop.Services
                 return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+
+
+        public async Task<IResult> UpdateOwnUser(UserUpdateDTO userToAdd)
+        {
+            try
+            {
+                int id = _getClaimService.GetIdUserToken();
+
+                if (id == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating user with ID: {Id}", id);
+
+                var validationResult = await ValidatorModelState.ValidModelState(userToAdd, _userUpdateFullValidator);
+
+                if (validationResult != Results.Ok())
+                    return validationResult;
+
+                User userMapped = MapperUser.DtoToEntity(userToAdd);
+
+                var result = await _userRepository.Update(id, userMapped);
+
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating user");
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateOwnUserPseudo(UserPseudoUpdateDTO pseudo)
+        {
+            try
+            {
+                int id = _getClaimService.GetIdUserToken();
+
+                if (id == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating pseudo for user with ID: {Id}", id);
+
+                var validationResult = await ValidatorModelState.ValidModelState(pseudo, _userPseudoUpdateValidator);
+
+                if (validationResult != Results.Ok()) return validationResult;
+
+                var result = await _userRepository.UpdatePseudo(id, pseudo.Pseudo);
+
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating pseudo for user");
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateOwnUserMail(UserMailUpdateDTO mail)
+        {
+            try
+            {
+                int id = _getClaimService.GetIdUserToken();
+
+                if (id == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating email for user with ID: {Id}", id);
+
+                var validationResult = await ValidatorModelState.ValidModelState(mail, _userMailUpdateValidator);
+
+                if (validationResult != Results.Ok()) return validationResult;
+
+                var result = await _userRepository.UpdateMail(id, mail.Mail);
+
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating email for user");
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<IResult> UpdateOwnUserPwd(UserPwdUpdateDTO pwd)
+        {
+            try
+            {
+                int id = _getClaimService.GetIdUserToken();
+
+                if (id == 0)
+                {
+                    _logger.LogWarning("Unauthorized attempt to create address, 'id' recover in token is not valid");
+
+                    return TypedResults.Unauthorized();
+                }
+
+                _logger.LogInformation("Updating password for user with ID: {Id}", id);
+
+                var validationResult = await ValidatorModelState.ValidModelState(pwd, _userPwdUpdateValidator);
+
+                if (validationResult != Results.Ok())
+                    return validationResult;
+
+                var result = await _userRepository.UpdatePwd(id, pwd.Mdp);
+
+                return string.IsNullOrEmpty(result) ? TypedResults.BadRequest(new { Message = "Something went wrong, please try again" }) : TypedResults.Ok(new { result });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return TypedResults.BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating password for user");
+
+                return TypedResults.StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         #endregion
 
 

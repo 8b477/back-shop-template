@@ -24,34 +24,55 @@ namespace API_Shop.Endpoints
              async ([FromServices] IUserService userService) => await userService.GetAllUser());
 
 /*ONE*/    app.MapGet("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
-            async ([FromServices] IUserService userService, int id)
+            async ([FromServices] IUserService userService,[FromRoute] int id)
                     => await userService.GetUserByID(id));
 
 /*PSEUDO*/ app.MapGet("/users/{pseudo}", [Authorize(Policy = "AdminOnly")]
-            async ([FromServices] IUserService userService, string pseudo)
+            async ([FromServices] IUserService userService,[FromRoute] string pseudo)
                         => await userService.GetUserByPseudo(pseudo));
+
+
 
             // GET (USER & ADMIN)
 /*OWN*/    app.MapGet("/user/profil", [Authorize(Policy = "UserOrAdmin")]
             async ([FromServices] IUserService userService) => await userService.GetUserProfil());
 
 
-            // UPDATE
-/*FULL*/   app.MapPut("/user/{id:int}", [Authorize(Policy = "UserOrAdmin")]
-            async ([FromServices] IUserService userService, int id, [FromBody] UserUpdateDTO userToAdd)
+
+            // UPDATE (ADMIN)
+/*FULL*/   app.MapPut("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
+            async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserUpdateDTO userToAdd)
                     => await userService.UpdateUser(id, userToAdd));
 
-/*PSEUDO*/  app.MapPut("/user/pseudo/{id:int}", [Authorize(Policy = "UserOrAdmin")]
-             async ([FromServices] IUserService userService, int id, [FromBody] UserPseudoUpdateDTO pseudo)
+/*PSEUDO*/  app.MapPut("/user/pseudo/{id:int}", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserPseudoUpdateDTO pseudo)
                     => await userService.UpdateUserPseudo(id, pseudo));
 
-/*MAIL*/    app.MapPut("/user/mail/{id:int}", [Authorize(Policy = "UserOrAdmin")]
-             async ([FromServices] IUserService userService, int id, [FromBody] UserMailUpdateDTO mail)
+/*MAIL*/    app.MapPut("/user/mail/{id:int}", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserMailUpdateDTO mail)
                     => await userService.UpdateUserMail(id, mail));
 
-/*PWD*/    app.MapPut("/user/pwd/{id:int}", [Authorize(Policy = "UserOrAdmin")]
-             async ([FromServices] IUserService userService, int id, [FromBody] UserPwdUpdateDTO pwd)
+/*PWD*/    app.MapPut("/user/pwd/{id:int}", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserPwdUpdateDTO pwd)
                     => await userService.UpdateUserPwd(id, pwd));
+
+
+            // UPDATE (User)
+/*FULL*/   app.MapPut("/user", [Authorize(Policy = "UserOnly")]
+            async ([FromServices] IUserService userService,[FromBody] UserUpdateDTO userToAdd)
+                    => await userService.UpdateOwnUser(userToAdd));
+
+/*PSEUDO*/  app.MapPut("/user/pseudo", [Authorize(Policy = "UserOnly")]
+             async ([FromServices] IUserService userService,[FromBody] UserPseudoUpdateDTO pseudo)
+                    => await userService.UpdateOwnUserPseudo(pseudo));
+
+/*MAIL*/    app.MapPut("/user/mail", [Authorize(Policy = "UserOnly")]
+             async ([FromServices] IUserService userService,[FromBody] UserMailUpdateDTO mail)
+                    => await userService.UpdateOwnUserMail(mail));
+
+/*PWD*/    app.MapPut("/user/pwd/", [Authorize(Policy = "UserOnly")]
+             async ([FromServices] IUserService userService,[FromBody] UserPwdUpdateDTO pwd)
+                    => await userService.UpdateOwnUserPwd(pwd));
 
 
 
@@ -59,8 +80,6 @@ namespace API_Shop.Endpoints
             app.MapDelete("/user/{id:int}", [Authorize(Policy = "AdminOnly")]
              async ([FromServices] IUserService userService,[FromRoute] int id)
                     => await userService.DeleteUser(id));
-
-
 
         }
     }
