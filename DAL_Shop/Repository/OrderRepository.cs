@@ -2,9 +2,8 @@
 using DAL_Shop.DTO.Order;
 using DAL_Shop.Interfaces;
 using DAL_Shop.Mapper;
-using Database_Shop.Context;
 using Database_Shop.Entity;
-
+using Database_Shop.SqlLite.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -17,10 +16,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _db;
+        private readonly ShopDbContextSqlLite _db;
         private readonly ILogger<OrderRepository> _logger;
 
-        public OrderRepository(ShopDB db, ILogger<OrderRepository> logger)
+        public OrderRepository(ShopDbContextSqlLite db, ILogger<OrderRepository> logger)
         {
             _db = db;
             _logger = logger;

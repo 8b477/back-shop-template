@@ -37,7 +37,7 @@ namespace BLL_Shop.Interfaces
         /// </summary>
         /// <param name="postalCode">The postal code to filter addresses by.</param>
         /// <returns>An <see cref="IResult"/> containing the list of addresses with the specified postal code.</returns>
-        Task<IResult> GetByPostalCode(int postalCode);
+        Task<IResult> GetByPostalCode(string postalCode);
 
         /// <summary>
         /// Retrieves addresses by city.

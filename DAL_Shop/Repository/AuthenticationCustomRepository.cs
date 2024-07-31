@@ -1,9 +1,9 @@
 ﻿using DAL_Shop.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DAL_Shop.DTO.User.Token;
-using Database_Shop.Context;
 using Microsoft.Extensions.Logging;
 using DAL_Shop.Cryptage;
+using Database_Shop.SqlLite.Context;
 
 
 namespace DAL_Shop.Repository
@@ -13,10 +13,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _db;
+        private readonly ShopDbContextSqlLite _db;
         private readonly ILogger<AuthenticationCustomRepository> _logger;
 
-        public AuthenticationCustomRepository(ShopDB db, ILogger<AuthenticationCustomRepository> logger)
+        public AuthenticationCustomRepository(ShopDbContextSqlLite db, ILogger<AuthenticationCustomRepository> logger)
         {
             _db = db;
             _logger = logger;
@@ -45,6 +45,11 @@ namespace DAL_Shop.Repository
 
                 _logger.LogInformation("Authentication successful for user: {UserId}", user.Id);
                 return new UserTokenDTO(user.Id, user.Pseudo, user.Mail, user.Role);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalide operation occurred during authentication");
+                throw new InvalidOperationException(ex.Message);
             }
             catch (Exception ex)
             {

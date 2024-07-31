@@ -2,7 +2,7 @@
 {
     public record AddressCityUpdateDTO
     {
-        public AddressCityUpdateDTO(int postalCode, int streetNumber, string streetName, string city)
+        public AddressCityUpdateDTO(string postalCode, string streetNumber, string streetName, string city)
         {
             PostalCode = postalCode;
             StreetNumber = streetNumber;
@@ -10,8 +10,8 @@
             City = city;
         }
 
-        public int PostalCode { get; init; }
-        public int StreetNumber { get; init; }
+        public string PostalCode { get; init; }
+        public string StreetNumber { get; init; }
         public string StreetName { get; init; }
         public string City { get; init; }
     }

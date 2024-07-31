@@ -1,28 +1,35 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlLite.Configurations
 {
-    internal class OrderConfiguration : IEntityTypeConfiguration<Order>
+    internal class OrderSqlLiteConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.ToTable("Orders");
+            builder.ToTable("Order");
 
             builder.HasKey(o => o.Id);
 
             builder.Property(o => o.Status)
+                   .IsRequired()
                    .HasMaxLength(50)
-                   .IsRequired();
+                   .HasColumnName("Status")
+                   .HasColumnType("TEXT")
+                   .HasComment("Status de la commande")
+                   .HasAnnotation("MinLength", 2);
 
             builder.Property(o => o.CreatedAt)
+                   .IsRequired()
                    .HasColumnType("TEXT")
-                   .IsRequired();
+                   .HasComment("Date de création");
 
             builder.Property(o => o.SentAt)
-                   .HasColumnType("TEXT");
+                   .IsRequired(false)
+                   .HasColumnName("SentAt")
+                   .HasColumnType("TEXT")
+                   .HasComment("Date d'envoie");
 
             builder.HasOne(o => o.User)
                    .WithMany(u => u.Orders)

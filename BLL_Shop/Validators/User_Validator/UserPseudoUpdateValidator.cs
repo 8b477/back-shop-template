@@ -10,9 +10,9 @@ namespace BLL_Shop.Validators.User_Validator
         public UserPseudoUpdateValidator()
         {
             RuleFor(u => u.Pseudo)
-                    .NotEmpty().WithMessage("Pseudo requis")
-                    .MinimumLength(2).WithMessage("Pseudo doit contenir au minimum 2 caractères")
-                    .MaximumLength(50).WithMessage("Pseudo doit contenir au maximum 50 caractères");            
+                .NotEmpty().WithMessage("Pseudo requis")
+                .MinimumLength(2).WithMessage("Le champ pseudo doit contenir au minimum 2 caractères")
+                .MaximumLength(50).WithMessage("Le champ pseudo doit contenir au maximum 50 caractères");
         }
     }
 }

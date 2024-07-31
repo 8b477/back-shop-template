@@ -11,14 +11,13 @@ namespace BLL_Shop.Validators.Order_Validator
         public OrderUpdateStatusAndSentAtValidator()
         {
             RuleFor(o => o.Status)
-                .NotEmpty().WithMessage("Le champ 'statut' doit contenir une valeur.")
-                .NotNull().WithMessage("Le champ 'status' ne peut pas être null")
-                .Length(2, 50).WithMessage("Le statut doit contenir entre 2 et 50 caractères.")
-                .IsEnumName(typeof(OrderStatusEnum), caseSensitive: true).WithMessage("Le statut doit être 'Pending', 'InProgress' ou 'Sent' (Respecter les majuscule).");
+                .NotEmpty().WithMessage("Le champ 'statut' est requis.")
+                .MinimumLength(2).WithMessage("Le status doit contenir au minimum 2 caractères")
+                .MaximumLength(50).WithMessage("Le status doit contenir au maximum 50 caractères")
+                .IsEnumName(typeof(OrderStatusEnum), caseSensitive: false).WithMessage("Le statut doit être une de ces valeurs : 'Pending', 'InProgress' ou 'Sent'.");
 
             RuleFor(o => o.SentAt)
-                .NotNull().WithMessage("Le champ 'sentAt' ne peut pas être null")
-                .NotEmpty().WithMessage("Le champ 'sentAt' doit contenir une valeur");
+                .NotEmpty().WithMessage("Le champ 'sentAt' est requis");
         }
     }
 }

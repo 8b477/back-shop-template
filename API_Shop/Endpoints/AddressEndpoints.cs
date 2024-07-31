@@ -29,8 +29,8 @@ namespace API_Shop.Endpoints
                 async ([FromServices] IAddressService addressService)
                     => await addressService.GetAll());
 
-/*POSTAL*/  app.MapGet("/address/postalCode/{postalCode:int}",[Authorize(Policy = "AdminOnly")]
-                async ([FromServices] IAddressService addressService, [FromRoute] int postalCode)
+/*POSTAL*/  app.MapGet("/address/postalCode/{postalCode}",[Authorize(Policy = "AdminOnly")]
+                async ([FromServices] IAddressService addressService, [FromRoute] string postalCode)
                     => await addressService.GetByPostalCode(postalCode));
 
 /*CITY*/    app.MapGet("/address/city/{city}",[Authorize(Policy = "AdminOnly")]

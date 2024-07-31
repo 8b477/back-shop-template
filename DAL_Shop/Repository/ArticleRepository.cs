@@ -1,11 +1,11 @@
 ﻿using DAL_Shop.Interfaces;
-using Database_Shop.Context;
 using Database_Shop.Entity;
 using DAL_Shop.Mapper;
 using DAL_Shop.DTO.Article;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Database_Shop.SqlLite.Context;
 
 
 namespace DAL_Shop.Repository
@@ -16,10 +16,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _ctx;
+        private readonly ShopDbContextSqlLite _ctx;
         private readonly ILogger<ArticleRepository> _logger;
 
-        public ArticleRepository(ShopDB ctx, ILogger<ArticleRepository> logger)
+        public ArticleRepository(ShopDbContextSqlLite ctx, ILogger<ArticleRepository> logger)
         {
             _ctx = ctx;
             _logger = logger;

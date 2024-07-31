@@ -9,26 +9,36 @@ namespace BLL_Shop.Validators.Address_Validator
     {
         public AddressCreateValidator()
         {
-            RuleFor(a => a.PostalCode)
-                .NotEmpty().WithMessage("Code postal requis")
-                .InclusiveBetween(1, 99999).WithMessage("Le code postal doit être compris entre 1 et 99999");
-
-            RuleFor(a => a.StreetNumber)
-                .NotEmpty().WithMessage("Numéro de rue requis")
-                .InclusiveBetween(1, 9401).WithMessage("Le numéro de rue doit être compris entre 1 et 9401");
-
-            RuleFor(a => a.StreetName)
-                .NotEmpty().WithMessage("Nom de la rue requis")
-                .MinimumLength(2).WithMessage("La ville doit contenir au moins 2 caractères")
-                .MaximumLength(50).WithMessage("La ville ne doit pas dépasser 50 caractères");
 
             RuleFor(a => a.Country)
                 .NotEmpty().WithMessage("Pays requis")
-                .MaximumLength(35).WithMessage("Le pays ne doit pas dépasser 35 caractères");
+                .MinimumLength(1).WithMessage("Pays incorrect, celle-ci doit contenir au moins 1 caractère")
+                .MaximumLength(50).WithMessage("Pays incorrect, celle-ci doit contenir moins de 50 caractères");
+
+
+            RuleFor(a => a.PostalCode)
+                .NotEmpty().WithMessage("Code postal requis")
+                .MinimumLength(1).WithMessage("Code postal incorrect, il doit contenir au moins 1 caractère")
+                .MaximumLength(20).WithMessage("Code postal incorrect, il doit contenir moins de 20 caractères");
+
+
+            RuleFor(a => a.StreetNumber)
+                .NotEmpty().WithMessage("Numéro de rue requis")
+                .MinimumLength(1).WithMessage("Numéro de rue incorrect, il doit contenir au moins 1 caractère")
+                .MaximumLength(20).WithMessage("Numéro de rue incorrect, il doit contenir moins de 20 caractères");
+
+
+            RuleFor(a => a.StreetName)
+                .NotEmpty().WithMessage("Nom de la rue requis")
+                .MinimumLength(1).WithMessage("Nom de la rue incorrect, celle-ci doit contenir au moins 1 caractère")
+                .MaximumLength(50).WithMessage("Nom de la rue incorrect, celle-ci doit contenir moins de 50 caractères");
+
 
             RuleFor(a => a.City)
                 .NotEmpty().WithMessage("La ville est requise")
-                .MaximumLength(85).WithMessage("La ville ne doit pas dépasser 85 caractères");
+                .MinimumLength(1).WithMessage("La ville incorrect, celle-ci doit contenir au moins 1 caractère")
+                .MaximumLength(50).WithMessage("La ville incorrect, celle-ci doit contenir moins de 50 caractères");
+
         }
     }
 }

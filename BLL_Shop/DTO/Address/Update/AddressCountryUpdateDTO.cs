@@ -4,7 +4,7 @@ namespace BLL_Shop.DTO.Address.Update
 {
     public record AddressCountryUpdateDTO
     {
-        public AddressCountryUpdateDTO(int postalCode, int streetNumber, string streetName, string country, string city)
+        public AddressCountryUpdateDTO(string postalCode, string streetNumber, string streetName, string country, string city)
         {
             PostalCode = postalCode;
             StreetNumber = streetNumber;
@@ -13,8 +13,8 @@ namespace BLL_Shop.DTO.Address.Update
             City = city;
         }
 
-        public int PostalCode { get; init; }
-        public int StreetNumber { get; init; }
+        public string PostalCode { get; init; }
+        public string StreetNumber { get; init; }
         public string StreetName { get; init; }
         public string Country { get; init; }
         public string City { get; init; }

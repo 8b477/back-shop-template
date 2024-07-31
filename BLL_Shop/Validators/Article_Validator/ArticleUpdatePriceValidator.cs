@@ -10,8 +10,8 @@ namespace BLL_Shop.Validators.Article_Validator
         public ArticleUpdatePriceValidator()
         {
             RuleFor(a => a.Price)
-                .NotNull().WithMessage("Le prix est requis.")
-                .InclusiveBetween(0, 200).WithMessage("Le prix doit être compris entre 0 et 200.");
+                .NotEmpty().WithMessage("Le prix de l'article est requis.")
+                .InclusiveBetween(0, 200).WithMessage("Le prix de l'article doit être compris entre les valeurs 0 et 200.");
         }
     }
 }

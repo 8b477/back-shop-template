@@ -10,7 +10,8 @@ namespace BLL_Shop.Validators.Address_Validator
         public AddressUpdatePhoneNumberValidator()
         {
             RuleFor(a => a.PhoneNumber)
-                .NotEmpty().WithMessage("Numéro de téléphone requis");
+                .NotEmpty().WithMessage("Numéro de téléphone requis")
+                .MaximumLength(20).WithMessage("Numéro de téléphone invalide, il ne peut pas contenir plus de 20 caractères");
         }
     }
 }

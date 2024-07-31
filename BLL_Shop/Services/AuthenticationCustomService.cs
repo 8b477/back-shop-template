@@ -43,6 +43,10 @@ namespace BLL_Shop.Services
 
                 return TypedResults.Ok(new { token });
             }
+            catch (InvalidOperationException ex)
+            {
+                return TypedResults.Problem(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred during user authentication.");
