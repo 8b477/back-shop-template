@@ -6,7 +6,7 @@
 ## 📚 Stack
 - ASP.NET Core ⚙️
 - Minimal API 🛠️
-- SQLite 📦
+- SqLite & SQLServer 📦
 - Entity Framework Core (code first)🗄️
 - Data notation 🔑
 - Fluent API 🔐
@@ -31,12 +31,29 @@
 - 📦 **DAL_Shop (Data Access Layer)**: Contient les interfaces et implémentations des repositories pour accéder aux données, elle gère les interactions avec la base de données.
    - 🔗 **Références**: DATABASE <br>  
  
-- 💾 **Database_Shop**: Contient le contexte de la base de données et les migrations, elle gère la création et la mise à jour de la base de données.
+- 💾 **Database_Shop**: Contient les contexte de base de données et les migrations, elle gère la création et la mise à jour de la base de données.
    - 🔗 **Références**: Aucune <br>  
 
 - 🧪 **TestXUnit_Shop**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
    - 🔗 **Références**: API, BLL, DAL
 
+## ℹ️ Gestion des migrations et update des différentes base de donnée.
+### Dans le projet se trouve deux fournisseur de base de donnée :
+- SqLite
+- SQL Server
+
+### Pour les ajouts de migrations  
+➡️ `dotnet ef migrations add initialCreate_SqlLite --context ShopDbContextSqlLite --output-dir Migrations/SqlLite`
+
+### Explications de la commande :
+- `initialCreate_SqlLite`
+  - **Convention perso , ajouter _SqlLite à la fin de chaque migrations.**
+
+- `--context ShopDbContextSqlLite`
+  - **Target le context approprié.**
+
+- `--output-dir Migrations/SqlLite`
+  - **Target le dossier approprié.**
 
 ## 💻 Frontend
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
