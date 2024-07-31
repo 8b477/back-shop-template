@@ -1,12 +1,11 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlServer.Configurations
 {
-    internal class ArticleConfiguration : IEntityTypeConfiguration<Article>
+    internal class ArticleSqlServerConfiguration : IEntityTypeConfiguration<Article>
     {
         public void Configure(EntityTypeBuilder<Article> builder)
         {
@@ -14,19 +13,31 @@ namespace Database_Shop.Context.Configurations
 
             builder.Property(a => a.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasColumnName("Name")
+                .HasColumnType("NVARCHAR(50)")
+                .HasMaxLength(50)
+                .HasAnnotation("MinLength", 1)
+                .HasComment("Nom de l'article");
 
             builder.Property(a => a.Stock)
                 .IsRequired()
-                .HasDefaultValue(0);
+                .HasColumnName("Stock")
+                .HasColumnType("INT")
+                .HasAnnotation("Range", new[] { 0, 10000 })
+                .HasComment("Nombre d'articles en stock");
 
             builder.Property(a => a.Promo)
                 .IsRequired()
-                .HasDefaultValue(false);
+                .HasColumnName("Promo")
+                .HasColumnType("BIT")
+                .HasComment("Article en promotion");
 
             builder.Property(a => a.Price)
                 .IsRequired()
-                .HasDefaultValue(0);
+                .HasColumnName("Price")
+                .HasColumnType("DECIMAL(18,2)")
+                .HasAnnotation("Range", new[] { 0, 200 })
+                .HasComment("Prix de l'article");
 
             builder.HasMany(a => a.ArticleCategories)
                 .WithOne(ac => ac.Article)

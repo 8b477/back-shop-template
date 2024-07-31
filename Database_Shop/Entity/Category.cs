@@ -10,7 +10,8 @@ namespace Database_Shop.Entity
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MinLength(1,ErrorMessage = "Le nom de la catégorie doit contenir au moins 1 caractère")]
+        [MaxLength(50, ErrorMessage = "Le nom de la catégorie doit contenir au maximum 50 caractères")]
         public string Name { get; set; }
 
         [JsonIgnore]

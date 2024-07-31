@@ -4,7 +4,7 @@ namespace BLL_Shop.DTO.Address.Create
 {
     public record AddressCreateDTO
     {
-        public AddressCreateDTO(int postalCode, int streetNumber, string streetName, string country, string city, string? phoneNumber)
+        public AddressCreateDTO(string? phoneNumber, string postalCode, string streetNumber, string streetName, string country, string city)
         {
             PhoneNumber = phoneNumber;
             PostalCode = postalCode;
@@ -15,8 +15,8 @@ namespace BLL_Shop.DTO.Address.Create
         }
 
         public string? PhoneNumber { get; init; }
-        public int PostalCode { get; init; }
-        public int StreetNumber { get; init; }
+        public string PostalCode { get; init; }
+        public string StreetNumber { get; init; }
         public string StreetName{ get; init; }
         public string Country { get; init; }
         public string City { get; init; }

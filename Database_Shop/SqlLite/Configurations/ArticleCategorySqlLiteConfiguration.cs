@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlLite.Configurations
 {
-    internal class ArticleCategoryConfiguration : IEntityTypeConfiguration<ArticleCategory>
+    internal class ArticleCategorySqlLiteConfiguration : IEntityTypeConfiguration<ArticleCategory>
     {
         public void Configure(EntityTypeBuilder<ArticleCategory> builder)
         {
@@ -120,7 +120,7 @@ namespace Database_Shop.Context.Configurations
                     ArticleId = 7,
                     CategoryId = 9
                 }
-                                    // ****
+            // ****
 
 
             );

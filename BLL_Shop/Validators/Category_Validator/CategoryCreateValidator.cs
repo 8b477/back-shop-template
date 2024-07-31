@@ -10,7 +10,8 @@ namespace BLL_Shop.Validators.Category_Validator
         public CategoryCreateValidator()
         {
             RuleFor(c => c.Name)
-                .MaximumLength(50).WithMessage("Le nom doit contenir au maximum 50 charactères")
+                .MinimumLength(1).WithMessage("Le nom de la catégorie doit contenir au maximum 1 caractères")
+                .MaximumLength(50).WithMessage("Le nom de la catégorie doit contenir au maximum 50 caractères")
                 .NotEmpty().WithMessage("Le nom est requis");
         }
     }

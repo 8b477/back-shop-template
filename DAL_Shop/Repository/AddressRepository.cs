@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using DAL_Shop.DTO.Address;
 using Database_Shop.Entity;
-using Database_Shop.Context;
+using Database_Shop.SqlLite.Context;
 
 
 namespace DAL_Shop.Repository
@@ -14,10 +14,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _shopDB;
+        private readonly ShopDbContextSqlLite _shopDB;
         private readonly ILogger<AddressRepository> _logger;
 
-        public AddressRepository(ShopDB ctx, ILogger<AddressRepository> logger)
+        public AddressRepository(ShopDbContextSqlLite ctx, ILogger<AddressRepository> logger)
         {
             _shopDB = ctx;
             _logger = logger;
@@ -75,7 +75,7 @@ namespace DAL_Shop.Repository
             }
         }
 
-        public async Task<IReadOnlyCollection<Address?>> GetByPostalCode(int postalCode)
+        public async Task<IReadOnlyCollection<Address?>> GetByPostalCode(string postalCode)
         {
             try
             {

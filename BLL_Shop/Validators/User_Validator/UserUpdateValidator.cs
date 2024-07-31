@@ -9,13 +9,13 @@ namespace BLL_Shop.Validators.User_Validator
         {
             RuleFor(u => u.Pseudo)
                 .NotEmpty().WithMessage("Pseudo requis")
-                .MinimumLength(2).WithMessage("Pseudo doit contenir au minimum 2 caractères")
-                .MaximumLength(50).WithMessage("Pseudo doit contenir au maximum 50 caractères");
+                .MinimumLength(2).WithMessage("Le champ pseudo doit contenir au minimum 2 caractères")
+                .MaximumLength(50).WithMessage("Le champ pseudo doit contenir au maximum 50 caractères");
 
             RuleFor(u => u.Mail)
                 .NotEmpty().WithMessage("Mail requis")
                 .Matches(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-                .WithMessage("L'adresse mail renseignée n'est pas valide !");
+                .WithMessage("L'adresse mail renseignée n'est pas valide");
 
             RuleFor(u => u.Mdp)
                 .NotEmpty().WithMessage("Mot de passe requis")

@@ -10,8 +10,7 @@ namespace BLL_Shop.Validators.Order_Validator
         public OrderUpdateSentAtValidator()
         {
             RuleFor(o => o.SentAt)
-                .NotNull().WithMessage("Le champ 'sentAt' ne peut pas être null")
-                .NotEmpty().WithMessage("Le champ 'sentAt' doit contenir une valeur");
+                .NotEmpty().WithMessage("Le champ 'sentAt' est requis");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="postalCode">The postal code to search for.</param>
         /// <returns>A list of addresses matching the specified postal code.</returns>
-        public Task<IReadOnlyCollection<Address?>> GetByPostalCode(int postalCode);
+        public Task<IReadOnlyCollection<Address?>> GetByPostalCode(string postalCode);
 
         /// <summary>
         /// Retrieves address by their country.

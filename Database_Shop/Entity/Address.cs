@@ -10,33 +10,37 @@ namespace Database_Shop.Entity
         public int Id { get; set; }
 
 
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Le numéro de téléphone renseigné n'est pas valide.")]
+        [MaxLength(20, ErrorMessage = "Numéro de téléphone incorrect, il doit contenir moins de 20 caractères")]
         public string? PhoneNumber { get; set; }
 
 
-        [Range(1, 99999, ErrorMessage = "Le code postal n'est pas valide !")]
         [Required(ErrorMessage = "Code postal requis")]
-        public int PostalCode { get; set; }
+        [MinLength(1, ErrorMessage = "Code postal incorrect, il doit contenir au moins 1 caractère")]
+        [MaxLength(20, ErrorMessage = "Code postal incorrect, il doit contenir moins de 20 caractères")]
+        public string PostalCode { get; set; }
 
 
         [Required(ErrorMessage = "Numéro de rue requis")]
-        [Range(1, 9401, ErrorMessage = "Le numéro de rue doit être compris entre 1 et 9401")]
-        public int StreetNumber { get; set; }
+        [MinLength(1, ErrorMessage = "Numéro de rue incorrect, il doit contenir au moins 1 caractère")]
+        [MaxLength(20, ErrorMessage = "Numéro de rue incorrect, il doit contenir moins de 20 caractères")]
+        public string StreetNumber { get; set; }
 
 
-        [MinLength(2, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir au moins 2 charactères")]
-        [MaxLength(50, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir moins de 50 charactères")]
         [Required(ErrorMessage = "Nom de la rue requis")]
+        [MinLength(1, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir au moins 1 caractère")]
+        [MaxLength(50, ErrorMessage = "Nom de la rue incorrect, celle-ci doit contenir moins de 50 caractères")]
         public string StreetName { get; set; }
 
 
-        [MaxLength(35)]
         [Required(ErrorMessage = "Pays requis")]
+        [MinLength(1, ErrorMessage = "Pays incorrect, celle-ci doit contenir au moins 1 caractère")]
+        [MaxLength(50, ErrorMessage = "Pays incorrect, celle-ci doit contenir moins de 50 caractères")]
         public string Country { get; set; }
 
 
-        [MaxLength(85)]
         [Required(ErrorMessage = "La ville est requis")]
+        [MinLength(1, ErrorMessage = "La ville incorrect, celle-ci doit contenir au moins 1 caractères")]
+        [MaxLength(50, ErrorMessage = "La ville incorrect, celle-ci doit contenir moins de 50 caractères")]
         public string City { get; set; }
 
 

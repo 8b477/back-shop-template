@@ -14,8 +14,8 @@ namespace Database_Shop.Entity
         public int UserId { get; set; }
 
 
-        [MaxLength(50, ErrorMessage = "Status doit contenir au maximum 50 !")]
-        [MinLength(2, ErrorMessage = "Status doit contenir au minimum 2 !")]
+        [MaxLength(50, ErrorMessage = "Status doit contenir au maximum 50 caractères")]
+        [MinLength(2, ErrorMessage = "Status doit contenir au minimum 2 caractères")]
         [Required(ErrorMessage = "Status requis")]
         public string Status { get; set; }
 

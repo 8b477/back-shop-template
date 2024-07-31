@@ -1,12 +1,11 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlServer.Configurations
 {
-    internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    internal class CategorySqlServerConfiguration : IEntityTypeConfiguration<Category>
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
@@ -14,7 +13,10 @@ namespace Database_Shop.Context.Configurations
 
             builder.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasColumnName("Name")
+                .HasColumnType("NVARCHAR(50)")
+                .HasMaxLength(50)
+                .HasAnnotation("MinLength", 1);
 
             builder
                 .HasMany(c => c.ArticleCategories)

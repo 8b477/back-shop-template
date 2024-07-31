@@ -10,8 +10,9 @@ namespace BLL_Shop.Validators.Article_Validator
         public ArticleUpdateNameValidator()
         {
             RuleFor(a => a.Name)
-               .NotEmpty().WithMessage("Le nom est requis.")
-               .Length(1, 50).WithMessage("Le nom doit contenir entre 1 et 50 caractères.");
+                .NotEmpty().WithMessage("Nom de l'article requis.")
+                .MinimumLength(1).WithMessage("Le nom doit contenir au minimum 1 caractère")
+                .MaximumLength(50).WithMessage("Le nom doit contenir au maximum 50 caractères");
         }
     }
 }

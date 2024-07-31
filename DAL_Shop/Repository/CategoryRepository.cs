@@ -1,7 +1,6 @@
 ﻿using DAL_Shop.Interfaces;
-using Database_Shop.Context;
 using Database_Shop.Entity;
-
+using Database_Shop.SqlLite.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -13,10 +12,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _db;
+        private readonly ShopDbContextSqlLite _db;
         private readonly ILogger<CategoryRepository> _logger;
 
-        public CategoryRepository(ShopDB db, ILogger<CategoryRepository> logger)
+        public CategoryRepository(ShopDbContextSqlLite db, ILogger<CategoryRepository> logger)
         {
             _db = db;
             _logger = logger;

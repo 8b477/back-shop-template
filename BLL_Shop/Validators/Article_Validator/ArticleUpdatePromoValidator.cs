@@ -10,7 +10,8 @@ namespace BLL_Shop.Validators.Article_Validator
         public ArticleUpdatePromoValidator()
         {
             RuleFor(a => a.Promo)
-                .NotNull().WithMessage("La valeur de promotion est requise.");
+                .NotEmpty().WithMessage("La valeur de promotion est requise.")
+                .Must(value => value == true || value == false).WithMessage("Le champ 'promo' l'article, valeur attendu : 'false' ou 'true'");
         }
     }
 }

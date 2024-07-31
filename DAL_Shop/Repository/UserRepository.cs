@@ -4,8 +4,8 @@ using DAL_Shop.DTO.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Database_Shop.Entity;
-using Database_Shop.Context;
 using DAL_Shop.Mapper;
+using Database_Shop.SqlLite.Context;
 
 
 namespace DAL_Shop.Repository
@@ -15,10 +15,10 @@ namespace DAL_Shop.Repository
 
 
         #region DI
-        private readonly ShopDB _db;
+        private readonly ShopDbContextSqlLite _db;
         private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(ShopDB db, ILogger<UserRepository> logger)
+        public UserRepository(ShopDbContextSqlLite db, ILogger<UserRepository> logger)
         {
             _db = db;
             _logger = logger;

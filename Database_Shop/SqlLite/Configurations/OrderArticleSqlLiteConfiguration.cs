@@ -1,24 +1,20 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlLite.Configurations
 {
-    internal class OrderArticleConfiguration : IEntityTypeConfiguration<OrderArticle>
+    internal class OrderArticleSqlLiteConfiguration : IEntityTypeConfiguration<OrderArticle>
     {
         public void Configure(EntityTypeBuilder<OrderArticle> builder)
         {
-            // Défini clé primaire
             builder.HasKey(oa => oa.Id);
 
-            // Configure la relation avec Order
             builder.HasOne(oa => oa.Order)
                 .WithMany(o => o.OrderArticles)
                 .HasForeignKey(oa => oa.OrderId);
 
-            // Configure la relation avec Article
             builder.HasOne(oa => oa.Article)
                 .WithMany(a => a.OrdersArticles)
                 .HasForeignKey(oa => oa.ArticleId);

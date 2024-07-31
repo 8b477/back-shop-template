@@ -1,11 +1,10 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlLite.Configurations
 {
-    internal class AddressConfiguration : IEntityTypeConfiguration<Address>
+    internal class AddressSqlLiteConfiguration : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
@@ -14,42 +13,49 @@ namespace Database_Shop.Context.Configurations
             builder.HasKey(a => a.Id);
 
             builder.Property(a => a.PhoneNumber)
+                .IsRequired(false)
                 .HasColumnName("PhoneNumber")
                 .HasColumnType("TEXT")
+                .HasMaxLength(20)
                 .HasComment("Numéro de téléphone");
 
             builder.Property(a => a.PostalCode)
                 .IsRequired()
                 .HasColumnName("PostalCode")
                 .HasColumnType("TEXT")
-                .HasDefaultValue(0)
-                .HasComment("Code postal");
+                .HasMaxLength(20)
+                .HasComment("Code postal")
+                .HasAnnotation("MinLength", 1);
 
             builder.Property(a => a.StreetNumber)
                 .IsRequired()
                 .HasColumnName("StreetNumber")
                 .HasColumnType("TEXT")
-                .HasDefaultValue(0)
-                .HasComment("Numéro de rue");
+                .HasMaxLength(20)
+                .HasComment("Numéro de rue")
+                .HasAnnotation("MinLength", 1);
 
             builder.Property(a => a.StreetName)
                 .IsRequired()
                 .HasColumnName("StreetName")
                 .HasColumnType("TEXT")
                 .HasMaxLength(50)
-                .HasComment("Nom de rue");
+                .HasComment("Nom de rue")
+                .HasAnnotation("MinLength", 1);
 
             builder.Property(a => a.Country)
                 .IsRequired()
-                .HasMaxLength(35)
+                .HasMaxLength(50)
                 .HasColumnName("Country")
-                .HasComment("Pays");
+                .HasComment("Pays")
+                .HasAnnotation("MinLength", 1);
 
             builder.Property(a => a.City)
                 .IsRequired()
-                .HasMaxLength(85)
+                .HasMaxLength(50)
                 .HasColumnName("City")
-                .HasComment("Ville");
+                .HasComment("Ville")
+                .HasAnnotation("MinLength", 1);
 
             builder.HasOne(a => a.User)
                 .WithOne(u => u.Address)
@@ -62,8 +68,8 @@ namespace Database_Shop.Context.Configurations
                  {
                      Id = 1,
                      PhoneNumber = "",
-                     PostalCode = 6000,
-                     StreetNumber = 10,
+                     PostalCode = "6000",
+                     StreetNumber = "10",
                      StreetName = "rue de la Force",
                      Country = "Belgique",
                      City = "Charleroi",
@@ -73,8 +79,8 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 2,
                     PhoneNumber = "0687654321",
-                    PostalCode = 69001,
-                    StreetNumber = 5,
+                    PostalCode = "69001",
+                    StreetNumber = "5",
                     StreetName = "rue des fous",
                     Country = "France",
                     City = "Lille",
@@ -84,8 +90,8 @@ namespace Database_Shop.Context.Configurations
                 {
                     Id = 3,
                     PhoneNumber = "",
-                    PostalCode = 5670,
-                    StreetNumber = 5,
+                    PostalCode = "5670",
+                    StreetNumber = "5",
                     StreetName = "rue longue",
                     Country = "Belgique",
                     City = "Nismes",

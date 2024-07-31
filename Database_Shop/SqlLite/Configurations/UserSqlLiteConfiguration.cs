@@ -1,12 +1,11 @@
 ﻿using Database_Shop.Entity;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace Database_Shop.Context.Configurations
+namespace Database_Shop.SqlLite.Configurations
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    internal class UserSqlLiteConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -14,15 +13,30 @@ namespace Database_Shop.Context.Configurations
 
             builder.Property(u => u.Pseudo)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .HasColumnName("Pseudo")
+                .HasColumnType("TEXT")
+                .HasComment("Pseudo de l'utilisateur")
+                .HasAnnotation("MinLength", 2);
 
             builder.Property(u => u.Mail)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnName("Mail")
+                .HasColumnType("TEXT")
+                .HasComment("Email de l'utilisateur");
 
             builder.Property(u => u.Pwd)
-                .IsRequired();
-            
-            builder.Property(u => u.Role);
+                .IsRequired()
+                .HasColumnName("Password")
+                .HasColumnType("TEXT")
+                .HasComment("Password de l'utilisateur");
+
+            builder.Property(u => u.Role)
+                .IsRequired()
+                .HasColumnName("Role")
+                .HasColumnType("TEXT")
+                .HasDefaultValue("User")
+                .HasComment("Rôle de l'utilisateur");
 
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User)

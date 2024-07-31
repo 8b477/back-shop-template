@@ -10,7 +10,7 @@ namespace BLL_Shop.Validators.User_Validator
             RuleFor(u => u.Mail)
                 .NotEmpty().WithMessage("Mail requis")
                 .Matches(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-                .WithMessage("L'adresse mail renseignée n'est pas valide !");
+                .WithMessage("L'adresse mail renseignée n'est pas valide");
         }
     }
 }

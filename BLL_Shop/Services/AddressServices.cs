@@ -142,7 +142,7 @@ namespace BLL_Shop.Services
             }
         }
 
-        public async Task<IResult> GetByPostalCode(int postalCode)
+        public async Task<IResult> GetByPostalCode(string postalCode)
         {
             try
             {
