@@ -57,7 +57,7 @@
   - *Cible le dossier approprié.*
 
 
-## 💻 Frontend
+## 💻 Frontend (pas encore connecter simple ébauche)
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
 
 *projet du Frontend*
