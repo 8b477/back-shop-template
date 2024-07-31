@@ -37,23 +37,25 @@
 - 🧪 **TestXUnit_Shop**: Contient les tests unitaires. Ce projet assure la validation du fonctionnement correct de chaque partie de l'application.
    - 🔗 **Références**: API, BLL, DAL
 
-## ℹ️ Gestion des migrations et update des différentes base de donnée.
-### Dans le projet se trouve deux fournisseur de base de donnée :
-- SqLite
-- SQL Server
+## 🐣 Gestion des migrations et update des différentes bases de données
 
-### Pour les ajouts de migrations  
+### 🌐 Fournisseurs de bases de données disponibles :
+- **SqLite**
+- **SQL Server**
+
+### 🚀 Ajout de migrations :
 ➡️ `dotnet ef migrations add initialCreate_SqlLite --context ShopDbContextSqlLite --output-dir Migrations/SqlLite`
 
-### Explications de la commande :
-- `initialCreate_SqlLite`
-  - **Convention perso , ajouter _SqlLite à la fin de chaque migrations.**
+#### 📝 Explications de la commande :
+- **`initialCreate_SqlLite`**:
+  - *Convention personnelle, ajouter _SqlLite à la fin de chaque migration.*
 
-- `--context ShopDbContextSqlLite`
-  - **Target le context approprié.**
+- **`--context ShopDbContextSqlLite`**:
+  - *Cible le contexte approprié.*
 
-- `--output-dir Migrations/SqlLite`
-  - **Target le dossier approprié.**
+- **`--output-dir Migrations/SqlLite`**:
+  - *Cible le dossier approprié.*
+
 
 ## 💻 Frontend
 Le frontend de cette application est construit avec Angular 17 et Tailwind CSS. L'application frontend interagit avec cette API pour gérer les données utilisateur et les opérations de shopping.
