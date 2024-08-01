@@ -44,7 +44,11 @@
 - **SQL Server**
 
 ### 🚀 Ajout de migrations :
-➡️ `dotnet ef migrations add initialCreate_SqlLite --context ShopDbContextSqlLite --output-dir Migrations/SqlLite`
+
+```shell
+dotnet ef migrations add initialCreate_SqlLite --context ShopDbContextSqlLite --output-dir Migrations/SqlLite
+```
+
 
 #### 📝 Explications de la commande :
 - **`initialCreate_SqlLite`**:
