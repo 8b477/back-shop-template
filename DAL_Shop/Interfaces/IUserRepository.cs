@@ -14,7 +14,7 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="userToAdd">The user information to add.</param>
         /// <returns>The created user.</returns>
-        public Task<User?> Create(User userToAdd);
+        public Task<UserViewDTO?> Create(User userToAdd);
         #endregion
 
 

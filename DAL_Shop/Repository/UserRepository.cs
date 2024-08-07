@@ -28,7 +28,7 @@ namespace DAL_Shop.Repository
 
 
         #region <-------------> CREATE <------------->
-        public async Task<User?> Create(User userToAdd)
+        public async Task<UserViewDTO?> Create(User userToAdd)
         {
             try
             {
@@ -40,7 +40,9 @@ namespace DAL_Shop.Repository
 
                 _logger.LogInformation("User created successfully: {Id}", result.Entity.Id);
 
-                return result.Entity;
+                var userMapped = MapperUser.FromEntityToView(result.Entity);
+
+                return userMapped;
             }
             catch (Exception ex)
             {

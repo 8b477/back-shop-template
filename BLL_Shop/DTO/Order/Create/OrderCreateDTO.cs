@@ -4,12 +4,12 @@ namespace BLL_Shop.DTO.Order.Create
 {
     public record OrderCreateDTO
     {
-        public OrderCreateDTO(List<int> articleIds)
+        public OrderCreateDTO(List<int> articlesId)
         {
-            ArticleIds = articleIds;
+            ArticlesId = articlesId;
         }
 
-        public List<int> ArticleIds { get; init; }
+        public List<int> ArticlesId { get; init; }
 
     }
 }

@@ -80,7 +80,7 @@ namespace BLL_Shop.Services
                 }
 
 
-                var listArticle = await _repoArticle.GetByIdList(order.ArticleIds);
+                var listArticle = await _repoArticle.GetByIdList(order.ArticlesId);
 
                 Order orderMapped = MapperOrder.DtoToEntity(order);
 
