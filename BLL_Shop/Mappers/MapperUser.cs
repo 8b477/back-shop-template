@@ -29,7 +29,7 @@ namespace BLL_Shop.Mappers
             {
                 Pseudo = userToUpdate.Pseudo,
                 Mail = userToUpdate.Mail,
-                Pwd = userToUpdate.Mdp        
+                Pwd = userToUpdate.Pwd        
             };
         }
 
