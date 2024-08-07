@@ -56,7 +56,7 @@ namespace BLL_Shop.Mappers
         {
             return new User
             {
-                Pwd = userPwdToUpdate.Mdp
+                Pwd = userPwdToUpdate.Pwd
             };
         }
 

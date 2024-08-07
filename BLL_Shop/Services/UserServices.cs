@@ -334,7 +334,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok())
                     return validationResult;
 
-                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+                string pwdHash = PasswordHasher.HashPassword(pwd.Pwd);
 
                 var result = await _userRepository.UpdatePwd(id, pwdHash);
 
@@ -508,7 +508,7 @@ namespace BLL_Shop.Services
                     return validationResult;
 
 
-                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+                string pwdHash = PasswordHasher.HashPassword(pwd.Pwd);
                 
 
                 var result = await _userRepository.UpdatePwd(id, pwdHash);

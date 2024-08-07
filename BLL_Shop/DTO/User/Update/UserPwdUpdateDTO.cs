@@ -4,13 +4,13 @@ namespace BLL_Shop.DTO.User.Update
 {
     public record UserPwdUpdateDTO
     {
-        public UserPwdUpdateDTO(string mdp, string mdpConfirm)
+        public UserPwdUpdateDTO(string pwd, string pwdConfirm)
         {
-            Mdp = mdp;
-            MdpConfirm = mdpConfirm;
+            Pwd = pwd;
+            PwdConfirm = pwdConfirm;
         }
 
-        public string Mdp { get; init; }
-        public string MdpConfirm { get; init; }
+        public string Pwd { get; init; }
+        public string PwdConfirm { get; init; }
     }
 }
