@@ -2,13 +2,13 @@
 {
     public record UserLogDto
     {
-        public UserLogDto(string mail, string mdp)
+        public UserLogDto(string mail, string pwd)
         {
             Mail = mail;
-            Mdp = mdp;
+            Pwd = pwd;
         }
 
         public string Mail { get; init; }
-        public string Mdp { get; init; }
+        public string Pwd { get; init; }
     }
 }

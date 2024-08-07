@@ -13,7 +13,7 @@ namespace API_Shop.Endpoints
         {
             app.MapPost("/log",
                 async ([FromServices] IAuthentificationCustomService authenticationService,[FromBody] UserLogDto log)
-                    => await authenticationService.Authentification(log.Mail, log.Mdp));
+                    => await authenticationService.Authentification(log.Mail, log.Pwd));
 
         }
 
