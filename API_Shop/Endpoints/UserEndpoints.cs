@@ -56,6 +56,12 @@ namespace API_Shop.Endpoints
              async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserPwdUpdateDTO pwd)
                     => await userService.UpdateUserPwd(id, pwd));
 
+            
+/*ROLE*/   app.MapPut("/user/role/{id:int}", [Authorize(Policy = "AdminOnly")]
+             async ([FromServices] IUserService userService, [FromRoute] int id, [FromBody] UserRoleUpdateDTO role)
+                    => await userService.UpdateUserRole(id, role));
+
+
 
             // UPDATE (User)
 /*FULL*/   app.MapPut("/user", [Authorize(Policy = "UserOnly")]

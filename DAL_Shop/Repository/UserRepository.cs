@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Database_Shop.Entity;
 using DAL_Shop.Mapper;
 using Database_Shop.SqlLite.Context;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace DAL_Shop.Repository
@@ -269,6 +270,20 @@ namespace DAL_Shop.Repository
 
                 throw;
             }
+        }
+
+        public async Task<string> UpdateRole(int id, string role)
+        {
+            var result = await _db.User.FindAsync(id);
+
+            if (result is null)
+                return "";
+
+            result.Role = role;
+
+            await _db.SaveChangesAsync();
+
+            return "Role is update";
         }
         #endregion
 

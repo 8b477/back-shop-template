@@ -5,7 +5,7 @@ POST {{API_Shop_HostAddress}}/log
 Content-Type: application/json
 {
 "Mail":"admin@mail.be",
-"Mdp":"Test1234*"
+"Pwd":"Test1234*"
 }
 ###
 
@@ -15,5 +15,5 @@ POST {{API_Shop_HostAddress}}/log
 Content-Type: application/json
 {
 "Mail":"user@mail.be",
-"Mdp":"Tadam123*"
+"Pwd":"Tadam123*"
 } 

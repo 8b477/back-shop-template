@@ -39,6 +39,7 @@ namespace API_Shop.DI
             services.AddScoped<IValidator<UserPseudoUpdateDTO>, UserPseudoUpdateValidator>();
             services.AddScoped<IValidator<UserMailUpdateDTO>, UserMailUpdateValidator>();
             services.AddScoped<IValidator<UserPwdUpdateDTO>, UserPwdUpdateValidator>();
+            services.AddScoped<IValidator<UserRoleUpdateDTO>, UserRoleUpdateValidator>();
 
 
             //ADDRESS
