@@ -11,6 +11,7 @@ using Database_Shop.Entity;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using BLL_Shop.Validators.User_Validator;
 
 
 
@@ -28,6 +29,7 @@ namespace BLL_Shop.Services
         private readonly IValidator<UserPseudoUpdateDTO> _userPseudoUpdateValidator;
         private readonly IValidator<UserMailUpdateDTO> _userMailUpdateValidator;
         private readonly IValidator<UserPwdUpdateDTO> _userPwdUpdateValidator;
+        private readonly IValidator<UserRoleUpdateDTO> _userRoleUpdateValidator;
         private readonly ILogger<UserServices> _logger;
 
         public UserServices(
@@ -38,6 +40,7 @@ namespace BLL_Shop.Services
             IValidator<UserPseudoUpdateDTO> userPseudoUpdateValidator,
             IValidator<UserMailUpdateDTO> userMailUpdateValidator,
             IValidator<UserPwdUpdateDTO> userPwdUpdateValidator,
+            IValidator<UserRoleUpdateDTO> userRoleUpdateValidator,
             ILogger<UserServices> logger
             )
         {
@@ -48,6 +51,7 @@ namespace BLL_Shop.Services
             _userPseudoUpdateValidator = userPseudoUpdateValidator;
             _userMailUpdateValidator = userMailUpdateValidator;
             _userPwdUpdateValidator = userPwdUpdateValidator;
+            _userRoleUpdateValidator = userRoleUpdateValidator;
             _logger = logger;
         }
         #endregion
@@ -334,7 +338,7 @@ namespace BLL_Shop.Services
                 if (validationResult != Results.Ok())
                     return validationResult;
 
-                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+                string pwdHash = PasswordHasher.HashPassword(pwd.Pwd);
 
                 var result = await _userRepository.UpdatePwd(id, pwdHash);
 
@@ -352,7 +356,23 @@ namespace BLL_Shop.Services
             }
         }
 
+        // 🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
+        public async Task<IResult> UpdateUserRole(int id, UserRoleUpdateDTO role)
+        {
 
+            var validationResult = await ValidatorModelState.ValidModelState(role, _userRoleUpdateValidator);
+
+            if (validationResult != Results.Ok())
+                return validationResult;
+
+            var result = await _userRepository.UpdateRole(id, role.Role);
+
+            if (string.IsNullOrEmpty(result))
+                return TypedResults.BadRequest(new { Message = "The update role user is failed" });
+
+            return TypedResults.Ok(new { result });
+        }
+        // 🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
 
         public async Task<IResult> UpdateOwnUser(UserUpdateDTO userToAdd)
         {
@@ -508,7 +528,7 @@ namespace BLL_Shop.Services
                     return validationResult;
 
 
-                string pwdHash = PasswordHasher.HashPassword(pwd.Mdp);
+                string pwdHash = PasswordHasher.HashPassword(pwd.Pwd);
                 
 
                 var result = await _userRepository.UpdatePwd(id, pwdHash);

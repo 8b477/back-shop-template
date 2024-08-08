@@ -14,7 +14,7 @@ namespace DAL_Shop.Interfaces
         /// </summary>
         /// <param name="userToAdd">The user information to add.</param>
         /// <returns>The created user.</returns>
-        public Task<User?> Create(User userToAdd);
+        public Task<UserViewDTO?> Create(User userToAdd);
         #endregion
 
 
@@ -75,6 +75,16 @@ namespace DAL_Shop.Interfaces
         /// <param name="pwd">The new value.</param>
         /// <returns>Message : Password is update, or empty string if the user was not found.</returns>
         public Task<string> UpdatePwd(int id, string pwd);
+
+        /// <summary>
+        /// Updates role of an existing user in the database.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="role">The new value.</param>
+        /// <returns>Message : Role is update, or empty string if the user was not found.</returns>
+        public Task<string> UpdateRole(int id, string role);
+
+
         #endregion
 
 

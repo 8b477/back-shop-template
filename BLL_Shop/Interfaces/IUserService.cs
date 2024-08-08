@@ -90,7 +90,12 @@ namespace BLL_Shop.Interfaces
         /// <returns>An <see cref="IResult"/> indicating the outcome of the operation.</returns>
         Task<IResult> UpdateUserPwd(int id, UserPwdUpdateDTO pwd);
 
-
+        /// <summary>
+        /// Updates the role of an existing user.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="role">The new role to add.</param>
+        Task<IResult> UpdateUserRole(int id, UserRoleUpdateDTO role);
 
 
         /// <summary>

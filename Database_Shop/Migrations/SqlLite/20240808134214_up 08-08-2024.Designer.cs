@@ -3,6 +3,7 @@ using System;
 using Database_Shop.SqlLite.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database_Shop.Migrations.SqlLite
 {
     [DbContext(typeof(ShopDbContextSqlLite))]
-    partial class ShopDbContextSqlLiteModelSnapshot : ModelSnapshot
+    [Migration("20240808134214_up 08-08-2024")]
+    partial class up08082024
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");

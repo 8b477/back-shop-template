@@ -1,5 +1,5 @@
 @API_Shop_HostAddress = https://localhost:7054
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMjQzMDM2MiwiZXhwIjoxNzIyNDQxMTYyLCJpYXQiOjE3MjI0MzAzNjIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.It5ngX06-Pf3GRR8eHgdJzPd3IpxVvck4h3wJIFZb7s
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJhZG1pbkBtYWlsLmJlIiwidW5pcXVlX25hbWUiOiJhZG1pbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcyMzEyNTI2NCwiZXhwIjoxNzIzMTM2MDY0LCJpYXQiOjE3MjMxMjUyNjQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.SWEiKGZ8AquXO9vXhNL8shSoD0lBRTlTBby4BJoyOt8
 
 
 
@@ -74,6 +74,17 @@ Content-Type: application/json
   "mdpConfirm":"Tadam123*"
 }
 ###
+
+
+# Admin
+PUT {{API_Shop_HostAddress}}/user/role/2
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+{
+  "role":"Us"
+}
+###
+
 
 # Admin
 DELETE {{API_Shop_HostAddress}}/user/2

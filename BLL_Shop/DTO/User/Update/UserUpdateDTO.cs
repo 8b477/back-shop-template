@@ -2,12 +2,12 @@
 {
     public record UserUpdateDTO
     {
-        public UserUpdateDTO(int? phoneNumber, string pseudo, string mail, string mdp, string mdpConfirm)
+        public UserUpdateDTO(int? phoneNumber, string pseudo, string mail, string pwd, string mdpConfirm)
         {
             PhoneNumber = phoneNumber;
             Pseudo = pseudo;
             Mail = mail;
-            Mdp = mdp;
+            Pwd = pwd;
             MdpConfirm = mdpConfirm;
             Role = "User";
         }
@@ -15,7 +15,7 @@
         public int? PhoneNumber { get; init; }
         public string Pseudo { get; init; }
         public string Mail { get; init; }
-        public string Mdp { get; init; }
+        public string Pwd { get; init; }
         public string MdpConfirm { get; init; }
         public string Role { get; init; }
     }
